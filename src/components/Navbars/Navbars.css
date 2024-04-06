@@ -1,0 +1,25 @@
+/* sidenavbar */
+
+
+.side{
+    background-color: #00216e;
+    height: 100vh;
+    width: 60px;
+    position: absolute;
+    top: 0px;
+}
+.logos{
+    margin-top: 102px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* end sidenavbar */
+
+/* navbar start*/
+.topnavbar{
+    height: 57px;
+}
