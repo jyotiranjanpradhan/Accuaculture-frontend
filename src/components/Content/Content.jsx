@@ -5,7 +5,10 @@ import "./Content.css";
 import tempretureimg from "../Constant img/humidity.png";
 import drop from "../Constant img/drop (2).png";
 import wind from "../Constant img/windspeed.png";
+import mappin from '../Constant img/map-pin.png';
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { Line } from "react-chartjs-2";
+import { Chart } from "chart.js/auto";
 
 const Content = () => {
   //Here Content can take lat and lng props from backend
@@ -18,20 +21,11 @@ const Content = () => {
 
   const containerStyle = {
     width: "100%",
-    height: "344px",
+    height: "399px",
   };
 
-  const GoogleMapdata = ({ lat, lng }) => {
-    return (
-      <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-          zoom={10}
-        ></GoogleMap>
-      </LoadScript>
-    );
-  };
+  
+
 
   //WeatherData config
 
@@ -53,16 +47,47 @@ const Content = () => {
     }
   };
 
+  const lineChartData = {
+    labels: [1, 2, 3], // Use numerical labels if the x-axis is representing numerical data
+    datasets: [
+      {
+        label: "Revenue",
+        data: [20,90,777, 300, 400],
+        borderColor: "rgb(227, 19, 235)",
+        borderWidth: 2,
+        fill: false,
+      },
+
+      {
+        label: "Loss",
+        data: [20,590, 30, 40],
+        borderColor: "rgba(15, 192, 192, 1)",
+        borderWidth: 2,
+        fill: false,
+      },
+    ],
+  };
+
+  // Line chart options
+  const lineChartOptions = {
+    scales: {
+      x: {
+        type: "linear", // Use "linear" for numerical data
+      },
+    },
+  };
+
   useEffect(() => {
     weatherData({ lat: center.lat, lng: center.lng });
   }, []);
 
   return (
+    <>
     <div className="container p-3  ">
       {/* Use MapDaata */}
 
       <div className="mapbox shadow">
-        <GoogleMapdata lat={center.lat} lng={center.lng} />
+        <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} />
       </div>
 
       {/* Use WeatherData */}
@@ -70,7 +95,7 @@ const Content = () => {
       <div className="weatherbox shadow">
         {wdata ? (
           <div className="weatherdata">
-            <div className="d-flex">
+            <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
               <div>
                 <p className="heading">Temperature </p>
                 <p className="data">{(wdata.main.temp - 273.0).toFixed(2)}℃ </p>
@@ -83,7 +108,7 @@ const Content = () => {
                 />
               </div>
             </div>
-            <div className="d-flex">
+            <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
               <div>
                 <p className="heading">Humidity </p>
                 <p className="data"> {wdata.main.humidity} %</p>
@@ -92,7 +117,7 @@ const Content = () => {
                 <img className="humidityimg" src={drop} alt="humidityimg" />
               </div>
             </div>
-            <div className="d-flex">
+            <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
               <div>
                 <p className="heading">WindSpeed </p>
                 <p className="data"> {wdata.wind.speed.toFixed(2)}Km/Hr </p>
@@ -101,22 +126,54 @@ const Content = () => {
                 <img className="windspeedimg" src={wind} alt="windspeedimg" />
               </div>
             </div>
-            <div className="d-flex ">
+            <div className="d-flex" style={{ justifyContent: "space-evenly" }}>
               <div>
                 <p className="heading">Location </p>
-                <p className="data"> {wdata.name}</p>
+                <p className="data"> {wdata.name} </p>
               </div>
-              <div className="locationimg" style={{ marginLeft: "28px" }}>
-                <i class="bi bi-pin-map-fill" style={{ fontSize: 28 }}></i>
+              <div>
+                <img className="windspeedimg" src={mappin} alt="windspeedimg" />
               </div>
             </div>
+          
           </div>
         ) : (
           <p>Loading Weatherdata.........</p>
         )}
       </div>
+
     </div>
+    
+      {/* Chart visualition */}
+      <div className="chartContainer ">
+        '<div className="chart1 shadow">
+          <div className="innertextofchart">
+            <p>Current</p>
+          </div>
+          <Line data={lineChartData} options={lineChartOptions}/>
+        </div>
+        <div className="chart2 shadow" >
+        <div className="innertextofchart">
+            <p>Voltage</p>
+          </div>
+          <Line data={lineChartData} options={lineChartOptions} />
+        </div>
+      </div>
+
+    </>
   );
 };
 
 export default Content;
+
+const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+        zoom={15}
+      ></GoogleMap>
+    </LoadScript>
+  );
+};

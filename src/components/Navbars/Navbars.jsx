@@ -41,21 +41,21 @@ const Navbars = () => {
           </Dropdown>
 
           <i
-            class="img1 bi bi-brightness-high-fill m-3"
+            className="img1 bi bi-brightness-high-fill m-3"
             style={{ fontSize: 30 }}
           ></i>
 
-          <i class="img2 bi bi-calendar-week m-3" style={{ fontSize: 30 }}></i>
+          <i className="img2 bi bi-calendar-week m-3" style={{ fontSize: 30 }}></i>
 
-          <i class="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
+          <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
 
           <i
-            class="img4 bi bi-question-circle m-3 "
+            className="img4 bi bi-question-circle m-3 "
             style={{ fontSize: 30 }}
           ></i>
 
           <i
-            class="img5 bi bi-box-arrow-right m-3 "
+            className="img5 bi bi-box-arrow-right m-3 "
             style={{ fontSize: 30 }}
           ></i>
         </div>
@@ -84,13 +84,13 @@ const Navbars = () => {
           <img className="sideimg" src={group} alt="group" />
 
           <i
-            class="sideimg bi  bi-person-lines-fill"
+            className="sideimg bi  bi-person-lines-fill"
             onClick={toggleButton}
             style={{ color: "white", fontSize: 30 }}
           ></i>
           {hiddenbutton && (
             <i
-              class="sideimg bi bi-person-gear"
+              className="sideimg bi bi-person-gear"
               style={{ color: "white", fontSize: 30 }}
             ></i>
           )}
