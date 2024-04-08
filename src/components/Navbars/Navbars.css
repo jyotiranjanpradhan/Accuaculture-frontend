@@ -1,6 +1,7 @@
+i{
+    margin: 0;
+}
 /* sidenavbar */
-
-
 .side{
     background-color: #00216e;
     height: 100vh;
@@ -16,10 +17,21 @@
     justify-content: center;
     align-items: center;
 }
+.sideimg:hover{
+    background-color: rgb(203, 208, 206);
+    cursor: pointer;
+    border-radius: 20%;
+}
 
 /* end sidenavbar */
 
-/* navbar start*/
+/* topnavbar start*/
 .topnavbar{
     height: 57px;
+    position: relative;
+}
+.img1:hover,.img2:hover,.img3:hover,.img4:hover,.img5:hover{
+    background-color: rgb(234, 236, 238);
+    cursor: pointer;
+    border-radius: 20%;
 }

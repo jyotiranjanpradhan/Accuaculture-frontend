@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap-icons/font/bootstrap-icons";
@@ -10,14 +8,33 @@ import wind from "../Constant img/windspeed.png";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 const Content = () => {
-  const containerStyle = {
-    width: "100%",
-    height: "344px",
-  };
+  //Here Content can take lat and lng props from backend
   const center = {
     lat: 20.296059,
     lng: 85.824539,
   };
+
+  //google Map config
+
+  const containerStyle = {
+    width: "100%",
+    height: "344px",
+  };
+
+  const GoogleMapdata = ({ lat, lng }) => {
+    return (
+      <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+          zoom={10}
+        ></GoogleMap>
+      </LoadScript>
+    );
+  };
+
+  //WeatherData config
+
   const [wdata, setWdata] = useState(null);
 
   const weatherData = async ({ lat, lng }) => {
@@ -40,23 +57,16 @@ const Content = () => {
     weatherData({ lat: center.lat, lng: center.lng });
   }, []);
 
-  const GoogleMapdata = ({ lat, lng }) => {
-    return (
-      <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-          zoom={10}
-        ></GoogleMap>
-      </LoadScript>
-    );
-  };
-
   return (
     <div className="container p-3  ">
+      {/* Use MapDaata */}
+
       <div className="mapbox shadow">
         <GoogleMapdata lat={center.lat} lng={center.lng} />
       </div>
+
+      {/* Use WeatherData */}
+
       <div className="weatherbox shadow">
         {wdata ? (
           <div className="weatherdata">
@@ -66,8 +76,8 @@ const Content = () => {
                 <p className="data">{(wdata.main.temp - 273.0).toFixed(2)}℃ </p>
               </div>
               <div>
-                <img className="tempretureimg"
-                 
+                <img
+                  className="tempretureimg"
                   src={tempretureimg}
                   alt="temperetureicon"
                 />
@@ -79,11 +89,7 @@ const Content = () => {
                 <p className="data"> {wdata.main.humidity} %</p>
               </div>
               <div>
-                <img className="humidityimg"
-                
-                  src={drop}
-                  alt="humidityimg"
-                />
+                <img className="humidityimg" src={drop} alt="humidityimg" />
               </div>
             </div>
             <div className="d-flex">
@@ -92,11 +98,7 @@ const Content = () => {
                 <p className="data"> {wdata.wind.speed.toFixed(2)}Km/Hr </p>
               </div>
               <div>
-                <img className="windspeedimg"
-                 
-                  src={wind}
-                  alt="windspeedimg"
-                />
+                <img className="windspeedimg" src={wind} alt="windspeedimg" />
               </div>
             </div>
             <div className="d-flex ">
@@ -104,8 +106,8 @@ const Content = () => {
                 <p className="heading">Location </p>
                 <p className="data"> {wdata.name}</p>
               </div>
-              <div className="locationimg" style={{marginLeft:'28px'}}>
-                <i  class="bi bi-pin-map-fill" style={{ fontSize: 28 }}></i>
+              <div className="locationimg" style={{ marginLeft: "28px" }}>
+                <i class="bi bi-pin-map-fill" style={{ fontSize: 28 }}></i>
               </div>
             </div>
           </div>
