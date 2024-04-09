@@ -1,0 +1,22 @@
+.sideBar{
+    height: 100vh;
+    width: 310px;
+    position: absolute;
+    top: 0;
+    background-color: #00216e;
+     justify-items: center
+}
+.userNotification{
+    padding-left: 20px;
+}
+.userNotification:hover{
+background-color: rgb(128,187,241);
+color: #00216e;
+cursor: pointer;
+border-radius: 30px;
+
+}
+.outer{
+    width: 250px;
+    padding-left: 4px;
+}

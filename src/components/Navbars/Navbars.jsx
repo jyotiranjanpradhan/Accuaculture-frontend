@@ -6,7 +6,7 @@ import clipboard from "../Constant img/ClipboardMinus.png";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Navbars.css";
 import { Dropdown } from "react-bootstrap";
-import NavDropdown from "react-bootstrap/NavDropdown";
+
 
 const Navbars = () => {
   const [hiddenbutton, setHiddenbutton] = useState(false);
@@ -23,7 +23,27 @@ const Navbars = () => {
           <Dropdown>
             <Dropdown.Toggle variant="transparent">
               <i
-                className="img1 bi bi-diagram-3-fill m-3"
+                className=" img1 fa-solid fa-chart-line fs-3"
+                style={{ fontSize: 30 }}
+              ></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu
+              style={{
+                borderRadius: "20px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                marginTop: "-5px",
+              }}
+            >
+              <Dropdown.Item>Action 1</Dropdown.Item>
+              <Dropdown.Item>Action 2</Dropdown.Item>
+              <Dropdown.Item>Action 3</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <Dropdown>
+            <Dropdown.Toggle variant="transparent">
+              <i
+                className="img1 bi bi-diagram-3-fill "
                 style={{ fontSize: 30 }}
               ></i>
             </Dropdown.Toggle>
@@ -45,7 +65,10 @@ const Navbars = () => {
             style={{ fontSize: 30 }}
           ></i>
 
-          <i className="img2 bi bi-calendar-week m-3" style={{ fontSize: 30 }}></i>
+          <i
+            className="img2 bi bi-calendar-week m-3"
+            style={{ fontSize: 30 }}
+          ></i>
 
           <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
 
