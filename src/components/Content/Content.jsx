@@ -10,6 +10,21 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { Line } from "react-chartjs-2";
 import { Chart } from "chart.js/auto";
 
+
+//Function that configure Map according to Lat,Lng
+
+const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+        zoom={15}
+      ></GoogleMap>
+    </LoadScript>
+  );
+};
+
 const Content = () => {
   //Here Content can take lat and lng props from backend
   const center = {
@@ -17,15 +32,11 @@ const Content = () => {
     lng: 85.824539,
   };
 
-  //google Map config
-
+//Height and Width for Google Map
   const containerStyle = {
     width: "100%",
     height: "399px",
   };
-
-  
-
 
   //WeatherData config
 
@@ -145,7 +156,8 @@ const Content = () => {
     </div>
     
       {/* Chart visualition */}
-      <div className="chartContainer ">
+      
+      <div className="chartContainer  ">
         '<div className="chart1 shadow">
           <div className="innertextofchart">
             <p>Current</p>
@@ -166,14 +178,4 @@ const Content = () => {
 
 export default Content;
 
-const GoogleMapdata = ({ containerStyle, lat, lng }) => {
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-        zoom={15}
-      ></GoogleMap>
-    </LoadScript>
-  );
-};
+
