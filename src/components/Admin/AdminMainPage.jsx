@@ -1,13 +1,17 @@
 import React from 'react'
 import SideBar from './SideBar';
 import Footer from './Footer';
-import Table from './Table';
+import Usernotification from './Usernotification';
+import Createduser from './Createduser';
+import Devicetypecreate from './Devicetypecreate';
+import Ocrpage from './Ocrpage';
+import Thermal from './Thermal';
 
 const AdminMainPage = () => {
   return (
     <div>
       <SideBar/>
-      <Table/>
+      <Thermal/>
       <Footer/>
     </div>
   )

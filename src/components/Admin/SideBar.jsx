@@ -20,8 +20,8 @@ const Sidebar = () => {
 
       <div className="sideBar d-flex flex-column">
         <i
-          className="d-flex justify-content-center mt-3 bi bi-list"
-          style={{ color: "white", fontSize: 30 }}
+          className=" hamberger d-flex justify-content-end mt-2 bi bi-list"
+          style={{ color: "white", fontSize: 30 ,padding:'5px' }}
         ></i>
         <div className="logos">
           {/* 1 */}

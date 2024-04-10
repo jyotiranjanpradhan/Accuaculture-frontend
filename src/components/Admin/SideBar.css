@@ -6,6 +6,9 @@
     background-color: #00216e;
      justify-items: center
 }
+.hamberger:hover{
+    cursor: pointer;
+}
 .userNotification{
     padding-left: 20px;
 }
