@@ -1,18 +1,24 @@
 import React from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Link } from "react-router-dom";
 import "./SideBar.css";
-
 
 const Sidebar = () => {
   return (
     <>
       {/* TopNavBar start */}
-
-      <div className="shadow-lg topnavbar">
-        <div className="d-flex justify-content-end align-items-center h-100">
-          <i className="bi bi-person-circle m-5" style={{ fontSize: 30 }}></i>
-        </div>
+      <div className="topnavbar shadow">
+        <i
+          className=" d-flex  justify-content-end bi bi-person-circle "
+          style={{
+            fontSize: 30,
+            marginRight: "40px",
+            height: "50px",
+            alignItems: "center",
+            marginRight: "30px",
+          }}
+        ></i>
       </div>
       {/* TopNavBar end */}
 
@@ -21,7 +27,7 @@ const Sidebar = () => {
       <div className="sideBar d-flex flex-column">
         <i
           className=" hamberger d-flex justify-content-end mt-2 bi bi-list"
-          style={{ color: "white", fontSize: 30 ,padding:'5px' }}
+          style={{ color: "white", fontSize: 30, padding: "5px" }}
         ></i>
         <div className="logos">
           {/* 1 */}
@@ -31,9 +37,19 @@ const Sidebar = () => {
                 className="bi bi-people"
                 style={{ color: "white", fontSize: 24 }}
               ></i>
-              <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                User Notification
-              </p>
+              <Link to="/" className="side-menu">
+                {" "}
+                <p
+                  style={{
+                    marginLeft: "15px",
+                    color: "white",
+                    fontSize: 20,
+                    textDecoration: "none ",
+                  }}
+                >
+                  User Notification
+                </p>
+              </Link>
             </div>
           </div>
 
@@ -45,11 +61,14 @@ const Sidebar = () => {
                 className="bi bi-person-check"
                 style={{ color: "white", fontSize: 24 }}
               ></i>
-              <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                Created User
-              </p>
+              <Link to="/createduser" className="side-menu">
+                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+                  Created User
+                </p>
+              </Link>
             </div>
           </div>
+
           {/* 3 */}
           <div className="outer">
             <div className="d-flex userNotification">
@@ -57,9 +76,12 @@ const Sidebar = () => {
                 className=" bi bi-diagram-3-fill"
                 style={{ color: "white", fontSize: 24 }}
               ></i>
-              <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                Device Type Create
-              </p>
+              <Link to="/devicetypecreate" className="side-menu">
+                {" "}
+                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+                  Device Type Create
+                </p>
+              </Link>
             </div>
           </div>
           {/* 4 */}
@@ -69,9 +91,12 @@ const Sidebar = () => {
                 className="bi bi-search"
                 style={{ color: "white", fontSize: 24 }}
               ></i>
-              <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                OCR
-              </p>
+              <Link to="/ocr" className="side-menu">
+                {" "}
+                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+                  OCR
+                </p>
+              </Link>
             </div>
           </div>
           {/* 5 */}
@@ -81,16 +106,17 @@ const Sidebar = () => {
                 className="bi bi-inbox"
                 style={{ color: "white", fontSize: 24 }}
               ></i>
-              <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                Thermal
-              </p>
+              <Link to="/thermal" className="side-menu">
+                {" "}
+                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+                  Thermal
+                </p>
+              </Link>
             </div>
           </div>
         </div>
       </div>
       {/* SideBar End*/}
-
-
     </>
   );
 };

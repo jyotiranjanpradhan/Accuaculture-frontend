@@ -1,8 +1,9 @@
 import React from "react";
-
-const Ocrpage = () => {
+import "./Adminpage.css";
+const Ocr = () => {
   return (
     <>
+    <div style={{ marginLeft: "280px" , marginTop:'7px'}}>
       {/* Heading of Table Page  start */}
       <div className="heading">
         <p className=" headingText d-flex justify-content-center">
@@ -83,8 +84,9 @@ const Ocrpage = () => {
           Next
         </button>
       </div>
+      </div>
     </>
   );
 };
 
-export default Ocrpage;
+export default Ocr;

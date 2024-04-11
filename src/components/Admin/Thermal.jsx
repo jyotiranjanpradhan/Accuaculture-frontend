@@ -1,8 +1,11 @@
 import React from "react";
+import "./Adminpage.css";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const Thermal = () => {
   return (
     <>
+    <div style={{ marginLeft: "280px" , marginTop:'7px'}}>
       {/* Heading of Table Page  start */}
       <div className="heading">
         <p className=" headingText d-flex justify-content-center">
@@ -12,31 +15,24 @@ const Thermal = () => {
       {/* Heading of Table Page End  */}
 
       {/* Start option */}
+      <div className="option" style={{ marginTop:'7px' , display:'flex' }}>
 
-      <div style={{ marginLeft: "333px" }}>
-        <div class="dropdown show">
-          <a
-            class="btn btn-secondary dropdown-toggle"
-            href="#"
-            role="button"
-            id="dropdownMenuLink"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Dropdown link
-          </a>
+      <Dropdown >
+        <Dropdown.Toggle  style={{backgroundColor:'#7EE2B0',borderRadius:'13px' , color:'black', fontWeight:'bold'}}>Time period</Dropdown.Toggle>
 
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" style={{ backgroundColor: "black" }}>
-              Action
-            </a>
-            <a class="dropdown-item">Another action</a>
-            <a class="dropdown-item">Something else here</a>
-          </div>
-        </div>
-      </div>
+        <Dropdown.Menu style={{width:'20px' ,backgroundColor:'#7EE2B0', fontSize:'17px'}}>
+          <Dropdown.Item>Day- 1 </Dropdown.Item>
+          <Dropdown.Item>Day- 2</Dropdown.Item>
+          <Dropdown.Item>Day- 3</Dropdown.Item>
+          <Dropdown.Item>Day- 4</Dropdown.Item>
+          <Dropdown.Item>Day- 5</Dropdown.Item>
+          <Dropdown.Item>Day- 6</Dropdown.Item>
+          <Dropdown.Item>Day- 7</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
 
+      <button type="button" class="btn btn-success" style={{ marginLeft:'10px',borderRadius:'13px', fontWeight:'bold'}}>Success</button>
+</div>
       {/* End Option */}
 
       {/* Table start */}
@@ -102,6 +98,7 @@ const Thermal = () => {
         >
           Next
         </button>
+      </div>
       </div>
     </>
   );

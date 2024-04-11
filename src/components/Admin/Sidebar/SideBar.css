@@ -1,6 +1,12 @@
+.topnavbar{
+    height: 55px;
+}
+.logos{
+    margin-top: 95px;
+
+}
 .sideBar{
     height: 100vh;
-    width: 310px;
     position: absolute;
     top: 0;
     background-color: #00216e;
@@ -22,4 +28,9 @@ border-radius: 30px;
 .outer{
     width: 250px;
     padding-left: 4px;
+    margin-top: 14px;
+}
+
+.side-menu{
+    text-decoration: none;
 }

@@ -4,8 +4,8 @@
 .heading {
   margin-top: 30px;
   height: 47px;
+  margin-right: 4px;
   background-color: #7ee2b0;
-  margin-left: 315px;
   border-radius: 50px 20px;
   padding-right: 30px;
 }
@@ -21,7 +21,6 @@
 
 /* Heading Bar End */
 
-
 /* UserCount Start */
 
 .userCount {
@@ -30,7 +29,6 @@
   background-color: #c7d6ff;
   border-radius: 30px;
   margin-top: 20px;
-  margin-left: 332px;
 }
 
 /* UserCount Start */
@@ -39,14 +37,12 @@
 
 .parent-div-of-table {
   margin-top: 30px;
-  margin-left: 333px;
   margin-right: 20px;
   background-color: rgb(172, 101, 219);
   border-radius: 10px;
   border: 1px solid black;
   max-height: 330px;
   overflow-y: scroll;
-  
 }
 
 table {
@@ -61,7 +57,27 @@ table {
   display: flex;
   justify-content: end;
   margin-top: 30px;
-  margin-left: 333px;
+
   margin-right: 20px;
 }
 /* redirects End  */
+
+/* model open */
+
+.check-model {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0px;
+}
+
+.check-model .model {
+  width: 951px;
+  height: 490px;
+  margin: auto;
+
+  background: #fff;
+  margin-top: 20%;
+}
+/* model open */

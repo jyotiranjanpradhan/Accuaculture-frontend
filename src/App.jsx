@@ -1,14 +1,12 @@
-
-import Navbars from "./components/Navbars/Navbars";
- import Content from "./components/Content/Content";
- import AdminMainPage from "./components/Admin/AdminMainPage";
+import AdminMainPage from "./components/Admin/AdminMainPage";
+import { BrowserRouter as Router } from "react-router-dom";
  
 function App(){
   return(
     <>
-   
+   <Router>
 <AdminMainPage/>
-
+</Router>
     
     </>
     

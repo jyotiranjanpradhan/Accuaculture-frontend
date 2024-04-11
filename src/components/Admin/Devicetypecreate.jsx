@@ -1,8 +1,9 @@
 import React from 'react'
-import "./Usernotification.css";
+import "./Adminpage.css";
 const Devicetypecreate = () => {
   return (
     <>
+    <div style={{ marginLeft: "280px" , marginTop:'7px'}}>
     {/* Heading of Table Page  start */}
     <div className="heading">
       <p className=" headingText d-flex justify-content-center">
@@ -52,7 +53,6 @@ const Devicetypecreate = () => {
                   borderRadius: "16px",
                   fontSize: "20px",
                   verticalAlign: "cenetr",
-                  marginLeft: "333px",
                   marginTop:'20px'
                 }}
               >
@@ -181,6 +181,7 @@ const Devicetypecreate = () => {
       >
         Next
       </button>
+    </div>
     </div>
   </>
   )
