@@ -4,10 +4,11 @@ i{
 /* sidenavbar */
 .side{
     background-color: #00216e;
-    height: 100vh;
+    position: fixed;
+    height: 100%;
     width: 65px;
-    position: absolute;
     top: 0px;
+    z-index: 10;
 }
 .logos{
     margin-top: 102px;
@@ -18,20 +19,26 @@ i{
     align-items: center;
 }
 .sideimg:hover{
-    background-color: rgb(203, 208, 206);
+    background-color: #ecf5fba8;
     cursor: pointer;
-    border-radius: 20%;
+    
 }
 
 /* end sidenavbar */
 
 /* topnavbar start*/
 .topnavbar{
-    height: 57px;
-    position: relative;
+    /* height: 57px; */
+    position: fixed;
+    width: 100vw;
+    top: 0px;
+    z-index: 2;
+    
+    
 }
 .img1:hover,.img2:hover,.img3:hover,.img4:hover,.img5:hover{
     background-color: rgb(234, 236, 238);
     cursor: pointer;
-    border-radius: 20%;
+ 
 }
+/* top navbarend */

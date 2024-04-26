@@ -1,16 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Adminpage.css";
+import { AdminContext } from "../../App";
 const Ocr = () => {
+  //context
+  const {isSidebarOpen}=useContext(AdminContext);
   return (
     <>
-    <div style={{ marginLeft: "280px" , marginTop:'7px'}}>
-      {/* Heading of Table Page  start */}
-      <div className="heading">
-        <p className=" headingText d-flex justify-content-center">
-          Logged In As Aqua Admin
-        </p>
-      </div>
-      {/* Heading of Table Page End  */}
+    <div style={{ marginLeft: isSidebarOpen ? "280px":'110px' , marginTop:'7px'}}>
 
       {/* Table start */}
 

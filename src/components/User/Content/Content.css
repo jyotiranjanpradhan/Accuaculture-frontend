@@ -1,21 +1,27 @@
-.container {
-  margin-top: 03px;
-  width: 100vw;
+/* this container hold MAPS And weatherdata */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.containerr {
   display: grid;
   grid-auto-flow: column;
-  position: absolute;
-  left: 45px;
+  grid-template-columns: 2fr 1fr;
+ margin-left: 77px;
+ margin-top: 95px;
+
+ 
 }
 
 .mapbox {
-  margin-left: 50px;
-  width: 1235px;
+
   height: 400px;
 }
 
 .weatherbox {
-  width: 330px;
-  margin-left:20px;
+  margin-left:30px;
 }
 .weatherdata {
   padding-left: 15px;
@@ -54,25 +60,8 @@
   padding: 10px;
   margin: 10px 0 0 53px;
 }
-.chartContainer {
-  display: flex;
-  justify-content: space-evenly;
-  position: absolute;
-  top: 55%;
-  width: 100vw;
-  left: 18px;
-}
-.innertextofchart {
-  font-size: 25px;
-  font-weight: bold;
-}
-
-.chart1 {
-  height: fit-content;
-  width: 40%;
-  margin-left: -188px;
-}
-.chart2 {
-  height: fit-content;
-  width: 40%;
+.chartcontainer{
+  display: grid;
+  margin-left: 90px;
+  grid-template-columns: 2fr 2fr;
 }

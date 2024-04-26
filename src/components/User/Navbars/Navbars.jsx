@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
-import farmer from "../Constant img/farmer.png";
-import group from "../Constant img/group.png";
-import clipboard from "../Constant img/ClipboardMinus.png";
+import farmer from "../usersimage/farmer.png";
+import group from "../usersimage/group.png";
+import clipboard from "../usersimage/ClipboardMinus.png";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Navbars.css";
 import { Dropdown } from "react-bootstrap";
-
 
 const Navbars = () => {
   const [hiddenbutton, setHiddenbutton] = useState(false);
@@ -18,8 +17,8 @@ const Navbars = () => {
     <>
       {/* Top Navbar start */}
 
-      <div className=" shadow-lg topnavbar ">
-        <div className=" d-flex  justify-content-end align-items-center h-100">
+      <div className=" shadow-lg topnavbar h-auto ">
+        <div className=" d-flex  justify-content-end align-items-center ">
           <Dropdown>
             <Dropdown.Toggle variant="transparent">
               <i
@@ -104,28 +103,58 @@ const Navbars = () => {
         />
 
         <div className="logos">
-          <img className="sideimg" src={group} alt="group" />
+          <img
+            className="sideimg"
+            src={group}
+            alt="group"
+            style={{ padding: "7px", borderRadius: "4px" }}
+          />
 
           <i
             className="sideimg bi  bi-person-lines-fill"
             onClick={toggleButton}
-            style={{ color: "white", fontSize: 30 }}
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+            }}
           ></i>
           {hiddenbutton && (
             <i
               className="sideimg bi bi-person-gear"
-              style={{ color: "white", fontSize: 30 }}
+              style={{
+                color: "white",
+                fontSize: 30,
+                padding: "5px ",
+                borderRadius: "4px",
+              }}
             ></i>
           )}
           <i
             className=" sideimg bi bi-wallet "
-            style={{ color: "white", fontSize: 30 }}
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+            }}
           ></i>
           <i
             className=" sideimg bi bi-cart4 "
-            style={{ color: "white", fontSize: 30 }}
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+            }}
           ></i>
-          <img className="sideimg" src={clipboard} alt="clipboard" />
+          <img
+            className="sideimg"
+            src={clipboard}
+            alt="clipboard"
+            style={{ padding: "7px", borderRadius: "4px" }}
+          />
         </div>
       </div>
 

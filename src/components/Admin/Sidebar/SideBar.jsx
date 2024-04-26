@@ -1,148 +1,328 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Link } from "react-router-dom";
+import {  NavLink } from "react-router-dom";
+import companylogo from "./companylogo.png";
 import "./SideBar.css";
+import { AdminContext } from "../../../App";
 
 const Sidebar = () => {
+  //for showing logout popup on click of user logo on top navbar
+  const [logout, setLogout] = useState(false);
+
+  //for on and  off of sidebar if sidebar is open show icon with corresponding name if  close only show icon
+  const [sidebartoggle, setSidebarToggle] = useState(false);
+
+  // from context api for expand and collapse of content according to sidebar
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(AdminContext);
+
+  const islogout = () => {
+    setLogout(!logout);
+  };
+
+  const sidebar = () => {
+    console.log("click");
+    setSidebarToggle(!sidebartoggle);
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
     <>
       {/* TopNavBar start */}
-      <div className="topnavbar shadow">
-        <i
-          className=" d-flex  justify-content-end bi bi-person-circle "
-          style={{
-            fontSize: 30,
-            marginRight: "40px",
-            height: "50px",
-            alignItems: "center",
-            marginRight: "30px",
-          }}
-        ></i>
+      <div className="topnavbarr shadow">
+        <div className="d-flex justify-content-end">
+          <i
+            className=" userlogo  bi bi-person-circle "
+            style={{
+              fontSize: 30,
+              height: "50px",
+              alignItems: "center",
+              marginRight: "50px",
+            }}
+            onClick={islogout}
+          ></i>
+        </div>
+        <div className="d-flex justify-content-end ">
+          {logout && (
+            <>
+              <div
+                style={{
+                  marginTop: "07px",
+                  marginRight: "45px",
+                  borderRadius: "10px",
+                  backgroundColor: "#FFFFFF",
+                  zIndex:10,
+                }}
+              >
+                <p
+                  className="d-flex"
+                  style={{
+                    padding: "10px",
+                    alignItems: "center",
+                    marginTop: "10px",
+                    justifyContent: "center",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  <i
+                    class="bi bi-box-arrow-right"
+                    style={{
+                      alignItems: "center",
+                      marginRight: "5px",
+                      fontSize: 30,
+                    }}
+                  ></i>
+                  Logout
+                </p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
       {/* TopNavBar end */}
 
-      {/* SideBar start*/}
+      {/* Top heading start  */}
 
-      <div className="sideBar d-flex flex-column">
-        <i
-          className=" hamberger d-flex justify-content-end mt-2 bi bi-list"
-          style={{ color: "white", fontSize: 30, padding: "5px" }}
-        ></i>
-        <div className="logos">
-          {/* 1 */}
-          <div className="outer">
-            <div className="d-flex userNotification">
-              <i
-                className="bi bi-people"
-                style={{ color: "white", fontSize: 24 }}
-              ></i>
-              <Link to="/" className="side-menu">
-                {" "}
+      <div
+        style={{
+          marginLeft: isSidebarOpen ? "280px" : "110px",
+          marginTop: "7px",
+        }}
+      >
+        <div className="heading">
+          <p className=" headingText d-flex justify-content-center">
+            Aqua Admin
+          </p>
+        </div>
+      </div>
+
+      {/* Top heading End  */}
+
+      {/* Sidebar , Logic  for toggel  */}
+
+      {sidebartoggle ? (
+        <div className="sideBar d-flex flex-column">
+          <div className="d-flex justify-content-end">
+            <div style={{
+                fontSize: 30,
+                backgroundColor: "white",
+                borderRadius: "50%",
+                margin: "7px 0 5px 5px",
+                height:'30px',
+                cursor:'pointer'
+              
+              }}>
+            <i
+              class="bi bi-arrow-left-short"
+              style={{ fontSize: 30,top:'-7px',position:'relative'}}
+              onClick={sidebar}
+            ></i>
+            </div>
+          </div>
+          <div className="logos ">
+            <img
+              src={companylogo}
+              alt="companylogo"
+              style={{
+                width: "80px",
+                height: "80px",
+
+                padding: "3px",
+
+                margin: "10px 30px 0 77px",
+              }}
+            />
+
+            {/* 1 */}
+            <div className="outer">
+              <NavLink
+                to="/"
+                className="sidemenu d-flex align-items-center userNotification "
+                
+              >
+                <i
+                  className="bi bi-people"
+                  style={{ color: "white", fontSize: 24 }}
+                ></i>{" "}
                 <p
                   style={{
-                    marginLeft: "15px",
+                    margin:'1px 0 0 15px',
                     color: "white",
+                    textAlign:'center',
                     fontSize: 20,
-                    textDecoration: "none ",
+                  
                   }}
                 >
-                  User Notification
+                  Notification
                 </p>
-              </Link>
+              </NavLink>
             </div>
-          </div>
 
-          {/* 2 */}
+            {/* 2 */}
 
-          <div className="outer">
-            <div className="d-flex userNotification">
-              <i
-                className="bi bi-person-check"
-                style={{ color: "white", fontSize: 24 }}
-              ></i>
-              <Link to="/createduser" className="side-menu">
-                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                  Created User
+            <div className="outer">
+              <NavLink
+                to="/createduser"
+                className="sidemenu d-flex align-items-center userNotification"
+              >
+                <i
+                  className="bi bi-person-check"
+                  style={{ color: "white", fontSize: 24 }}
+                >    </i>
+
+                <p
+                  style={{
+                    margin:'1px 0 0 15px',
+                    color: "white",
+                    textAlign:'center',
+                    fontSize: 20,
+                  }}
+                >
+                  User
                 </p>
-              </Link>
+              </NavLink>
             </div>
-          </div>
 
-          {/* 3 */}
-          <div className="outer">
-            <div className="d-flex userNotification">
-              <i
-                className=" bi bi-diagram-3-fill"
-                style={{ color: "white", fontSize: 24 }}
-              ></i>
-              <Link to="/devicetypecreate" className="side-menu">
-                {" "}
-                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
-                  Device Type Create
+            {/* 3 */}
+            <div className="outer">
+              <NavLink
+                to="/devicetypecreate"
+                className="sidemenu d-flex userNotification"
+              >
+                <i
+                  className=" bi bi-diagram-3-fill"
+                  style={{ color: "white", fontSize: 24 }}
+                ></i>
+
+                <p
+                  style={{
+                    margin:'1px 0 0 15px',
+                    color: "white",
+                    textAlign:'center',
+                    fontSize: 20,
+                  }}
+                >
+                  Device Type
                 </p>
-              </Link>
+              </NavLink>
             </div>
-          </div>
-          {/* 4 */}
-          <div className="outer">
-            <div className="d-flex  userNotification">
-              <i
-                className="bi bi-search"
-                style={{ color: "white", fontSize: 24 }}
-              ></i>
-              <Link to="/ocr" className="side-menu">
-                {" "}
-                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+            {/* 4 */}
+            <div className="outer">
+              <NavLink to="/ocr" className="sidemenu d-flex userNotification">
+                <i
+                  className="bi bi-search"
+                  style={{ color: "white", fontSize: 24 }}
+                ></i>{" "}
+                <p
+                  style={{
+                    margin:'1px 0 0 15px',
+                    color: "white",
+                    textAlign:'center',
+                    fontSize: 20,
+                  }}
+                >
                   OCR
                 </p>
-              </Link>
+              </NavLink>
             </div>
-          </div>
-          {/* 5 */}
-          <div className="outer">
-            <div className="d-flex userNotification">
-              <i
-                className="bi bi-inbox"
-                style={{ color: "white", fontSize: 24 }}
-              ></i>
-              <Link to="/thermal" className="side-menu">
-                {" "}
-                <p style={{ marginLeft: "15px", color: "white", fontSize: 20 }}>
+            {/* 5 */}
+            <div className="outer">
+              <NavLink
+                to="/thermal"
+                className="sidemenu d-flex userNotification"
+              >
+                <i
+                  className="bi bi-inbox"
+                  style={{ color: "white", fontSize: 24 }}
+                ></i>{" "}
+                <p
+                  style={{
+                    margin:'1px 0 0 15px',
+                    color: "white",
+                    textAlign:'center',
+                    fontSize: 20,
+                  }}
+                >
                   Thermal
                 </p>
-              </Link>
+              </NavLink>
             </div>
           </div>
         </div>
-      </div>
-      {/* SideBar End*/}
+      ) : (
+        <>
+          <div
+            className="sideBar d-flex flex-column"
+            style={{ width: "60px" }}
+          >
+            <img
+              src={companylogo}
+              alt="companylogo"
+              style={{
+                width: "50px",
+                height: "50px",
+                backgroundColor: "white",
+                padding: "3px",
+                borderRadius: "50px",
+                margin: "5px",
+                cursor:'pointer'
+              }}
+              onClick={sidebar}
+            />
+            <div className="logos" style={{display:'flex',flexDirection:'column',alignItems:'center', fontSize: 30 }}>
+              {/* 1 */}
+
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/" className="sidemenu"  >
+                  <i className="bi bi-people" style={{ color: "white" }}></i>
+                </NavLink>
+              </div>
+
+              {/* 2 */}
+
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/createduser" className="sidemenu">
+                  <i
+                    className="bi bi-person-check"
+                    style={{ color: "white" }}
+                  ></i>
+                </NavLink>
+              </div>
+
+              {/* 3 */}
+
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/devicetypecreate" className="sidemenu">
+                  <i
+                    className=" bi bi-diagram-3-fill"
+                    style={{ color: "white" }}
+                  ></i>
+                </NavLink>
+              </div>
+
+              {/* 4 */}
+
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/ocr" className="sidemenu">
+                  <i className="bi bi-search" style={{ color: "white" }}></i>
+                </NavLink>
+              </div>
+
+              {/* 5 */}
+
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/thermal" className="sidemenu">
+                  <i className="bi bi-inbox" style={{ color: "white" }}></i>
+                </NavLink>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* End sidebar logic */}
     </>
   );
 };
 
 export default Sidebar;
-
-{
-  /* Have to use in feature toggle of hamburger */
-}
-
-{
-  /* <div className="sideBar d-flex  flex-column  ">
-        <i
-          class="d-flex justify-content-center mt-3 bi bi-list"
-          style={{ color: "white", fontSize: 30 }}
-        ></i>
-        <div className="logos">
-          <i class="bi bi-people" style={{ color: "white", fontSize: 30 }}></i>
-          <i
-            class="bi bi-person-check"
-            style={{ color: "white", fontSize: 30 }}
-          ></i>
-          <i
-            className="img1 bi bi-diagram-3-fill "
-            style={{ color: "white", fontSize: 30 }}
-          ></i>
-          <i class="bi bi-search" style={{ color: "white", fontSize: 30 }}></i>
-          <i class="bi bi-inbox" style={{ color: "white", fontSize: 30 }}></i> */
-}

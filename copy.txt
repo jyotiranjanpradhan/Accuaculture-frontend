@@ -1,0 +1,10 @@
+http://4.188.244.11/user_view/${mobileno}
+
+style={{
+                borderRadius: "20px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                marginTop: "-5px",
+              }}
+
+              hi
+              

@@ -1,18 +1,15 @@
 import React from "react";
 import "./Adminpage.css";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import { AdminContext } from "../../App";
+import { useContext } from "react";
 const Thermal = () => {
+  //context
+  const{isSidebarOpen}=useContext(AdminContext);
   return (
     <>
-    <div style={{ marginLeft: "280px" , marginTop:'7px'}}>
-      {/* Heading of Table Page  start */}
-      <div className="heading">
-        <p className=" headingText d-flex justify-content-center">
-          Logged In As Aqua Admin
-        </p>
-      </div>
-      {/* Heading of Table Page End  */}
+    <div style={{ marginLeft: isSidebarOpen ? "280px":'110px', marginTop:'7px'}}>
+      
 
       {/* Start option */}
       <div className="option" style={{ marginTop:'7px' , display:'flex' }}>
@@ -31,7 +28,7 @@ const Thermal = () => {
         </Dropdown.Menu>
       </Dropdown>
 
-      <button type="button" class="btn btn-success" style={{ marginLeft:'10px',borderRadius:'13px', fontWeight:'bold'}}>Success</button>
+      <button type="button" className="btn btn-success" style={{ marginLeft:'10px',borderRadius:'13px', fontWeight:'bold'}}>Success</button>
 </div>
       {/* End Option */}
 
