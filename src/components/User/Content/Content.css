@@ -28,8 +28,8 @@
   height: fit-content;
 }
 
-.heading {
-  font-size: 25px;
+.tempheading {
+  font-size: 20px;
   color: rgb(27, 136, 231);
   font-weight: bold;
 }

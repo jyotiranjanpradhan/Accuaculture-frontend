@@ -107,7 +107,7 @@ const Content = () => {
 
         <div
           className="weatherbox shadow "
-          style={{ border: "1px solid", padding: "5px", width: "350px" }}
+          style={{  padding: "5px", width: "350px" }}
         >
           {wdata ? (
             <div className="weatherdata">
@@ -116,7 +116,7 @@ const Content = () => {
                 style={{ justifyContent: "space-between" }}
               >
                 <div>
-                  <p className="heading">Temperature </p>
+                  <p className="tempheading">Temperature </p>
                   <p className="data">
                     {(wdata.main.temp - 273.0).toFixed(2)}℃{" "}
                   </p>
@@ -134,7 +134,7 @@ const Content = () => {
                 style={{ justifyContent: "space-between" }}
               >
                 <div>
-                  <p className="heading">Humidity </p>
+                  <p className="tempheading">Humidity </p>
                   <p className="data"> {wdata.main.humidity} %</p>
                 </div>
                 <div>
@@ -146,7 +146,7 @@ const Content = () => {
                 style={{ justifyContent: "space-between" }}
               >
                 <div>
-                  <p className="heading">WindSpeed </p>
+                  <p className="tempheading">WindSpeed </p>
                   <p className="data"> {wdata.wind.speed.toFixed(2)}Km/Hr </p>
                 </div>
                 <div>
@@ -158,7 +158,7 @@ const Content = () => {
                 style={{ justifyContent: "space-between" }}
               >
                 <div>
-                  <p className="heading">Location </p>
+                  <p className="tempheading">Location </p>
                   <p className="data"> {wdata.name} </p>
                 </div>
                 <div>

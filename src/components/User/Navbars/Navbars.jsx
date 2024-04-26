@@ -9,10 +9,12 @@ import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Navbars = () => {
-  //Variable visible and hide of account button
+  //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
-  // variable for visible and hide of analatic button
+  // variable for visible and hide of analatic button of sidenavbar
   const [analyticvisible, setAnalyticVisible] = useState(false);
+  // variable for  input field open and close of topnavbar
+  const [showInput, setShowInput] = useState(false);
 
   return (
     <>
@@ -31,19 +33,74 @@ const Navbars = () => {
               style={{
                 borderRadius: "7px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                width: "270px",
               }}
             >
-              <div className="d-flex">
-                <p>abc</p>
-                <div class="form-check form-switch">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                  />
+              <>
+                {/* START Logic  for adding input field  */}
+                <button
+                  style={{
+                    width: "100%",
+                    borderRadius: "30px 10px",
+                    backgroundColor: "#7ee2b0",
+                    fontSize: "20px",
+                  }}
+                  onClick={() => {
+                    setShowInput(!showInput);
+                  }}
+                >
+                  Add Labels
+                </button>
+                {showInput && (
+                  <div className="p-2 d-flex justify-content-between">
+                    <input
+                      type="text"
+                      className="form-control  "
+                      id="inlineFormInput"
+                      placeholder="Add Your Parameter....."
+                      style={{
+                        width: "80%",
+                        height: "34px",
+                      }}
+                      onClick={() => {
+                        setShowInput(!showInput);
+                      }}
+                    ></input>
+                   
+                 
+                    <button
+                      type="button"
+                      className="btn btn-primary px-1 py-0 text-center   "
+                      style={{
+                        textAlign: "cenetr",
+                      }}
+                    >
+
+<i
+                      class="bi bi-plus fw-bold"
+                      style={{
+                        fontSize: "26px",
+                        cursor: "pointer",
+                      }}
+                    ></i>
+
+                    </button>
+                  </div>
+                )}
+                {/* END Logic  for adding input field  */}
+
+                <div className="d-flex justify-content-between p-2">
+                  <p>abc</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
                 </div>
-              </div>
+              </>
             </Dropdown.Menu>
           </Dropdown>
 
