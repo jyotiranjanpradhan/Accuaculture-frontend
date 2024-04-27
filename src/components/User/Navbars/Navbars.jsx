@@ -7,7 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Navbars.css";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import Form from "react-bootstrap/Form";
 const Navbars = () => {
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
@@ -22,7 +22,7 @@ const Navbars = () => {
 
       <div className=" shadow-lg topnavbar h-auto ">
         <div className=" d-flex  justify-content-end align-items-center ">
-          <Dropdown>
+          <Dropdown >
             <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
               <i
                 className=" img1 fa-solid fa-chart-line fs-3"
@@ -31,19 +31,21 @@ const Navbars = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu
               style={{
-                borderRadius: "7px",
+                borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 width: "270px",
+                marginTop:'20px'
               }}
             >
               <>
-                {/* START Logic  for adding input field  */}
+                {/* START Logic  for adding input by buttotn click field  */}
                 <button
                   style={{
                     width: "100%",
                     borderRadius: "30px 10px",
                     backgroundColor: "#7ee2b0",
                     fontSize: "20px",
+                    
                   }}
                   onClick={() => {
                     setShowInput(!showInput);
@@ -52,40 +54,47 @@ const Navbars = () => {
                   Add Labels
                 </button>
                 {showInput && (
-                  <div className="p-2 d-flex justify-content-between">
-                    <input
-                      type="text"
-                      className="form-control  "
-                      id="inlineFormInput"
-                      placeholder="Add Your Parameter....."
-                      style={{
-                        width: "80%",
-                        height: "34px",
-                      }}
-                      onClick={() => {
-                        setShowInput(!showInput);
-                      }}
-                    ></input>
-                   
-                 
-                    <button
-                      type="button"
-                      className="btn btn-primary px-1 py-0 text-center   "
-                      style={{
-                        textAlign: "cenetr",
-                      }}
-                    >
+                  <>
+                    <Form.Select aria-label="Default select example" style={{marginTop:'8px',marginLeft:'10px',width:'92%', height: "34px"}}>
+                      <option>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </Form.Select>
+                    <div className="p-2 d-flex justify-content-between">
+                      <input
+                        type="text"
+                        className="form-control  "
+                        id="inlineFormInput"
+                        placeholder="Add Your Labels....."
+                        style={{
+                          width: "80%",
+                          height: "34px",
+                        }}
+                      ></input>
 
-<i
-                      class="bi bi-plus fw-bold"
-                      style={{
-                        fontSize: "26px",
-                        cursor: "pointer",
-                      }}
-                    ></i>
-
-                    </button>
-                  </div>
+                      <button
+                        type="button"
+                        className="btn btn-success px-0 py-0 text-center   "
+                        style={{
+                          textAlign: "cenetr",
+                          height: "34px",
+                        }}
+                        onClick={() => {
+                          setShowInput(!showInput);
+                        }}
+                      >
+                        <i
+                          class="bi bi-plus fw-bold"
+                          style={{
+                            fontSize: "25px",
+                            cursor: "pointer",
+                            display: "contents",
+                          }}
+                        ></i>
+                      </button>
+                    </div>
+                  </>
                 )}
                 {/* END Logic  for adding input field  */}
 
@@ -113,10 +122,11 @@ const Navbars = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu
               style={{
-                borderRadius: "20px",
+                borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 marginTop: "-5px",
                 width: "270px",
+                marginTop:'20px'
               }}
             >
               <>
