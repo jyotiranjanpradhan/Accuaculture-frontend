@@ -8,7 +8,7 @@ import "./Navbars.css";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
-const Navbars = () => {
+const Navbars = ({ handleToggle }) => {
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
   // variable for visible and hide of analatic button of sidenavbar
@@ -20,9 +20,9 @@ const Navbars = () => {
     <>
       {/* Top Navbar start */}
 
-      <div className=" shadow-lg topnavbar h-auto ">
-        <div className=" d-flex  justify-content-end align-items-center ">
-          <Dropdown >
+      <div className=" shadow-lg topnavbar h-auto  ">
+        <div className=" d-flex  justify-content-end align-items-center bg-white ">
+          <Dropdown>
             <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
               <i
                 className=" img1 fa-solid fa-chart-line fs-3"
@@ -34,7 +34,7 @@ const Navbars = () => {
                 borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 width: "270px",
-                marginTop:'20px'
+                marginTop: "20px",
               }}
             >
               <>
@@ -45,7 +45,6 @@ const Navbars = () => {
                     borderRadius: "30px 10px",
                     backgroundColor: "#7ee2b0",
                     fontSize: "20px",
-                    
                   }}
                   onClick={() => {
                     setShowInput(!showInput);
@@ -54,8 +53,16 @@ const Navbars = () => {
                   Add Labels
                 </button>
                 {showInput && (
-                  <>
-                    <Form.Select aria-label="Default select example" style={{marginTop:'8px',marginLeft:'10px',width:'92%', height: "34px"}}>
+                  <div style={{ zIndex: "10" }}>
+                    <Form.Select
+                      aria-label="Default select example"
+                      style={{
+                        marginTop: "8px",
+                        marginLeft: "8px",
+                        width: "93%",
+                        height: "34px",
+                      }}
+                    >
                       <option>Open this select menu</option>
                       <option value="1">One</option>
                       <option value="2">Two</option>
@@ -79,6 +86,7 @@ const Navbars = () => {
                         style={{
                           textAlign: "cenetr",
                           height: "34px",
+                          width: "45px",
                         }}
                         onClick={() => {
                           setShowInput(!showInput);
@@ -94,20 +102,40 @@ const Navbars = () => {
                         ></i>
                       </button>
                     </div>
-                  </>
+                  </div>
                 )}
                 {/* END Logic  for adding input field  */}
 
-                <div className="d-flex justify-content-between p-2">
-                  <p>abc</p>
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                  </div>
+                <div
+                  className="d-flex flex-column justify-content-between p-2 py-0 pt-1"
+                  
+                >
+                  {/* Toggle switches for metrics */}
+                  {["Current", "Voltage", "pH", "ORP", "DO", "TDS"].map(
+                    (metric) => (
+                      <div
+                        key={metric}
+                        className="d-flex justify-content-between p-2 py-0 pt-1"
+                        style={{ height: "39px" }}
+                      >
+                        {/* Wrap the elements in a div */}
+                        <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                          {metric}
+                        </p>
+                        <div className="form-check form-switch">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            style={{ fontSize: "20px" }}
+                            onChange={(e) =>
+                              handleToggle(`toggle${metric}`, e.target.checked)
+                            }
+                          />
+                        </div>
+                      </div>
+                    )
+                  )}
                 </div>
               </>
             </Dropdown.Menu>
@@ -126,19 +154,17 @@ const Navbars = () => {
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 marginTop: "-5px",
                 width: "270px",
-                marginTop:'20px'
+                marginTop: "10px",
               }}
             >
               <>
                 <div className="d-flex justify-content-between p-2">
                   <div>
-                    <p style={{ fontSize: "14px" }}>
-                      {" "}
+                    <p className="mb-0">
                       <span style={{ fontWeight: 500 }}>ID:</span> 545454542
                     </p>
-                    <p style={{ fontSize: "14px" }}>
-                      {" "}
-                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> eeeeeee
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
                     </p>
                   </div>
 
@@ -154,16 +180,15 @@ const Navbars = () => {
                     />
                   </div>
                 </div>
+                <hr className="my-0 text-secondary" />
 
                 <div className="d-flex justify-content-between p-2">
                   <div>
-                    <p style={{ fontSize: "14px" }}>
-                      {" "}
+                    <p className="mb-0">
                       <span style={{ fontWeight: 500 }}>ID:</span> 545454542
                     </p>
-                    <p style={{ fontSize: "14px" }}>
-                      {" "}
-                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> eeeeeee
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
                     </p>
                   </div>
 
@@ -179,6 +204,31 @@ const Navbars = () => {
                     />
                   </div>
                 </div>
+                <hr className="my-0 text-secondary" />
+
+                <div className="d-flex justify-content-between p-2">
+                  <div>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
+                    </p>
+                  </div>
+
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
               </>
             </Dropdown.Menu>
           </Dropdown>

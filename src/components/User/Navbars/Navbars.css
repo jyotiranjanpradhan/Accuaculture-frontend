@@ -31,7 +31,7 @@ i {
   position: fixed;
   width: 100vw;
   top: 0px;
-  z-index: 2;
+  z-index: 1;
 }
 .img1:hover,
 .img2:hover,

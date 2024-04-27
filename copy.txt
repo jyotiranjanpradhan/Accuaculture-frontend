@@ -1,13 +1,781 @@
 http://4.188.244.11/user_view/${mobileno}
 
-style={{
-                borderRadius: "20px",
+
+import React, { useState, useEffect } from "react";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "bootstrap-icons/font/bootstrap-icons";
+import "./Content.css";
+import tempretureimg from "../usersimage/humidity.png";
+import drop from "../usersimage/drop (2).png";
+import wind from "../usersimage/windspeed.png";
+import mappin from "../usersimage/map-pin.png";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import ReactApexChart from "react-apexcharts";
+
+
+const Content = () => {
+
+
+  //Latitude and Longitude fo both Map and Weather
+  const center = {
+    //Here Content can take lat and lng props from backend
+    lat: 20.296059,
+    lng: 85.824539,
+  };
+
+  // START Gogle Map configuration
+
+  const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+    return (
+      <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+          zoom={15}
+        ></GoogleMap>
+      </LoadScript>
+    );
+  };
+
+  // END Gogle Map configuration
+
+  //Height and Width for Google Map
+  const containerStyle = {
+    width: "100%",
+    height: "399px",
+  };
+
+  //START WeatherData config
+
+  const [wdata, setWdata] = useState(null);
+
+  const weatherData = async ({ lat, lng }) => {
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&exclude={part}&appid=5de227dcd9d14b80bb39771618ef96d5`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setWdata(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+    }
+  };
+
+  useEffect(() => {
+    weatherData({ lat: center.lat, lng: center.lng });
+  }, []);
+
+  //END WeatherData config
+
+  // START  Chart Confugration
+
+  const [series, setSeries] = useState([{ data: [10, 20, 30, 40, 50] }]);
+  const [options] = useState({
+    chart: {
+      id: "realtime",
+      height: 350,
+      type: "line",
+      animations: {
+        enabled: true,
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    title: {
+      text: "Dynamic Updating Chart",
+      align: "left",
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      type: "datetime",
+      range: 777600000,
+    },
+    yaxis: {
+      max: 100,
+    },
+    legend: {
+      show: false,
+    },
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newData = [Math.floor(Math.random() * 100)]; 
+      setSeries([{ data: [...series[0].data.slice(1), newData] }]);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [series]);
+
+
+
+  // END  Chart Confugration
+
+  return (
+    <>
+      <div className="contain  p-3 ">
+        {/* Use MapDaata */}
+
+        <div className="mapbox shadow">
+          <GoogleMapdata
+            containerStyle={containerStyle}
+            lat={center.lat}
+            lng={center.lng}
+          />
+        </div>
+
+        {/* Use WeatherData */}
+
+        <div
+          className="weatherbox shadow "
+          style={{ padding: "5px", width: "350px" }}
+        >
+          {wdata ? (
+            <div className="weatherdata">
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
+                <div>
+                  <p className="tempheading">Temperature </p>
+                  <p className="data">
+                    {(wdata.main.temp - 273.0).toFixed(2)}℃{" "}
+                  </p>
+                </div>
+                <div>
+                  <img
+                    className="tempretureimg"
+                    src={tempretureimg}
+                    alt="temperetureicon"
+                  />
+                </div>
+              </div>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
+                <div>
+                  <p className="tempheading">Humidity </p>
+                  <p className="data"> {wdata.main.humidity} %</p>
+                </div>
+                <div>
+                  <img className="humidityimg" src={drop} alt="humidityimg" />
+                </div>
+              </div>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
+                <div>
+                  <p className="tempheading">WindSpeed </p>
+                  <p className="data"> {wdata.wind.speed.toFixed(2)}Km/Hr </p>
+                </div>
+                <div>
+                  <img className="windspeedimg" src={wind} alt="windspeedimg" />
+                </div>
+              </div>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
+                <div>
+                  <p className="tempheading">Location </p>
+                  <p className="data"> {wdata.name} </p>
+                </div>
+                <div>
+                  <img
+                    className="windspeedimg"
+                    src={mappin}
+                    alt="windspeedimg"
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p>Loading Weatherdata.........</p>
+          )}
+        </div>
+      </div>
+
+      <div className="chartcontainer">
+        <div style={{ padding: "8px" }}>
+        <ReactApexChart options={options} series={series} type="line" height={350} />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Content;
+
+
+
+
+
+
+
+
+http://4.188.244.11/user_view/${mobileno}
+
+import React, { useState } from "react";
+import "bootstrap-icons/font/bootstrap-icons";
+import farmer from "../usersimage/farmer.png";
+import group from "../usersimage/group.png";
+import clipboard from "../usersimage/ClipboardMinus.png";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import "./Navbars.css";
+import { Dropdown } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Form from "react-bootstrap/Form";
+const Navbars = ({handleToggle}) => {
+  //Variable visible and hide of account button of sidenavbar
+  const [accountvisible, setaccountvisible] = useState(false);
+  // variable for visible and hide of analatic button of sidenavbar
+  const [analyticvisible, setAnalyticVisible] = useState(false);
+  // variable for  input field open and close of topnavbar
+  const [showInput, setShowInput] = useState(false);
+
+  return (
+    <>
+      {/* Top Navbar start */}
+
+      <div className=" shadow-lg topnavbar h-auto  ">
+        <div className=" d-flex  justify-content-end align-items-center bg-white ">
+          <Dropdown>
+            <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
+              <i
+                className=" img1 fa-solid fa-chart-line fs-3"
+                style={{ fontSize: 30 }}
+              ></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu
+              style={{
+                borderRadius: "10px",
+                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                width: "270px",
+                marginTop: "20px",
+              }}
+            >
+              <>
+                {/* START Logic  for adding input by buttotn click field  */}
+                <button
+                  style={{
+                    width: "100%",
+                    borderRadius: "30px 10px",
+                    backgroundColor: "#7ee2b0",
+                    fontSize: "20px",
+                  }}
+                  onClick={() => {
+                    setShowInput(!showInput);
+                  }}
+                >
+                  Add Labels
+                </button>
+                {showInput && (
+                  <div style={{ zIndex: "10" }}>
+                    <Form.Select
+                      aria-label="Default select example"
+                      style={{
+                        marginTop: "8px",
+                        marginLeft: "8px",
+                        width: "93%",
+                        height: "34px",
+                      }}
+                    >
+                      <option>Open this select menu</option>
+                      <option value="1">One</option>
+                      <option value="2">Two</option>
+                      <option value="3">Three</option>
+                    </Form.Select>
+                    <div className="p-2 d-flex justify-content-between">
+                      <input
+                        type="text"
+                        className="form-control  "
+                        id="inlineFormInput"
+                        placeholder="Add Your Labels....."
+                        style={{
+                          width: "80%",
+                          height: "34px",
+                        }}
+                      ></input>
+
+                      <button
+                        type="button"
+                        className="btn btn-success px-0 py-0 text-center   "
+                        style={{
+                          textAlign: "cenetr",
+                          height: "34px",
+                          width: "45px",
+                        }}
+                        onClick={() => {
+                          setShowInput(!showInput);
+                        }}
+                      >
+                        <i
+                          class="bi bi-plus fw-bold"
+                          style={{
+                            fontSize: "25px",
+                            cursor: "pointer",
+                            display: "contents",
+                          }}
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {/* END Logic  for adding input field  */}
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>Current</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>Voltage</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>pH</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>ORP</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>DO</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+                <div
+                  className="d-flex justify-content-between p-2 py-0 pt-1"
+                  style={{ height: "39px" }}
+                >
+                  <p style={{ fontSize: "18px", fontWeight: "500" }}>TDS</p>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                      style={{ fontSize: "20px" }}
+                    />
+                  </div>
+                </div>
+              </>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <Dropdown>
+            <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
+              <i
+                className="img1 bi bi-diagram-3-fill "
+                style={{ fontSize: 30 }}
+              ></i>
+            </Dropdown.Toggle>
+            <Dropdown.Menu
+              style={{
+                borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 marginTop: "-5px",
+                width: "270px",
+                marginTop: "10px",
               }}
+            >
+              <>
+                <div className="d-flex justify-content-between p-2">
+                  <div>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
+                    </p>
+                  </div>
 
-         
-         
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
 
-         drop="end"
-              
+                <div className="d-flex justify-content-between p-2">
+                  <div>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
+                    </p>
+                  </div>
+
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+
+                <div className="d-flex justify-content-between p-2">
+                  <div>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
+                    </p>
+                  </div>
+
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+              </>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          <i
+            className="img1 bi bi-brightness-high-fill m-3"
+            style={{ fontSize: 30 }}
+          ></i>
+
+          <i
+            className="img2 bi bi-calendar-week m-3"
+            style={{ fontSize: 30 }}
+          ></i>
+
+          <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
+
+          <i
+            className="img4 bi bi-question-circle m-3 "
+            style={{ fontSize: 30 }}
+          ></i>
+
+          <i
+            className="img5 bi bi-box-arrow-right m-3 "
+            style={{ fontSize: 30 }}
+          ></i>
+        </div>
+      </div>
+
+      {/* TopNavbar End */}
+
+      {/* SideNavbar Start */}
+
+      <div className="side d-flex  flex-column  ">
+        <img
+          src={farmer}
+          alt="farmer"
+          style={{
+            marginLeft: "8px",
+            backgroundColor: "white",
+            height: "38px",
+            width: "39px",
+            marginTop: 20,
+            borderRadius: "50%",
+            padding: "2px",
+            height: "45px",
+          }}
+        />
+
+        <div className="logos">
+          <img
+            className="sideimg"
+            src={group}
+            alt="group"
+            style={{ padding: "7px", borderRadius: "4px" }}
+          />
+
+          <i
+            className="sideimg bi  bi-person-lines-fill"
+            onClick={() => {
+              setaccountvisible(!accountvisible);
+            }}
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+              height: "45px",
+            }}
+          ></i>
+          {accountvisible && (
+            <>
+              <Dropdown drop="end">
+                <Dropdown.Toggle
+                  variant="transparent"
+                  style={{ border: "none", height: "40px" }}
+                >
+                  <i
+                    className="sideimg bi bi-person-gear"
+                    style={{
+                      color: "white",
+                      fontSize: 30,
+                      padding: "5px ",
+                      borderRadius: "4px",
+                      display: "flex",
+                      height: "auto",
+                    }}
+                  ></i>
+                </Dropdown.Toggle>
+                <Dropdown.Menu
+                  className="dropclass"
+                  style={{ fontSize: "15px", fontWeight: "500" }}
+                >
+                  <div>
+                    <div className="d-flex flex-row justify-content-between p-2">
+                      <p>Name :</p>
+                      <p>hrfsdihjeojf</p>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between p-2">
+                      <p>Address :</p>
+                      <p>puri</p>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between p-2 ">
+                      <p>No Of Devices :</p>
+                      <p>1</p>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between p-2">
+                      <p>Opex :</p>
+                      <p>hrfsd</p>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between p-2">
+                      <p>Capex :</p>
+                      <p>hrfsd</p>
+                    </div>
+                  </div>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown drop="end" style={{ top: "1px" }}>
+                <Dropdown.Toggle
+                  variant="transparent"
+                  style={{ border: "none", height: "40px" }}
+                >
+                  <i
+                    className="sideimg bi bi-person-gear"
+                    style={{
+                      color: "white",
+                      fontSize: 30,
+                      padding: "5px ",
+                      borderRadius: "4px",
+                      display: "flex",
+                      height: "auto",
+                    }}
+                  ></i>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropclass">
+                  <Dropdown.Item>Action 1</Dropdown.Item>
+                  <Dropdown.Item>Action 2</Dropdown.Item>
+                  <Dropdown.Item>Action 3</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </>
+          )}
+          <i
+            className=" sideimg bi bi-wallet "
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+              height: "45px",
+            }}
+          ></i>
+          <i
+            className=" sideimg bi bi-cart4 "
+            style={{
+              color: "white",
+              fontSize: 30,
+              padding: "5px",
+              borderRadius: "4px",
+              height: "45px",
+            }}
+          ></i>
+          <img
+            className="sideimg"
+            src={clipboard}
+            alt="clipboard"
+            style={{ padding: "7px", borderRadius: "4px", height: "45px" }}
+            onClick={() => {
+              setAnalyticVisible(!analyticvisible);
+            }}
+          />
+          {analyticvisible && (
+            <>
+              <Dropdown drop="end">
+                <Dropdown.Toggle
+                  variant="transparent"
+                  style={{ border: "none", height: "45px" }}
+                >
+                  <i
+                    className=" sideimg bi bi-file-earmark-plus "
+                    style={{
+                      color: "white",
+                      fontSize: 27,
+                      padding: "5px",
+                      borderRadius: "4px",
+                      display: "flex",
+                    }}
+                  ></i>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropclass">
+                  <Dropdown.Item
+                    className="d-flex justify-content-between"
+                    style={{ fontWeight: "500" }}
+                  >
+                    <i
+                      className=" sideimg fa-solid fa-fish-fins"
+                      style={{ alignSelf: "center" }}
+                    ></i>
+                    Fish/Shrimp{" "}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="d-flex justify-content-between"
+                    style={{ fontWeight: "500" }}
+                  >
+                    <i
+                      className="sideimg bi bi-droplet-half"
+                      style={{ alignSelf: "center" }}
+                    >
+                      {" "}
+                    </i>
+                    Waterbody{" "}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <i
+                className=" sideimg fa-solid fa-user-doctor "
+                style={{
+                  color: "white",
+                  fontSize: 25,
+                  padding: "5px",
+                  borderRadius: "4px",
+                  height: "37px",
+                }}
+              ></i>
+              <i
+                className=" sideimg bi bi-capsule-pill "
+                style={{
+                  color: "white",
+                  fontSize: 25,
+                  padding: "5px",
+                  borderRadius: "4px",
+                  height: "40px",
+                }}
+              ></i>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* SideNavbar End */}
+    </>
+  );
+};
+
+export default Navbars;
+

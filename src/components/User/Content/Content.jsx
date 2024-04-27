@@ -7,41 +7,16 @@ import drop from "../usersimage/drop (2).png";
 import wind from "../usersimage/windspeed.png";
 import mappin from "../usersimage/map-pin.png";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
-import Chart from "react-apexcharts";
+import Chartbox from "../Chartbox";
+import axios from "axios";
 
-//  Chart Confugration start
-const options = {
-  chart: {
-    id: "apexchart-example",
-  },
-  xaxis: {
-    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
-  },
-  dataLabels: {
-    enabled: false,
-  },
-};
 
-const series = [
-  {
-    name: "ACX",
-    data: [1, 3, 5, 34, 3, 3, 23, 4, 56, 67, 78, 8, 9, 990],
-  },
-  {
-    name: "ACY",
-    data: [2, 4, 7, 9, 7, 8, 67, 8, 68, , 6],
-  },
-  {
-    name: "ACZ",
-    data: [5, 9, , 4, 2, 45, 34, 2, 45, 5, 3, 5, 64],
-  },
-];
 
-//  Chart Confugration End
 
-//Function that configure Map according to Lat,Lng
 
-const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+
+ ////////////////////////////////// START Gogle Map configuration/////////////////////////////
+ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
     <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
       <GoogleMap
@@ -52,9 +27,13 @@ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
     </LoadScript>
   );
 };
+////////////////////////////////////////// END Gogle Map configuration//////////////////
 
-const Content = () => {
-  //Here Content can take lat and lng props from backend
+
+const Content = ({ toggleStates }) => {
+
+
+  //Latitude and Longitude fo both Map and Weather
   const center = {
     lat: 20.296059,
     lng: 85.824539,
@@ -66,7 +45,8 @@ const Content = () => {
     height: "399px",
   };
 
-  //WeatherData config
+
+  //////////////////////////////START WeatherData config/////////////////////////////////////
 
   const [wdata, setWdata] = useState(null);
 
@@ -80,7 +60,7 @@ const Content = () => {
       }
       const data = await response.json();
       setWdata(data);
-      console.log(data);
+   
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -90,9 +70,32 @@ const Content = () => {
     weatherData({ lat: center.lat, lng: center.lng });
   }, []);
 
+  /////////////////////////////////END WeatherData config//////////////////////////////
+
+//  API call For Accounts Of User
+
+const [useraccount , SetUseraccount]=useState([{}]);
+
+  const accountFetch=async()=>{
+try {
+  const response= await axios.get(`http://4.188.244.11/account_view/9777703470/`);
+  SetUseraccount(response.data);
+
+} catch (error) {
+console.log(error);
+}
+
+
+  }
+useEffect(()=>{
+  accountFetch()
+},[]);
+
+console.log(useraccount);
+
   return (
     <>
-      <div className="containerr  p-3 ">
+      <div className="contain  p-3 ">
         {/* Use MapDaata */}
 
         <div className="mapbox shadow">
@@ -107,7 +110,7 @@ const Content = () => {
 
         <div
           className="weatherbox shadow "
-          style={{  padding: "5px", width: "350px" }}
+          style={{ padding: "5px", width: "350px" }}
         >
           {wdata ? (
             <div className="weatherdata">
@@ -175,51 +178,15 @@ const Content = () => {
           )}
         </div>
       </div>
-
       <div className="chartcontainer">
-        <div style={{ padding: "8px" }}>
-          <p style={{ fontSize: 30 }}>MPU</p>
-          <Chart
-            options={options}
-            series={series}
-            type="area"
-            width={750}
-            height={450}
-          />
-        </div>
+  <div style={{ padding: "8px" }}>
+   
+  {Object.keys(toggleStates).map((metric) => (
+        toggleStates[metric] && <Chartbox key={metric} metric={metric} />
+      ))}
+  </div>
+</div>
 
-        <div style={{ padding: "8px" }}>
-          <p style={{ fontSize: 30 }}>RPM</p>
-          <Chart
-            options={options}
-            series={series}
-            type="area"
-            width={750}
-            height={450}
-          />
-        </div>
-        <div style={{ padding: "8px" }}>
-          <p style={{ fontSize: 30 }}>RPM</p>
-          <Chart
-            options={options}
-            series={series}
-            type="area"
-            width={750}
-            height={450}
-          />
-        </div>
-
-        <div style={{ padding: "8px" }}>
-          <p style={{ fontSize: 30 }}>Current & Voltage</p>
-          <Chart
-            options={options}
-            series={series}
-            type="area"
-            width={750}
-            height={450}
-          />
-        </div>
-      </div>
     </>
   );
 };
