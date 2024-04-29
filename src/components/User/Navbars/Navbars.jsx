@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import farmer from "../usersimage/farmer.png";
 import group from "../usersimage/group.png";
@@ -8,17 +8,44 @@ import "./Navbars.css";
 import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
-const Navbars = ({ handleToggle }) => {
+import axios from "axios";
+
+const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
   // variable for visible and hide of analatic button of sidenavbar
   const [analyticvisible, setAnalyticVisible] = useState(false);
   // variable for  input field open and close of topnavbar
   const [showInput, setShowInput] = useState(false);
+  const [devicedetails, setdevicedetails] = useState([]);
+
+  //device details variable ans api call
+
+  async function devicefetch(deviceid) {
+    try {
+      const response = await axios.get(
+        `http://20.244.51.20:8000/userside_device_view/${deviceid}/`
+      );
+      setdevicedetails(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleClickAccountDetails = (latitude, longitude) => {
+    updateCoordinates(latitude, longitude);
+};
+
+  useEffect(() => {
+    if (useraccount.items && useraccount.items.length > 0) {
+      devicefetch(useraccount.items[0][1]);
+    }
+  }, [useraccount]);
 
   return (
     <>
       {/* Top Navbar start */}
+      {}
 
       <div className=" shadow-lg topnavbar h-auto  ">
         <div className=" d-flex  justify-content-end align-items-center bg-white ">
@@ -106,10 +133,7 @@ const Navbars = ({ handleToggle }) => {
                 )}
                 {/* END Logic  for adding input field  */}
 
-                <div
-                  className="d-flex flex-column justify-content-between p-2 py-0 pt-1"
-                  
-                >
+                <div className="d-flex flex-column justify-content-between p-2 py-0 pt-1">
                   {/* Toggle switches for metrics */}
                   {["Current", "Voltage", "pH", "ORP", "DO", "TDS"].map(
                     (metric) => (
@@ -118,7 +142,7 @@ const Navbars = ({ handleToggle }) => {
                         className="d-flex justify-content-between p-2 py-0 pt-1"
                         style={{ height: "39px" }}
                       >
-                        {/* Wrap the elements in a div */}
+                        {/* Wrap the elements in data div */}
                         <p style={{ fontSize: "18px", fontWeight: "500" }}>
                           {metric}
                         </p>
@@ -148,6 +172,7 @@ const Navbars = ({ handleToggle }) => {
                 style={{ fontSize: 30 }}
               ></i>
             </Dropdown.Toggle>
+
             <Dropdown.Menu
               style={{
                 borderRadius: "10px",
@@ -157,79 +182,34 @@ const Navbars = ({ handleToggle }) => {
                 marginTop: "10px",
               }}
             >
-              <>
-                <div className="d-flex justify-content-between p-2">
-                  <div>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
-                    </p>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
-                    </p>
-                  </div>
+              {devicedetails.map((devicedata) => (
+                <>
+                  <div className="d-flex justify-content-between p-2">
+                    <div>
+                      <p className="mb-0">
+                        <span style={{ fontWeight: 500 }}>ID:</span> {devicedata[1]}
+                      </p>
+                      <p className="mb-0">
+                        <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
+                        {devicedata[0]}
+                      </p>
+                    </div>
 
-                  <div
-                    className=" form-check form-switch"
-                    style={{ fontSize: "x-large" }}
-                  >
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
+                    <div
+                      className=" form-check form-switch"
+                      style={{ fontSize: "x-large" }}
+                    >
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                      />
+                    </div>
                   </div>
-                </div>
-                <hr className="my-0 text-secondary" />
-
-                <div className="d-flex justify-content-between p-2">
-                  <div>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
-                    </p>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
-                    </p>
-                  </div>
-
-                  <div
-                    className=" form-check form-switch"
-                    style={{ fontSize: "x-large" }}
-                  >
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                  </div>
-                </div>
-                <hr className="my-0 text-secondary" />
-
-                <div className="d-flex justify-content-between p-2">
-                  <div>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
-                    </p>
-                    <p className="mb-0">
-                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
-                    </p>
-                  </div>
-
-                  <div
-                    className=" form-check form-switch"
-                    style={{ fontSize: "x-large" }}
-                  >
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckDefault"
-                    />
-                  </div>
-                </div>
-                <hr className="my-0 text-secondary" />
-              </>
+                  <hr className="my-0 text-secondary" />
+                </>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
 
@@ -300,77 +280,93 @@ const Navbars = ({ handleToggle }) => {
           ></i>
           {accountvisible && (
             <>
-              <Dropdown drop="end">
-                <Dropdown.Toggle
-                  variant="transparent"
-                  style={{ border: "none", height: "40px" }}
-                >
-                  <i
-                    className="sideimg bi bi-person-gear"
-                    style={{
-                      color: "white",
-                      fontSize: 30,
-                      padding: "5px ",
-                      borderRadius: "4px",
-                      display: "flex",
-                      height: "auto",
-                    }}
-                  ></i>
-                </Dropdown.Toggle>
-                <Dropdown.Menu
-                  className="dropclass"
-                  style={{ fontSize: "15px", fontWeight: "500" }}
-                >
-                  <div>
-                    <div className="d-flex flex-row justify-content-between p-2">
-                      <p>Name :</p>
-                      <p>hrfsdihjeojf</p>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between p-2">
-                      <p>Address :</p>
-                      <p>puri</p>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between p-2 ">
-                      <p>No Of Devices :</p>
-                      <p>1</p>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between p-2">
-                      <p>Opex :</p>
-                      <p>hrfsd</p>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between p-2">
-                      <p>Capex :</p>
-                      <p>hrfsd</p>
-                    </div>
-                  </div>
-                </Dropdown.Menu>
-              </Dropdown>
-
-              <Dropdown drop="end" style={{ top: "1px" }}>
-                <Dropdown.Toggle
-                  variant="transparent"
-                  style={{ border: "none", height: "40px" }}
-                >
-                  <i
-                    className="sideimg bi bi-person-gear"
-                    style={{
-                      color: "white",
-                      fontSize: 30,
-                      padding: "5px ",
-                      borderRadius: "4px",
-                      display: "flex",
-                      height: "auto",
-                    }}
-                  ></i>
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropclass">
-                  <Dropdown.Item>Action 1</Dropdown.Item>
-                  <Dropdown.Item>Action 2</Dropdown.Item>
-                  <Dropdown.Item>Action 3</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              {useraccount &&
+                useraccount.items &&
+                useraccount.items.map((data) => {
+                  console.log(data);
+                  return (
+                    <Dropdown drop="end" key={data[1]}>
+                      <Dropdown.Toggle
+                        variant="transparent"
+                        style={{ border: "none", height: "40px" }}
+                      >
+                        <i
+                          className="sideimg bi bi-person-gear"
+                          style={{
+                            color: "white",
+                            fontSize: 30,
+                            padding: "5px",
+                            borderRadius: "4px",
+                            display: "flex",
+                            height: "auto",
+                          }}
+                        ></i>
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu
+                        className="dropclass"
+                        style={{
+                          fontSize: "15px",
+                          fontWeight: "500",
+                          width: "200px",
+                          cursor:'pointer'
+                        }}
+                        onClick={(e) => {
+                          const newDeviceId = data[1];
+                          devicefetch(newDeviceId);
+                          handleClickAccountDetails(data[2],data[3]);
+                        }}
+                      >
+                        <div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2"
+                            
+                          >
+                            <p>ID :</p>
+                            <p>{data[1]}</p>
+                          </div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2"
+                            
+                          >
+                            <p>Name :</p>
+                            <p>{data[0]}</p>
+                          </div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2"
+                            
+                          >
+                            <p>Address :</p>
+                            <p>{data[4]}</p>
+                          </div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2 "
+                            
+                          >
+                            <p>No Of Devices :</p>
+                            <p>{data[5]}</p>
+                          </div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2"
+                            
+                          >
+                            <p>Opex :</p>
+                            <p>{data.opex}</p>
+                          </div>
+                          <div
+                            className="d-flex flex-row justify-content-between p-2"
+                            
+                          >
+                            <p>Capex :</p>
+                            <p>{data.capex}</p>
+                          </div>
+                        </div>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  );
+                })}
             </>
           )}
+
           <i
             className=" sideimg bi bi-wallet "
             style={{

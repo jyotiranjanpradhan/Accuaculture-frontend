@@ -1,6 +1,62 @@
 http://4.188.244.11/user_view/${mobileno}
 
 
+
+
+
+
+ <div className="d-flex justify-content-between p-2">
+                  <div>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span> 545454542
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span> Test_1
+                    </p>
+                  </div>
+
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      id="flexSwitchCheckDefault"
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap-icons/font/bootstrap-icons";
