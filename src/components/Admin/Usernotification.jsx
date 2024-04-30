@@ -67,6 +67,19 @@ const Usernotification = () => {
     }, 1000);
   };
 
+  const [devicetypes, setDevicetypes] = useState([]);
+
+  async function seedevicetype() {
+    try {
+      const response = await axios.get(
+        "http://20.244.51.20:8000/devicetype_view/"
+      );
+      setDevicetypes(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //Here Content can take lat and lng props from backend
   const center = {
     lat: 10.5937,
@@ -601,9 +614,11 @@ const Usernotification = () => {
                   style={{ width: "200px" }}
                 >
                   <option selected>select Device Type</option>
-                  <option value="1">Monitoring</option>
-                  <option value="2">Gateway</option>
-                  <option value="3">Aeration</option>
+                  {devicetypes.map((device, index) => (
+                      <option key={index} value={device}>
+                        {device}
+                      </option>
+                    ))}
                 </select>
 
                 <input

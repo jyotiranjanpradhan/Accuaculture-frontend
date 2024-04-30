@@ -22,38 +22,60 @@ const Navbars = ({
   const [analyticvisible, setAnalyticVisible] = useState(false);
   // variable for  input field open and close of topnavbar
   const [showInput, setShowInput] = useState(false);
-  //DEVICE DETAILS STORE FOR NAVBAR 
+  //variable for delete-> lable choose show
+  const [showdelete, setShowdelete] = useState(false);
+  //DEVICE DETAILS STORE FOR NAVBAR
   const [devicedetails, setdevicedetails] = useState([]);
   // DELETE OPTION FOR LABELS
-  const [deleteoption,setDeleteoption]=useState(false);
+  const [deleteoption, setDeleteoption] = useState(false);
   //TOTAL LABELS PRESENT TO A ACCOUNT
- const [devicelabels ,setdevicelabels]=useState([]);
- // SET FOR TEMPORARY STORE ALL DEVICE LABELS 
+  const [devicelabels, setdevicelabels] = useState([]);
+  // SET FOR TEMPORARY STORE ALL DEVICE LABELS
   const uniqueValues = new Set();
+  //total device type
+  const [devicetypes, setDevicetypes] = useState([]);
 
-// variable for delete  labels 
-const devicetype = useRef("");
-const labelname = useRef("");
+  async function seedevicetype() {
+    try {
+      const response = await axios.get(
+        "http://20.244.51.20:8000/devicetype_view/"
+      );
+      setDevicetypes(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  //  delete  labels
+  const devicetype = useRef(null);
+  const labeldelete = (metric) => {
+    const deletedata = {
+      device_type: devicetype.current.value,
+      param: metric,
+    };
+    //write api for delte label here
+  };
+  //Add labels
+  const labelname = useRef(null);
+  const labeladd = async () => {
+    const newData = {
+      Mobno: "9777703470",
+      device_type: devicetype.current.value,
+      param: labelname.current.value,
+    };
 
-const labeladd = async () => {
-  const newData = {
-    Mobno: '9777703470',
-    device_type: devicetype.current.value,
-    param: labelname.current.value,
+    try {
+      const response = await axios.post(
+        "http://20.244.51.20:8000/param_update/",
+        newData
+      );
+      console.log("Response:", response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
-  try {
-    const response = await axios.post('http://20.244.51.20:8000/param_update/', newData);
-    console.log('Response:', response);
-   
-  } catch (error) {
-    console.log('Error:', error);
-   
-  }
-};
-
-// API CALL TO SEE HOW MANY DEVICE ORESENT IN A ACCOUNT 
+  // API CALL TO SEE HOW MANY DEVICE PRESENT IN A ACCOUNT
   async function devicefetch(deviceid) {
     try {
       const response = await axios.get(
@@ -61,7 +83,6 @@ const labeladd = async () => {
       );
       setdevice(response.data);
       setdevicedetails(response.data);
-    
     } catch (error) {
       console.log(error);
     }
@@ -72,21 +93,22 @@ const labeladd = async () => {
     updateCoordinates(latitude, longitude, address);
   };
 
-// HOW MANTY LABELS PRESENT IN A DEVICE 
+  // HOW MANTY LABELS PRESENT IN A DEVICE
   async function devicelabelFetch(deviceid) {
     try {
-      const response = await axios.get(`http://20.244.51.20:8000/userside_graph_view/${deviceid}/`);
+      const response = await axios.get(
+        `http://20.244.51.20:8000/userside_graph_view/${deviceid}/`
+      );
       for (const key in response.data) {
-        response.data[key].forEach(value => uniqueValues.add(value));
+        response.data[key].forEach((value) => uniqueValues.add(value));
       }
       const uniqueArray = Array.from(uniqueValues);
       setdevicelabels(uniqueArray); // Update state with unique labels
-  
     } catch (error) {
       console.log(error);
     }
   }
-// WHEN PAGE OPEN FIRST TIME IT CALL FOR DEVICE FETCH AND LABEL FETCH OF FIRST ACCOUNT OF  user
+  // WHEN PAGE OPEN FIRST TIME IT CALL FOR DEVICE FETCH AND LABEL FETCH OF FIRST ACCOUNT OF  user
   useEffect(() => {
     if (useraccount.items && useraccount.items.length > 0) {
       devicefetch(useraccount.items[0][1]);
@@ -128,6 +150,7 @@ const labeladd = async () => {
                     onClick={() => {
                       setShowInput(!showInput);
                       setDeleteoption(false);
+                      seedevicetype();
                     }}
                   >
                     Add Labels
@@ -136,22 +159,41 @@ const labeladd = async () => {
                     style={{
                       width: "30%",
                       borderRadius: "5px",
-                     padding:'5px 8px',
+                      padding: "5px 8px",
                       backgroundColor: "#FF0000",
                       fontSize: "15px",
                     }}
                     onClick={() => {
+                      seedevicetype();
                       setDeleteoption(!deleteoption);
-                    
+                      setShowdelete(!showdelete);
                     }}
                   >
                     Delete
                   </button>
                 </div>
+
+                {showdelete && (
+                  <Form.Select
+                    style={{
+                      marginTop: "8px",
+                      marginLeft: "8px",
+                      width: "93%",
+                      height: "34px",
+                    }}
+                    ref={devicetype}
+                  >
+                    <option>Select Your device .....</option>
+                    {devicetypes.map((device, index) => (
+                      <option key={index} value={device}>
+                        {device}
+                      </option>
+                    ))}
+                  </Form.Select>
+                )}
                 {showInput && (
                   <div style={{ zIndex: "10" }}>
                     <Form.Select
-                      aria-label="Default select example"
                       style={{
                         marginTop: "8px",
                         marginLeft: "8px",
@@ -161,66 +203,89 @@ const labeladd = async () => {
                       ref={devicetype}
                     >
                       <option>Select Your device .....</option>
-                      <option value="Monitoring">Monitoring</option>
-                      <option value="Aeration">Areation</option>
-                      <option value="Gateway">Gateway</option>
+                      {devicetypes.map((device, index) => (
+                        <option key={index} value={device}>
+                          {device}
+                        </option>
+                      ))}
                     </Form.Select>
-                    <div className="p-2 d-flex justify-content-between">
-                      <input
-                        type="text"
-                        className="form-control  "
-                        id="inlineFormInput"
-                        placeholder="Add Your Labels....."
-                        style={{
-                          width: "80%",
-                          height: "34px",
-                        }}
-                        ref={labelname}
-                      ></input>
 
-                      <button
-                        type="button"
-                        className="btn btn-success px-0 py-0 text-center   "
-                        style={{
-                          textAlign: "cenetr",
-                          height: "34px",
-                          width: "45px",
-                        }}
-                        onClick={() => {
-                          labeladd();
-                          setShowInput(!showInput);
-                        }}
-                      >
-                        <i
-                          class="bi bi-plus fw-bold"
-                          style={{
-                            fontSize: "25px",
-                            cursor: "pointer",
-                            display: "contents",
-                          }}
-                        ></i>
-                      </button>
-                    </div>
+                    <div className="p-2 d-flex justify-content-between">
+  <form
+    onSubmit={(e) =>{ 
+      e.preventDefault();
+      labeladd();
+      }
+    }
+      
+  >
+    <input
+      type="text"
+      className="form-control"
+      id="inlineFormInput"
+      placeholder="Add Your Labels....."
+      style={{
+        width: "80%",
+        height: "34px",
+      }}
+      ref={labelname}
+      required
+      onInvalid={(e) => e.target.setCustomValidity('Please enter Your Label Name')} 
+  onChange={(e) => e.target.setCustomValidity('')}
+    />
+
+    <button
+      type="submit" // Change button type to "submit"
+      className="btn btn-success px-0 py-0 text-center"
+      style={{
+        textAlign: "center",
+        height: "34px",
+        width: "45px",
+      }}
+    >
+      <i
+        className="bi bi-plus fw-bold"
+        style={{
+          fontSize: "25px",
+          cursor: "pointer",
+          display: "contents",
+        }}
+       
+      ></i>
+    </button>
+  </form>
+</div>
+
                   </div>
                 )}
                 {/* END Logic  for adding input field  */}
 
                 <div className="d-flex flex-column justify-content-between p-2 py-0 pt-1">
                   {/* Toggle switches for metrics */}
-                  {devicelabels.map(
-                    (metric) => (
-                      <div
-                        key={metric}
-                        className="d-flex justify-content-between p-2 py-0 pt-1"
-                        style={{ height: "39px" }}
-                      >
-                        {/* Wrap the elements in data div */}
-                        <p style={{ fontSize: "18px", fontWeight: "500" }}>
-                          {metric}
-                        </p>
-                        {deleteoption ? (<i class="bi bi-trash" style={{ fontSize: "20px", color:'red',cursor:'pointer' }} onClick={()=>{
-
-                        }}></i>):(<div className="form-check form-switch">
+                  {devicelabels.map((metric) => (
+                    <div
+                      key={metric}
+                      className="d-flex justify-content-between p-2 py-0 pt-1"
+                      style={{ height: "39px" }}
+                    >
+                      {/* Wrap the elements in data div */}
+                      <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                        {metric}
+                      </p>
+                      {deleteoption ? (
+                        <i
+                          class="bi bi-trash"
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            labeldelete(metric);
+                          }}
+                        ></i>
+                      ) : (
+                        <div className="form-check form-switch">
                           <input
                             className="form-check-input"
                             type="checkbox"
@@ -230,11 +295,10 @@ const labeladd = async () => {
                               handleToggle(`toggle${metric}`, e.target.checked)
                             }
                           />
-                        </div>)}
-                        
-                      </div>
-                    )
-                  )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </>
             </Dropdown.Menu>

@@ -2,6 +2,7 @@ http://4.188.244.11/user_view/${mobileno}
 
 http://20.244.51.20:8000/devicetype_view/= show all device type
 
+write a program
 
 
 
