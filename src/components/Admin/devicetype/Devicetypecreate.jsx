@@ -430,7 +430,7 @@ async function deletedevicetype(devicedata) {
                 <label htmlFor="formGroupExampleInput">Version</label>
                 <input
                   ref={deviceversion}
-                  type="text"
+                  type="number"
                   className="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Account Name"

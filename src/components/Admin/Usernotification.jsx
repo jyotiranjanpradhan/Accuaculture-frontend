@@ -533,7 +533,8 @@ const Usernotification = () => {
                   textAlign: "cenetr",
                   marginRight: "15px",
                 }}
-                onClick={adddevice}
+                onClick={()=>{adddevice();
+                  seedevicetype();}}
               >
                 Add Device
               </button>
