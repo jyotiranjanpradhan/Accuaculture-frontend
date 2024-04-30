@@ -1,9 +1,8 @@
 import Content from "./Content/Content";
 import Navbars from "./Navbars/Navbars";
-import React from 'react'
-import { useState ,useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
 
 const Usersmainpage = () => {
   const [toggleStates, setToggleStates] = useState({
@@ -23,45 +22,70 @@ const Usersmainpage = () => {
     }));
   };
 
-  //update lat lng for user accounts
-  const [latitude, setLatitude] = useState(null);
-    const [longitude, setLongitude] = useState(null);
+  //update lat lng  and for user accounts
+  const [oneaccountdetails, setOneAccountDetails] = useState({
+    latitude: "",
+    longitude: "",
+    Address: "",
+  });
 
-    const updateCoordinates = (lat, lng) => {
-      setLatitude(lat);
-      setLongitude(lng);
+  const updateCoordinates = (lat, lng, address) => {
+    setOneAccountDetails({
+      latitude: lat,
+      longitude: lng,
+      Address: address,
+    });
   };
   //  API call For Accounts Of User
 
-const [useraccount , SetUseraccount]=useState({ items: [] });
+  const [useraccount, SetUseraccount] = useState({ items: [] });
 
-const accountFetch=async()=>{
-try {
-const response= await axios.get(`http://4.188.244.11/account_view/7787998637/`);
-SetUseraccount(response.data);
-
-} catch (error) {
-console.log(error);
-}
-
-}
-useEffect(()=>{
-accountFetch();
-},[]);
+  const accountFetch = async () => {
+    try {
+      const response = await axios.get(
+        `http://4.188.244.11/account_view/7787998637/`
+      );
+      SetUseraccount(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    accountFetch();
+  }, []);
 
   useEffect(() => {
-        if (useraccount.items && useraccount.items.length > 0) {
-            setLatitude(useraccount.items[0][2]);
-            setLongitude(useraccount.items[0][3]);
-        }
-    }, [useraccount]);
+    if (useraccount.items && useraccount.items.length > 0) {
+      setOneAccountDetails({
+        latitude: useraccount.items[0][2],
+        longitude: useraccount.items[0][3],
+        Address: useraccount.items[0][4],
+      });
+    }
+  }, [useraccount]);
+  // vcariable for devices to pass content page
+  const [devicesofaUser, setdevicesofaUser] = useState([]);
 
+  const setdevice = (deviceArray) => {
+    setdevicesofaUser(deviceArray);
+  };
+
+  useEffect(() => {
+    if (devicesofaUser && devicesofaUser.length > 0) {
+      console.log(devicesofaUser);
+    }
+  }, [devicesofaUser]);
   return (
- <>
- <Navbars handleToggle={handleToggle} useraccount={useraccount} updateCoordinates={updateCoordinates}/>
- <Content toggleStates={toggleStates} latitude={latitude} longitude={longitude}  />
- </>
-  )
-}
+    <>
+      <Navbars
+        handleToggle={handleToggle}
+        useraccount={useraccount}
+        updateCoordinates={updateCoordinates}
+        setdevice={setdevice}
+      />
+      <Content toggleStates={toggleStates} oneaccountdata={oneaccountdetails} devicesofaUser={devicesofaUser} />
+    </>
+  );
+};
 
 export default Usersmainpage;

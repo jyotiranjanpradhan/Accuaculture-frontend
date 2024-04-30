@@ -10,7 +10,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 
-const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
+const Navbars = ({
+  handleToggle,
+  useraccount,
+  updateCoordinates,
+  setdevice,
+}) => {
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
   // variable for visible and hide of analatic button of sidenavbar
@@ -18,34 +23,57 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
   // variable for  input field open and close of topnavbar
   const [showInput, setShowInput] = useState(false);
   const [devicedetails, setdevicedetails] = useState([]);
-
+  const [deleteoption,setDeleteoption]=useState(false);
+ const [devicelabels ,setdevicelabels]=useState([]);
   //device details variable ans api call
+
+  const uniqueValues = new Set();
+
 
   async function devicefetch(deviceid) {
     try {
       const response = await axios.get(
         `http://20.244.51.20:8000/userside_device_view/${deviceid}/`
       );
+      setdevice(response.data);
       setdevicedetails(response.data);
+    
     } catch (error) {
       console.log(error);
     }
   }
 
-  const handleClickAccountDetails = (latitude, longitude) => {
-    updateCoordinates(latitude, longitude);
-};
+  const handleClickAccountDetails = (latitude, longitude, address) => {
+    updateCoordinates(latitude, longitude, address);
+  };
+
+
+  async function devicelabelFetch(deviceid) {
+    try {
+      const response = await axios.get(`http://20.244.51.20:8000/userside_graph_view/${deviceid}/`);
+      for (const key in response.data) {
+        response.data[key].forEach(value => uniqueValues.add(value));
+      }
+      const uniqueArray = Array.from(uniqueValues);
+      setdevicelabels(uniqueArray); // Update state with unique labels
+  
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  
+
 
   useEffect(() => {
     if (useraccount.items && useraccount.items.length > 0) {
       devicefetch(useraccount.items[0][1]);
+      devicelabelFetch(useraccount.items[0][1]);
     }
   }, [useraccount]);
 
   return (
     <>
       {/* Top Navbar start */}
-      {}
 
       <div className=" shadow-lg topnavbar h-auto  ">
         <div className=" d-flex  justify-content-end align-items-center bg-white ">
@@ -66,19 +94,37 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
             >
               <>
                 {/* START Logic  for adding input by buttotn click field  */}
-                <button
-                  style={{
-                    width: "100%",
-                    borderRadius: "30px 10px",
-                    backgroundColor: "#7ee2b0",
-                    fontSize: "20px",
-                  }}
-                  onClick={() => {
-                    setShowInput(!showInput);
-                  }}
-                >
-                  Add Labels
-                </button>
+                <div className="d-flex gap-1 px-1 ">
+                  <button
+                    style={{
+                      width: "70%",
+                      borderRadius: "5px",
+                      backgroundColor: "#7ee2b0",
+                      fontSize: "15px",
+                    }}
+                    onClick={() => {
+                      setShowInput(!showInput);
+                      setDeleteoption(false);
+                    }}
+                  >
+                    Add Labels
+                  </button>
+                  <button
+                    style={{
+                      width: "30%",
+                      borderRadius: "5px",
+                     padding:'5px 8px',
+                      backgroundColor: "#FF0000",
+                      fontSize: "15px",
+                    }}
+                    onClick={() => {
+                      setDeleteoption(!deleteoption);
+                    
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
                 {showInput && (
                   <div style={{ zIndex: "10" }}>
                     <Form.Select
@@ -90,10 +136,10 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
                         height: "34px",
                       }}
                     >
-                      <option>Open this select menu</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
+                      <option>Select Your device .....</option>
+                      <option value="areation">areation</option>
+                      <option value="monitoring">monitoring</option>
+                      <option value="gateway">gateway</option>
                     </Form.Select>
                     <div className="p-2 d-flex justify-content-between">
                       <input
@@ -135,7 +181,7 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
 
                 <div className="d-flex flex-column justify-content-between p-2 py-0 pt-1">
                   {/* Toggle switches for metrics */}
-                  {["Current", "Voltage", "pH", "ORP", "DO", "TDS"].map(
+                  {devicelabels.map(
                     (metric) => (
                       <div
                         key={metric}
@@ -146,7 +192,9 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
                         <p style={{ fontSize: "18px", fontWeight: "500" }}>
                           {metric}
                         </p>
-                        <div className="form-check form-switch">
+                        {deleteoption ? (<i class="bi bi-trash" style={{ fontSize: "20px", color:'red',cursor:'pointer' }} onClick={()=>{
+
+                        }}></i>):(<div className="form-check form-switch">
                           <input
                             className="form-check-input"
                             type="checkbox"
@@ -156,7 +204,8 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
                               handleToggle(`toggle${metric}`, e.target.checked)
                             }
                           />
-                        </div>
+                        </div>)}
+                        
                       </div>
                     )
                   )}
@@ -187,7 +236,8 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
                   <div className="d-flex justify-content-between p-2">
                     <div>
                       <p className="mb-0">
-                        <span style={{ fontWeight: 500 }}>ID:</span> {devicedata[1]}
+                        <span style={{ fontWeight: 500 }}>ID:</span>{" "}
+                        {devicedata[1]}
                       </p>
                       <p className="mb-0">
                         <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
@@ -308,54 +358,37 @@ const Navbars = ({ handleToggle, useraccount,updateCoordinates }) => {
                           fontSize: "15px",
                           fontWeight: "500",
                           width: "200px",
-                          cursor:'pointer'
+                          cursor: "pointer",
                         }}
                         onClick={(e) => {
                           const newDeviceId = data[1];
                           devicefetch(newDeviceId);
-                          handleClickAccountDetails(data[2],data[3]);
+                          handleClickAccountDetails(data[2], data[3], data[4]);
+                          devicelabelFetch(newDeviceId);
                         }}
                       >
                         <div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2"
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2">
                             <p>ID :</p>
                             <p>{data[1]}</p>
                           </div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2"
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2">
                             <p>Name :</p>
                             <p>{data[0]}</p>
                           </div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2"
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2">
                             <p>Address :</p>
                             <p>{data[4]}</p>
                           </div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2 "
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2 ">
                             <p>No Of Devices :</p>
                             <p>{data[5]}</p>
                           </div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2"
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2">
                             <p>Opex :</p>
                             <p>{data.opex}</p>
                           </div>
-                          <div
-                            className="d-flex flex-row justify-content-between p-2"
-                            
-                          >
+                          <div className="d-flex flex-row justify-content-between p-2">
                             <p>Capex :</p>
                             <p>{data.capex}</p>
                           </div>

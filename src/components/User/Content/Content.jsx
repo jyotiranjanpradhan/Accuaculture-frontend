@@ -8,57 +8,81 @@ import wind from "../usersimage/windspeed.png";
 import mappin from "../usersimage/map-pin.png";
 import { GoogleMap, LoadScript,Marker ,InfoWindow } from "@react-google-maps/api";
 import Chartbox from "../Chartbox";
+import { useJsApiLoader } from '@react-google-maps/api';
 
-
-const GoogleMapdata = ({ containerStyle, lat, lng }) => {
-  const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
-
+const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
+  const [activeMarker, setActiveMarker] = useState(null);
 
   const center = lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng) } : { lat: 0, lng: 0 };
-  const markerDetails = {
-   
-    description: 'Marker Description',
+
+  const handleMarkerHover = (marker) => {
+    setActiveMarker(marker);
   };
 
-  // Toggle InfoWindow on marker hover
-  const handleMarkerHover = () => {
-    setIsInfoWindowOpen(!isInfoWindowOpen);
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk',
+    libraries: ['geometry'],
+  });
+
+  const roundMarkerIcon = {
+    path: isLoaded ? window.google.maps.SymbolPath.CIRCLE : null,
+    fillColor: 'red',
+    fillOpacity: 1,
+    strokeWeight: 1,
+    strokeColor: 'white',
+    scale: 10,
   };
 
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk" loading="async">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={15}
-      >
-        {lat && lng && (
-          <Marker
-            position={center}
-            onMouseOver={handleMarkerHover}
-            onMouseOut={handleMarkerHover}
-          >
-            {/* InfoWindow content */}
-            {isInfoWindowOpen && (
-              <InfoWindow onCloseClick={() => setIsInfoWindowOpen(false)}>
-                <div>
-                  <h3>{markerDetails.name}</h3>
-                  <p>{markerDetails.description}</p>
-                </div>
-              </InfoWindow>
-            )}
-          </Marker>
-        )}
-      </GoogleMap>
-    </LoadScript>
-  );
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={15}
+      mapTypeId="satellite"
+    >
+      {lat && lng && (
+        <Marker
+          position={center}
+          onMouseOver={() => handleMarkerHover({ type: 'main' })}
+          onMouseOut={() => handleMarkerHover(null)}
+        >
+          {activeMarker && activeMarker.type === 'main' && (
+            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              <div>
+                <p>{address}</p>
+              </div>
+            </InfoWindow>
+          )}
+        </Marker>
+      )}
+
+      {devices.map((device, index) => (
+        <Marker
+          key={index}
+          position={{ lat: parseFloat(device[2][0]), lng: parseFloat(device[2][1]) }}
+          icon={roundMarkerIcon}
+          onMouseOver={() => handleMarkerHover({ type: 'device', device })}
+          onMouseOut={() => handleMarkerHover(null)}
+        >
+          {activeMarker && activeMarker.type === 'device' && activeMarker.device === device && (
+            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              <div>
+                <p>{device[0]}</p>
+              </div>
+            </InfoWindow>
+          )}
+        </Marker>
+      ))}
+    </GoogleMap>
+  ) : null;
 };
-const Content = ({ toggleStates,latitude,longitude}) => {
+const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
   const [wdata, setWdata] = useState(null);
 
   let center = {
-    lat: latitude,
-    lng:  longitude
+    lat: oneaccountdata.latitude,
+    lng:oneaccountdata.  longitude,
+    address:oneaccountdata.Address,
   };
 
 
@@ -92,7 +116,7 @@ const Content = ({ toggleStates,latitude,longitude}) => {
     <>
       <div className="contain p-3">
         <div className="mapbox shadow">
-          <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} />
+          <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} />
         </div>
         <div className="weatherbox shadow" style={{ padding: "5px", width: "350px" }}>
           {wdata ? (
