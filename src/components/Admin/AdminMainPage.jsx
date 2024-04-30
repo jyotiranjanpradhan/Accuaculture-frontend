@@ -26,6 +26,7 @@ const AdminMainPage = () => {
         <Route path="/createduser/useraccounts/UseraccountDevices/ngxdynamics" element={<NgxDynamic/>}/>
         <Route path="/devicetypecreate" element={<Devicetypecreate />} />
         <Route path="/devicetypecreate/deviceassignctrls/:devicename/:version" element={<Deviceassignctrl/>} />
+        <Route path="/createduser/useraccounts/UseraccountDevices/ngxdynamics/:deviceType/:deviceId" element={<NgxDynamic/>} />
         < Route  path="/ocr" element={<Ocr/>}/>
         <Route path="/thermal" element={<Thermal/>}/>
         

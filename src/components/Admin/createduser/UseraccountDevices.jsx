@@ -8,6 +8,7 @@ import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import success from "./success.gif";
 import { AdminContext } from "../../../App";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UseraccountDevices = () => {
   const [devicetobeadd, setDevicetobeadd] = useState(false);
@@ -24,6 +25,7 @@ const UseraccountDevices = () => {
   const [deviceid, setDeviceid] = useState("");
   //context for collapse and expand of content according sidebar on off
   const { isSidebarOpen } = useContext(AdminContext);
+  const navigate = useNavigate();
 
   const adddevice = () => {
     setDevicetobeadd(!devicetobeadd);
@@ -95,6 +97,10 @@ const UseraccountDevices = () => {
     width: "900px",
     height: "100%",
   };
+
+const showStatus = (deviceType,deviceId) =>{
+  navigate(`/createduser/useraccounts/UseraccountDevices/ngxdynamics/${deviceType}/${deviceId}`)
+}
 
   return (
     <>
@@ -291,7 +297,7 @@ const UseraccountDevices = () => {
                 >
                   Controls
                 </button>
-                <Link to="/createduser/useraccounts/UseraccountDevices/ngxdynamics">
+                {/* <Link to="/createduser/useraccounts/UseraccountDevices/ngxdynamics"> */}
                   <button
                     type="button"
                     className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -299,10 +305,11 @@ const UseraccountDevices = () => {
                       textAlign: "cenetr",
                       marginLeft: "8px",
                     }}
+                    onClick={()=>showStatus(data[2],data[0])}
                   >
                     Stats
                   </button>
-                </Link>
+                {/* </Link> */}
               </div>
             </div>
           ))}

@@ -1,49 +1,103 @@
-import React, { useContext } from "react";
-import "../Adminpage.css";
-import "bootstrap-icons/font/bootstrap-icons";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import Chart from "react-apexcharts";
 import { AdminContext } from "../../../App";
+import mqtt from 'mqtt';
+import { useParams } from "react-router-dom";
+
 const NgxDynamic = () => {
-//context
-  const{isSidebarOpen}=useContext(AdminContext);
-  //  Chart Confugration start
+  const { isSidebarOpen } = useContext(AdminContext);
+  const { deviceType, deviceId } = useParams();
+  const [client, setClient] = useState(null);
+  const [chartData, setChartData] = useState({});
+  const [graphHead, setGraphHead] = useState('');
+
+  useEffect(() => {
+    const mqttClient = mqtt.connect({
+      hostname: '4.240.114.7',
+      port: 9001,
+      protocol: 'ws',
+      username: 'BarifloLabs',
+      password: 'Bfl@123'
+    });
+
+    setClient(mqttClient);
+
+    mqttClient.on('connect', () => {
+      console.log('Connected to MQTT broker');
+      mqttClient.subscribe(`${deviceId}/data`);
+    });
+
+    mqttClient.on('message', (topic, payload) => {
+      const data = JSON.parse(payload.toString());
+      const { paramType, paramValue, dataPoint } = data;
+      console.log(dataPoint.split(' ')[1]);
+
+      // Update chart data based on the received MQTT message
+      setChartData(prevData => {
+        // Check if the chartData already has a key for the current paramType
+        if (prevData[paramType]) {
+          // If yes, append the new value to the existing data array
+          return {
+            ...prevData,
+            [paramType]: [...prevData[paramType], { x: dataPoint, y: paramValue }]
+          };
+        } else {
+          // If no, create a new entry with the paramType as key and value as array with the new value
+          return {
+            ...prevData,
+            [paramType]: [{ x: dataPoint, y: paramValue }]
+          };
+        }
+      });
+
+      // Set graph head to the received paramType
+      setGraphHead(paramType);
+    });
+
+    return () => {
+      if (mqttClient) {
+        mqttClient.end();
+        console.log('Disconnected from MQTT broker');
+      }
+    };
+  }, []);
+
   const options = {
     chart: {
-      id: "apexchart-example",
+      id: "realtime",
+      
     },
     xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+      // type: 'datetime',
+      title: {
+        text: 'time',
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Value',
+      },
     },
     dataLabels: {
       enabled: false,
     },
+    tooltip: {
+      x: {
+        format: 'dd/MM/yy HH:mm'
+      },},
+      grid: {
+        show: false
+      },
+      stroke: {
+        width: 3 // Adjust the width as needed
+      },
   };
-
-  const series = [
-    {
-      name: "ACX",
-      data: [1, 3,5,34,3,3,23,4,56,67,78,8,9,990,],
-    },
-    {
-      name: "ACY",
-      data: [2, 4, 7,9,7,8,67,8,68,,6],
-    },
-    {
-      name: "ACZ",
-      data: [5, 9,,4,2,45,34,2,45,5,3,5,64],
-    },
-  ];
-
-  //  Chart Confugration End
 
   return (
     <>
-      {/* Page Start */}
-      <div style={{ marginLeft: isSidebarOpen ? "280px":'110px', marginTop: "7px" }}>
-        {/* Start option */}
+      <div style={{ marginLeft: isSidebarOpen ? "280px" : '110px', marginTop: "7px" }}>
         <div className="option" style={{ marginTop: "7px", display: "flex" }}>
           <Dropdown>
             <Dropdown.Toggle
@@ -74,68 +128,34 @@ const NgxDynamic = () => {
             </Dropdown.Menu>
           </Dropdown>
 
-        <Link to="/createduser/useraccounts/UseraccountDevices/:accountid">
-          <button
-            type="button"
-            className="btn btn-danger"
-            style={{
-              marginLeft: "10px",
-              borderRadius: "13px",
-              fontWeight: "bold",
-            }}
-          >
-            Back
-          </button> </Link>
+          <Link to="/createduser/useraccounts/UseraccountDevices/:accountid">
+            <button
+              type="button"
+              className="btn btn-danger"
+              style={{
+                marginLeft: "10px",
+                borderRadius: "13px",
+                fontWeight: "bold",
+              }}
+            >
+              Back
+            </button>
+          </Link>
         </div>
-        {/* End Option */}
 
-        <div
-          className="d-flex flex-wrap "
-          // style={{ overflowY: "scroll", height: "100vh", }}
-        >
-          <div style={{ padding: "8px" }}>
-            <p style={{fontSize:30}}>MPU</p>
-            <Chart
-              options={options}
-              series={series}
-              type="area"
-              width={750}
-              height={650}
-            />
-          </div>
-
-          <div style={{ padding: "8px" }}>
-          <p style={{fontSize:30}}>RPM</p>
-            <Chart
-              options={options}
-              series={series}
-              type="area"
-              width={750}
-              height={650}
-            />
-          </div>
-          <div style={{ padding: "8px" }}>
-          <p style={{fontSize:30}}>RPM</p>
-            <Chart
-              options={options}
-              series={series}
-              type="area"
-              width={750}
-              height={650}
-            />
-          </div>
-
-          <div style={{ padding: "8px" }}>
-            
-            <p style={{fontSize:30}}>Current & Voltage</p>
-            <Chart
-              options={options}
-              series={series}
-              type="area"
-              width={750}
-              height={650}
-            />
-          </div>
+        <div className="d-flex flex-wrap ">
+          {Object.entries(chartData).map(([paramType, data]) => (
+            <div key={paramType} style={{ padding: "8px" }}>
+              <p style={{ fontSize: 30 }}>Chart for {paramType}</p>
+              <Chart
+                options={options}
+                series={[{name: deviceId,data }]}
+                type="area"
+                width={750}
+                height={650}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </>

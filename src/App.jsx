@@ -1,7 +1,8 @@
 import AdminMainPage from "./components/Admin/AdminMainPage";
 import Usersmainpage from "./components/User/Usersmainpage";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Route, BrowserRouter as Router } from "react-router-dom";
 import { createContext, useState } from "react";
+
 
 export const AdminContext = createContext();
 
@@ -13,11 +14,12 @@ function App(){
     <>
    
    <Router>
-   {/* <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
-<AdminMainPage/>
-</AdminContext.Provider> */}
+   <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
 
-<Usersmainpage></Usersmainpage>
+<AdminMainPage/>
+</AdminContext.Provider>
+
+{/* <Usersmainpage></Usersmainpage> */}
 </Router>
     
     </>
