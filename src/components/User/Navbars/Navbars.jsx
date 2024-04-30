@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import farmer from "../usersimage/farmer.png";
 import group from "../usersimage/group.png";
@@ -22,14 +22,38 @@ const Navbars = ({
   const [analyticvisible, setAnalyticVisible] = useState(false);
   // variable for  input field open and close of topnavbar
   const [showInput, setShowInput] = useState(false);
+  //DEVICE DETAILS STORE FOR NAVBAR 
   const [devicedetails, setdevicedetails] = useState([]);
+  // DELETE OPTION FOR LABELS
   const [deleteoption,setDeleteoption]=useState(false);
+  //TOTAL LABELS PRESENT TO A ACCOUNT
  const [devicelabels ,setdevicelabels]=useState([]);
-  //device details variable ans api call
-
+ // SET FOR TEMPORARY STORE ALL DEVICE LABELS 
   const uniqueValues = new Set();
 
+// variable for delete  labels 
+const devicetype = useRef("");
+const labelname = useRef("");
 
+
+const labeladd = async () => {
+  const newData = {
+    Mobno: '9777703470',
+    device_type: devicetype.current.value,
+    param: labelname.current.value,
+  };
+
+  try {
+    const response = await axios.post('http://20.244.51.20:8000/param_update/', newData);
+    console.log('Response:', response);
+   
+  } catch (error) {
+    console.log('Error:', error);
+   
+  }
+};
+
+// API CALL TO SEE HOW MANY DEVICE ORESENT IN A ACCOUNT 
   async function devicefetch(deviceid) {
     try {
       const response = await axios.get(
@@ -43,11 +67,12 @@ const Navbars = ({
     }
   }
 
+  // BY THIS FUNCTION CORDEINATE AND ADDRESS UPDATE ON USERMAIN PAGE  AND USERMAIN PAGE PASS THAT TO CONTENT TO SHOW ON MAP
   const handleClickAccountDetails = (latitude, longitude, address) => {
     updateCoordinates(latitude, longitude, address);
   };
 
-
+// HOW MANTY LABELS PRESENT IN A DEVICE 
   async function devicelabelFetch(deviceid) {
     try {
       const response = await axios.get(`http://20.244.51.20:8000/userside_graph_view/${deviceid}/`);
@@ -61,9 +86,7 @@ const Navbars = ({
       console.log(error);
     }
   }
-  
-
-
+// WHEN PAGE OPEN FIRST TIME IT CALL FOR DEVICE FETCH AND LABEL FETCH OF FIRST ACCOUNT OF  user
   useEffect(() => {
     if (useraccount.items && useraccount.items.length > 0) {
       devicefetch(useraccount.items[0][1]);
@@ -135,11 +158,12 @@ const Navbars = ({
                         width: "93%",
                         height: "34px",
                       }}
+                      ref={devicetype}
                     >
                       <option>Select Your device .....</option>
-                      <option value="areation">areation</option>
-                      <option value="monitoring">monitoring</option>
-                      <option value="gateway">gateway</option>
+                      <option value="Monitoring">Monitoring</option>
+                      <option value="Aeration">Areation</option>
+                      <option value="Gateway">Gateway</option>
                     </Form.Select>
                     <div className="p-2 d-flex justify-content-between">
                       <input
@@ -151,6 +175,7 @@ const Navbars = ({
                           width: "80%",
                           height: "34px",
                         }}
+                        ref={labelname}
                       ></input>
 
                       <button
@@ -162,6 +187,7 @@ const Navbars = ({
                           width: "45px",
                         }}
                         onClick={() => {
+                          labeladd();
                           setShowInput(!showInput);
                         }}
                       >

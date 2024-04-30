@@ -14,12 +14,12 @@ function App(){
     <>
    
    <Router>
-   <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
+   {/* <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
 
 <AdminMainPage/>
-</AdminContext.Provider>
+</AdminContext.Provider> */}
 
-{/* <Usersmainpage></Usersmainpage> */}
+<Usersmainpage></Usersmainpage>
 </Router>
     
     </>
