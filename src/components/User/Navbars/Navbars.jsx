@@ -65,7 +65,7 @@ const Navbars = ({
     };
 
     try {
-      const response = await axios.post(
+      const response = await axios.patch(
         "http://20.244.51.20:8000/param_update/",
         newData
       );
@@ -204,21 +204,25 @@ const Navbars = ({
                     >
                       <option>Select Your device .....</option>
                       {devicetypes.map((device, index) => (
-                        <option key={index} value={device}>
-                          {device}
+                        <option key={index} value={device[0]}>
+                          {device[0]}
                         </option>
                       ))}
                     </Form.Select>
 
-                    <div className="p-2 d-flex justify-content-between">
+                   
   <form
     onSubmit={(e) =>{ 
       e.preventDefault();
       labeladd();
+      setTimeout(() => {
+        seedevicetype();
+      }, 500);
       }
     }
       
   >
+     <div className="p-2 d-flex justify-content-between">
     <input
       type="text"
       className="form-control"
@@ -230,12 +234,12 @@ const Navbars = ({
       }}
       ref={labelname}
       required
-      onInvalid={(e) => e.target.setCustomValidity('Please enter Your Label Name')} 
+      onInvalid={(e) => e.target.setCustomValidity('Please Enter Your Label Name')} 
   onChange={(e) => e.target.setCustomValidity('')}
     />
 
     <button
-      type="submit" // Change button type to "submit"
+      type="submit" 
       className="btn btn-success px-0 py-0 text-center"
       style={{
         textAlign: "center",
@@ -253,8 +257,9 @@ const Navbars = ({
        
       ></i>
     </button>
+    </div>
   </form>
-</div>
+
 
                   </div>
                 )}

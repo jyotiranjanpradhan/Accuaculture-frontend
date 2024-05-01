@@ -3,6 +3,21 @@ import "../Adminpage.css";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../../App";
 import axios from "axios";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import latitude  from "../Constant img/latitude.png";
+import longitude from "../Constant img/longitude.png"
+
+const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+        zoom={15}
+      ></GoogleMap>
+    </LoadScript>
+  );
+};
 
 const Createduser = () => {
   const [openModel, setOpenModel] = useState(false);
@@ -48,6 +63,20 @@ const Createduser = () => {
   useEffect(() => {
     createduserfetch();
   }, []);
+
+
+ //Here Content can take lat and lng props from backend
+ const center = {
+  lat: 20.2961,
+  lng: 85.8245,
+};
+
+//Height and Width for Google Map
+const containerStyle = {
+  width: "900px",
+  height: "100%",
+};
+
 
   return (
     <>
@@ -252,18 +281,19 @@ const Createduser = () => {
       </div>
       {/* Page End */}
 
-      {/* Modal Start */}
 
+{/* start model for on click of next of previos model */}
       {openModel ? (
         <div className="check-model ">
           <div
             className="model"
-            style={{ fontSize: "23px", width: "600px", height: "270px" }}
+            style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
-            {/* Modal Heading */}
-            <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
-                New Account
+            <div className="heading d-flex justify-content-between ">
+              <p
+                style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
+              >
+                New User Details
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
@@ -271,20 +301,100 @@ const Createduser = () => {
                 onClick={openModels}
               ></i>
             </div>
-            {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <label for="formGroupExampleInput">Account Name</label>
+              <div className="d-flex">
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
+                  {" "}
+                  <img
+                    src={latitude}
+                    style={{ width: "20px", marginBottom: "5px" }}
+                    alt="Latitude logo"
+                  ></img>{" "}
+                  Latitude
+                </label>
+                <label for="formGroupExampleInput">
+                  <img
+                    src={longitude}
+                    style={{
+                      width: "20px",
+                      marginBottom: "5px",
+                      marginRight: "2px",
+                    }  } alt="Longitude logo"
+                  ></img>
+                  Longitude
+                </label>
+              </div>
+
+              <div className="d-flex">
                 <input
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
+                  placeholder="Enter Latitude"
+                  style={{ width: "200px" }}
+                ></input>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter Longitude"
+                  style={{ width: "200px", marginLeft: "50px" }}
+                ></input>
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <label for="formGroupExampleInput">
+                  <i
+                    class="bi bi-person-vcard"
+                    style={{ fontSize: "20px", marginRight: "2px" }}
+                  ></i>
+                  Account Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter AccountName"
+                  style={{ width: "200px" }}
                 ></input>
               </div>
 
-              <div className="d-flex justify-content-end mt-3">
+              <div className="d-flex  mt-2">
+                <button
+                  type="button"
+                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "center",
+                    marginRight: "15px",
+                  }}
+                >
+                  <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
+                  Search
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "25px",
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+
+              <div style={{ marginTop: "20px", height: "400px" }}>
+                <GoogleMapdata
+                  containerStyle={containerStyle}
+                  lat={center.lat}
+                  lng={center.lng}
+                />
+              </div>
+
+              <div
+                className="d-flex justify-content-end mt-2 "
+                style={{ padding: "5px" }}
+              >
                 <button
                   type="button"
                   className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -292,16 +402,20 @@ const Createduser = () => {
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
+                  onClick={() => {
+                    
+                  }}
                 >
                   Submit
                 </button>
+               
               </div>
             </div>
           </div>
         </div>
       ) : null}
 
-      {/* Modal End */}
+      {/* Account create models  of previos model */}
        {/* Delete button Modal Start */}
 
        {deletebutton ? (

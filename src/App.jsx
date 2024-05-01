@@ -9,7 +9,6 @@ export const AdminContext = createContext();
 function App(){
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-
   return(
     <>
    

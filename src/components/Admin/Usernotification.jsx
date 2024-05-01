@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import latitude from "./Constant img/latitude.png";
 import longitude from "./Constant img/longitude.png";
 import "./Adminpage.css";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import success from "./Constant img/success.gif";
 import { AdminContext } from "../../App";
 import axios from "axios";
@@ -22,6 +22,83 @@ const Usernotification = () => {
   const [totaluser, setTotalUser] = useState(0);
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
+  const [userindex, setUserindex] = useState("");
+
+  const formData = new FormData();
+
+  const [data, setData] = useState({
+    password: "",
+    account_nm: "",
+    lat: "",
+    long: "",
+    userpic: null,
+    userdocs: null,
+    devicename: "",
+    devicetype: "",
+    location_data: [],
+  });
+
+  // all variable fkor account create of a use
+  const Password = useRef(null);
+  const passwordenterrd = () => {
+    setData({ ...data, password: Password.current.value });
+  };
+
+  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
+  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
+
+  const userLatitude = useRef(null);
+  const userLongitude = useRef(null);
+  const AccName = useRef(null);
+
+  const latlngaccentered = () => {
+    setData({
+      ...data,
+      lat: userLatitude.current.value,
+      long: userLongitude.current.value,
+      account_nm: AccName.current.value,
+    });
+  };
+
+  const devicename = useRef(null);
+  const device = useRef(null);
+  const devicelocation = useRef(null);
+
+  const devinametypelocentered = () => {
+    setData({
+      ...data,
+      device_nm: devicename.current.value,
+      devicetype: device.current.value,
+      location_data: devicelocation.current.value.split(',').map(value => value.trim()) ,
+    });
+  };
+
+  const addNweUser = async () => {
+    formData.append("mobno", "9777703470");
+    formData.append("password", data.password);
+    formData.append("account_nm", data.account_nm);
+    formData.append("lat", data.lat);
+    formData.append("long", data.long);
+    formData.append("userpic", "");
+    formData.append("userdocs", "");
+    formData.append("devicename", data.devicename);
+    formData.append("devicetype", data.devicetype);
+    formData.append("location_data",JSON.stringify(data.location_data));
+    formData.append("sensors", "ph,do,orp");
+    formData.append("address", "");
+
+    try {
+      console.log(formData);
+      const response = await axios.post(
+        `http://20.244.51.20:8000/user_create/`,
+        formData
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(data);
+  };
 
   const userNotificationfetch = async () => {
     try {
@@ -81,10 +158,15 @@ const Usernotification = () => {
   }
 
   //Here Content can take lat and lng props from backend
-  const center = {
-    lat: 10.5937,
-    lng: 50.9629,
-  };
+
+  function searchlatlng(lats, lngs) {
+    setLatitude(
+      lats === null || lats === undefined || lats === "" ? "20.2961" : lats
+    );
+    setLongitude(
+      lngs === null || lngs === undefined || lngs === "" ? "85.8245" : lngs
+    );
+  }
 
   //Height and Width for Google Map
   const containerStyle = {
@@ -119,7 +201,7 @@ const Usernotification = () => {
           </div>
           <p
             style={{
-              display: "flex" ,
+              display: "flex",
               justifyContent: "center",
               fontSize: "30px",
               padding: "10px",
@@ -127,7 +209,7 @@ const Usernotification = () => {
               margin: "2px 2px 4px 2px",
             }}
           >
-            { totaluser}
+            {totaluser}
           </p>
         </div>
 
@@ -149,16 +231,29 @@ const Usernotification = () => {
                 >
                   Sl.No
                 </th>
-                <th className="text-center"  scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "#7CDFAD" }}
+                >
                   Name
                 </th>
-                <th className="text-center"  scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "#7CDFAD" }}
+                >
                   Mobile No
                 </th>
-                <th className="text-center"  scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "#7CDFAD" }}
+                >
                   E-mail Id
                 </th>
-                <th className="text-center" 
+                <th
+                  className="text-center"
                   scope="col"
                   style={{
                     backgroundColor: "#7CDFAD",
@@ -173,24 +268,25 @@ const Usernotification = () => {
             <tbody>
               {regestereduser.map((data, index) => (
                 <tr key={index}>
-                  <td className="text-center" >{index + 1}</td>
-                  <td className="text-center" >{data[0]}</td>
-                  <td className="text-center" >{data[1]}</td>
-                  <td className="text-center" >{data[2]}</td>
-                  <td className="text-center" >
+                  <td className="text-center">{index + 1}</td>
+                  <td className="text-center">{data[0]}</td>
+                  <td className="text-center">{data[1]}</td>
+                  <td className="text-center">{data[2]}</td>
+                  <td className="text-center">
                     <button
                       type="button"
                       className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                       style={{
                         textAlign: "cenetr",
                       }}
-                      onClick={openModels}
+                      onClick={() => {
+                        setUserindex(index);
+                        openModels();
+                      }}
                     >
                       Check
                     </button>
                   </td>
-              
-              
                 </tr>
               ))}
             </tbody>
@@ -254,9 +350,10 @@ const Usernotification = () => {
         {/* Redirect End */}
       </div>
 
+      {/* regestereduser[userindex] */}
       {/* model Start */}
       {openModel ? (
-        <div className="check-model " >
+        <div className="check-model ">
           <div className="model" style={{ fontSize: "23px", marginTop: "10%" }}>
             <div className="heading d-flex justify-content-between ">
               <p
@@ -273,25 +370,34 @@ const Usernotification = () => {
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div className="name d-flex">
                 <p>Name </p>
-                <p style={{ marginLeft: "25px" }}>: Kanhu Charan</p>
+                <p style={{ marginLeft: "25px" }}>
+                  : {regestereduser[userindex][0]}
+                </p>
               </div>
               <div className="mobile d-flex">
                 <p>Mobile No </p>{" "}
-                <p style={{ marginLeft: "25px" }}>: 7735432994</p>
+                <p style={{ marginLeft: "25px" }}>
+                  :{regestereduser[userindex][1]}
+                </p>
               </div>
               <div className="adhar d-flex">
                 <p>Aadhaar No</p>
-                <p style={{ marginLeft: "25px" }}>:121366458556</p>
+                <p style={{ marginLeft: "25px" }}>
+                  :{regestereduser[userindex][4]}
+                </p>
               </div>
               <div className="email d-flex">
                 <p>Email Id</p>{" "}
-                <p style={{ marginLeft: "25px" }}>: kanhu2551996@gmail.com</p>
+                <p style={{ marginLeft: "25px" }}>
+                  : {regestereduser[userindex][2]}
+                </p>
               </div>
               <div className="password ">
                 <p>
                   <div class="form-group d-flex">
                     <label for="exampleInputPassword1">Password</label>
                     <input
+                      ref={Password}
                       type="password"
                       class="form-control"
                       id="exampleInputPassword1"
@@ -313,6 +419,7 @@ const Usernotification = () => {
                   onClick={() => {
                     openModels();
                     opennextmodel();
+                    passwordenterrd();
                   }}
                 >
                   Next
@@ -372,7 +479,8 @@ const Usernotification = () => {
                       width: "20px",
                       marginBottom: "5px",
                       marginRight: "2px",
-                    }  } alt="Longitude logo"
+                    }}
+                    alt="Longitude logo"
                   ></img>
                   Longitude
                 </label>
@@ -380,6 +488,7 @@ const Usernotification = () => {
 
               <div className="d-flex">
                 <input
+                  ref={userLatitude}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
@@ -388,6 +497,7 @@ const Usernotification = () => {
                 ></input>
 
                 <input
+                  ref={userLongitude}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
@@ -404,6 +514,7 @@ const Usernotification = () => {
                   Account Name
                 </label>
                 <input
+                  ref={AccName}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
@@ -420,27 +531,24 @@ const Usernotification = () => {
                     textAlign: "center",
                     marginRight: "15px",
                   }}
+                  onClick={() => {
+                    latlngaccentered();
+                    searchlatlng(
+                      userLatitude.current.value,
+                      userLongitude.current.value
+                    );
+                  }}
                 >
                   <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
                   Search
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "25px",
-                  }}
-                >
-                  Submit
                 </button>
               </div>
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
                   containerStyle={containerStyle}
-                  lat={center.lat}
-                  lng={center.lng}
+                  lat={latitudes}
+                  lng={longitudes}
                 />
               </div>
 
@@ -456,7 +564,9 @@ const Usernotification = () => {
                     marginRight: "15px",
                   }}
                   onClick={() => {
+                    latlngaccentered();
                     opennextmodel();
+                    latlngaccentered();
                     opendevicetypemodel();
                   }}
                 >
@@ -469,6 +579,7 @@ const Usernotification = () => {
                     textAlign: "cenetr",
                     marginRight: "25px",
                   }}
+                  onClick={opennextmodel}
                 >
                   Reject
                 </button>
@@ -521,8 +632,17 @@ const Usernotification = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Monitoring</td>
-                    <td>1</td>
+                    {regestereduser[userindex][3].devicesList &&
+                      regestereduser[userindex][3].devicesList[0] && (
+                        <>
+                          <td>
+                            {regestereduser[userindex][3].devicesList[0].value}
+                          </td>
+                          <td>
+                            {regestereduser[userindex][3].devicesList[0].count}
+                          </td>
+                        </>
+                      )}
                   </tr>
                 </tbody>
               </table>
@@ -533,8 +653,10 @@ const Usernotification = () => {
                   textAlign: "cenetr",
                   marginRight: "15px",
                 }}
-                onClick={()=>{adddevice();
-                  seedevicetype();}}
+                onClick={() => {
+                  adddevice();
+                  seedevicetype();
+                }}
               >
                 Add Device
               </button>
@@ -550,6 +672,7 @@ const Usernotification = () => {
                   }}
                   onClick={() => {
                     completlyadddevice();
+                    addNweUser();
                     opendevicetypemodel();
                   }}
                 >
@@ -594,6 +717,7 @@ const Usernotification = () => {
             >
               <label for="formGroupExampleInput">Device Name</label>
               <input
+                ref={devicename}
                 type="text"
                 class="form-control"
                 id="formGroupExampleInput"
@@ -603,7 +727,7 @@ const Usernotification = () => {
 
               <div className="d-flex mt-2">
                 <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                  Device List
+                  Device Type
                 </label>
                 <label for="formGroupExampleInput">Device Location</label>
               </div>
@@ -613,20 +737,22 @@ const Usernotification = () => {
                   class="form-select"
                   aria-label="Default select example"
                   style={{ width: "200px" }}
+                  ref={device}
                 >
                   <option selected>select Device Type</option>
                   {devicetypes.map((device, index) => (
-                      <option key={index} value={device}>
-                        {device}
-                      </option>
-                    ))}
+                    <option key={index} value={device[0]}>
+                      {device[0]}
+                    </option>
+                  ))}
                 </select>
 
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Device...."
+                  placeholder="Device Location...."
                   style={{ width: "200px", marginLeft: "50px" }}
+                  ref={devicelocation}
                 ></input>
               </div>
 
@@ -648,6 +774,10 @@ const Usernotification = () => {
                   textAlign: "cenetr",
                   marginRight: "15px",
                   margin: "10px 15px 10px 0",
+                }}
+                onClick={() => {
+                  adddevice();
+                  devinametypelocentered();
                 }}
               >
                 Add Device
@@ -679,17 +809,15 @@ const Usernotification = () => {
                       width: "200px",
                     }}
                   >
-                    {/* <GoogleMapdata
-                      containerStyle={containerStyle}
-                      lat={center.lat}
-                      lng={center.lng}
-                    /> */}
-                    <google-map
-                      height="300px"
-                      width="300px"
-                      // zoom="3"
-                      center=""
-                    ></google-map>
+                    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+                      <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        center={{ lat: latitudes, lng: longitudes }}
+                        zoom={10}
+                      >
+                        {/* Markers go here */}
+                      </GoogleMap>
+                    </LoadScript>
                   </div>
                 </>
               ) : null}
@@ -732,7 +860,12 @@ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
         mapContainerStyle={containerStyle}
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
-      ></GoogleMap>
+      >
+        <Marker
+          position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+          
+        />
+      </GoogleMap>
     </LoadScript>
   );
 };
