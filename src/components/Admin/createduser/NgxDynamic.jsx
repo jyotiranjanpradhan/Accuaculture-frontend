@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 
 const NgxDynamic = () => {
   const { isSidebarOpen } = useContext(AdminContext);
-  const { deviceType, deviceId } = useParams();
+  const { deviceType, deviceId ,accountid} = useParams();
   const [client, setClient] = useState(null);
   const [chartData, setChartData] = useState({});
   const [graphHead, setGraphHead] = useState('');
@@ -128,7 +128,7 @@ const NgxDynamic = () => {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Link to="/createduser/useraccounts/UseraccountDevices/:accountid">
+          <Link to={`/createduser/useraccounts/UseraccountDevices/${accountid}`}>
             <button
               type="button"
               className="btn btn-danger"

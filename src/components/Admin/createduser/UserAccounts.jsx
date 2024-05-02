@@ -11,6 +11,7 @@ const UserAccounts = () => {
   const [useraccount, setUseraccount] = useState([]);
   const updateaccountname = useRef(null);
   const [useraccounterror, setUseraccounterror] = useState("");
+  const [tempaccountid, SetTempAccountId] = useState("");
 
   //This  'indivisualuserid' variable  save AccountId   of each Accounts of a user on click of edit button
   const [indivisualaccountsid, SetIndivisualaccountsid] = useState("");
@@ -49,14 +50,24 @@ const UserAccounts = () => {
       newaccountname: updateaccountname.current.value,
     };
     try {
-      const upd = await axios.post(
+      const response = await axios.post(
         `http://4.188.244.11/account_edit/`,
         accountbody
       );
-      console.log(upd);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const deleteAccount=async()=>{
+    console.log(tempaccountid);
+   try {
+    const response= await axios.post(`http://4.188.244.11/account_delete/`,tempaccountid);
+  console.log(response); 
+  } catch (error) {
+    console.log(error);
+   }
   }
 
   return (
@@ -171,7 +182,10 @@ const UserAccounts = () => {
                         textAlign: "cenetr",
                         marginLeft: "8px",
                       }}
-                      onClick={openDeleteModels}
+                      onClick={() => {
+                        openDeleteModels();
+                        SetTempAccountId(data[1]);
+                      }}
                     >
                       Delete
                     </button>
@@ -322,7 +336,7 @@ const UserAccounts = () => {
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div style={{ marginLeft: "25px" }}>
-                <p> Are you sure to Delete this User Permanently ?</p>
+                <p> Are you sure to Delete this Account Permanently ?</p>
               </div>
 
               <div className="d-flex justify-content-end mt-3">
@@ -333,6 +347,10 @@ const UserAccounts = () => {
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
+                  onClick={()=>{
+                    deleteAccount();
+                    openDeleteModels();
+                  }}
                 >
                   Yes
                 </button>
@@ -342,6 +360,10 @@ const UserAccounts = () => {
                   style={{
                     textAlign: "cenetr",
                     marginRight: "15px",
+                  }}
+                  onClick={()=>{
+                   
+                    openDeleteModels();
                   }}
                 >
                   No

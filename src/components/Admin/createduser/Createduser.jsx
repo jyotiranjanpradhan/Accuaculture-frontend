@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../Adminpage.css";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
-import latitude  from "../Constant img/latitude.png";
-import longitude from "../Constant img/longitude.png"
+import { GoogleMap, LoadScript , Marker, InfoWindow } from "@react-google-maps/api";
+import latitude from "../Constant img/latitude.png";
+import longitude from "../Constant img/longitude.png";
 
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
@@ -25,7 +25,7 @@ const Createduser = () => {
   const [totaluserrequested, setTotaluserrequested] = useState(0);
   const [createdusererror, setCreatedusdererror] = useState("");
   const [requesteduser, setRequesteduser] = useState([]);
-  const[currentusermobilenumber,setCurrentusermobilenumber]=useState("");
+  const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
 
   const openModels = () => {
     setOpenModel(!openModel);
@@ -64,18 +64,37 @@ const Createduser = () => {
     createduserfetch();
   }, []);
 
+  //Here Content can take lat and lng props from backend
+  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
+  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
 
- //Here Content can take lat and lng props from backend
- const center = {
-  lat: 20.2961,
-  lng: 85.8245,
-};
+  function searchlatlng(lats, lngs) {
+    setLatitude(
+      lats === null || lats === undefined || lats === "" ? "20.2961" : lats
+    );
+    setLongitude(
+      lngs === null || lngs === undefined || lngs === "" ? "85.8245" : lngs
+    );
+  }
 
-//Height and Width for Google Map
-const containerStyle = {
-  width: "900px",
-  height: "100%",
-};
+  //Height and Width for Google Map
+  const containerStyle = {
+    width: "900px",
+    height: "100%",
+  };
+
+
+//variable for add account 
+const latt=useRef(null);
+const lngg=useRef(null);
+const accname=useRef(null);
+
+// const data={
+//   latttt:parseFloat( latt.current.value),
+//   lngggg:parseFloat( lngg.current.value),
+//   accnameee:accname.current.value
+// }
+// write api for add acount
 
 
   return (
@@ -215,7 +234,6 @@ const containerStyle = {
                       Delete
                     </button>
                   </td>
-                
                 </tr>
               ))}
             </tbody>
@@ -281,8 +299,7 @@ const containerStyle = {
       </div>
       {/* Page End */}
 
-
-{/* start model for on click of next of previos model */}
+      {/* start model for on click of next of previos model */}
       {openModel ? (
         <div className="check-model ">
           <div
@@ -302,7 +319,7 @@ const containerStyle = {
               ></i>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div className="d-flex">
+              <div className="d-flex" style={{height:'49px'}}>
                 <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   {" "}
                   <img
@@ -312,21 +329,32 @@ const containerStyle = {
                   ></img>{" "}
                   Latitude
                 </label>
-                <label for="formGroupExampleInput">
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   <img
                     src={longitude}
                     style={{
                       width: "20px",
                       marginBottom: "5px",
                       marginRight: "2px",
-                    }  } alt="Longitude logo"
+                    }}
+                    alt="Longitude logo"
                   ></img>
                   Longitude
                 </label>
+
+                <label for="formGroupExampleInput"style={{ width: "250px" }}>
+                  <i
+                    class="bi bi-person-vcard"
+                    style={{ fontSize: "20px", marginRight: "2px" }}
+                  ></i>
+                  Account Name
+                </label>
+                
               </div>
 
               <div className="d-flex">
                 <input
+                ref={latt}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
@@ -335,59 +363,48 @@ const containerStyle = {
                 ></input>
 
                 <input
+                ref={lngg}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Longitude"
                   style={{ width: "200px", marginLeft: "50px" }}
                 ></input>
-              </div>
-              <div style={{ marginTop: "20px" }}>
-                <label for="formGroupExampleInput">
-                  <i
-                    class="bi bi-person-vcard"
-                    style={{ fontSize: "20px", marginRight: "2px" }}
-                  ></i>
-                  Account Name
-                </label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter AccountName"
-                  style={{ width: "200px" }}
-                ></input>
-              </div>
 
-              <div className="d-flex  mt-2">
+                
+                  <input
+                  ref={accname}
+                    type="text"
+                    class="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter AccountName"
+                    style={{ width: "200px", marginLeft: "50px" }}
+                  ></input>
+                
+                
                 <button
-                  type="button"
-                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "center",
-                    marginRight: "15px",
-                  }}
-                >
-                  <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
-                  Search
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "25px",
-                  }}
-                >
-                  Submit
-                </button>
+                    type="button"
+                    className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "center",
+                      marginLeft: "50px" 
+                    }}
+                    onClick={()=>{
+                      searchlatlng(latt.current.value,lngg.current.value)
+                    }}
+                  >
+                    <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
+                    Search
+                  </button>
+
               </div>
+         
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
                   containerStyle={containerStyle}
-                  lat={center.lat}
-                  lng={center.lng}
+                  lat={latitudes}
+                  lng={longitudes}
                 />
               </div>
 
@@ -402,13 +419,10 @@ const containerStyle = {
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={() => {
-                    
-                  }}
+                  onClick={() => {}}
                 >
                   Submit
                 </button>
-               
               </div>
             </div>
           </div>
@@ -416,80 +430,77 @@ const containerStyle = {
       ) : null}
 
       {/* Account create models  of previos model */}
-       {/* Delete button Modal Start */}
+      {/* Delete button Modal Start */}
 
-       {deletebutton ? (
-                    <div className="check-model ">
-                      <div
-                        className="model"
-                        style={{
-                          fontSize: "23px",
-                          width: "600px",
-                          height: "200px",
-                        }}
-                      >
-                        {/* Modal Heading */}
-                        <div className="heading d-flex justify-content-between  ">
-                          <p
-                            style={{
-                              marginTop: "8px",
-                              marginLeft: "30px",
-                              fontSize: 25,
-                            }}
-                          >
-                            Delete Account
-                          </p>
-                          <i
-                            class="bi bi-x-octagon cancel-button-modal "
-                            style={{ fontSize: 30 }}
-                            onClick={openDeleteModels}
-                          ></i>
-                        </div>
-                        {/* Modal Content */}
-                        <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-                          <div style={{ marginLeft: "25px" }}>
-                            <p>
-                              {" "}
-                              Are you sure to Delete this User Permanently ?
-                            </p>
-                          </div>
+      {deletebutton ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
+              fontSize: "23px",
+              width: "600px",
+              height: "200px",
+            }}
+          >
+            {/* Modal Heading */}
+            <div className="heading d-flex justify-content-between  ">
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                }}
+              >
+                Delete Account
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30 }}
+                onClick={openDeleteModels}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <div style={{ marginLeft: "25px" }}>
+                <p> Are you sure to Delete this User Permanently ?</p>
+              </div>
 
-                          <div className="d-flex justify-content-end mt-3">
-                            <button
-                              type="button"
-                              className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                              style={{
-                                textAlign: "cenetr",
-                                marginRight: "15px",
-                              }}
-                              onClick={() => {
-                                deleteuserfetch(currentusermobilenumber);
-                                openDeleteModels();
-                                setTimeout(() => {
-                                  createduserfetch();
-                                  setCurrentusermobilenumber("");
-                                }, 1500);
-                              }}
-                            >
-                              Yes
-                            </button>
-                            <button
-                              type="button"
-                              className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                              style={{
-                                textAlign: "cenetr",
-                                marginRight: "15px",
-                              }}
-                              onClick={openDeleteModels}
-                            >
-                              No
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                  {/* DeleteButton Modal End */}
+              <div className="d-flex justify-content-end mt-3">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    deleteuserfetch(currentusermobilenumber);
+                    openDeleteModels();
+                    setTimeout(() => {
+                      createduserfetch();
+                      setCurrentusermobilenumber("");
+                    }, 1500);
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={openDeleteModels}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* DeleteButton Modal End */}
     </>
   );
 };

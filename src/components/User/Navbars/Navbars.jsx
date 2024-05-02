@@ -9,6 +9,8 @@ import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 
 const Navbars = ({
   handleToggle,
@@ -16,6 +18,8 @@ const Navbars = ({
   updateCoordinates,
   setdevice,
 }) => {
+  //for showing logout popup on click of user logo on top navbar
+  const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
   // variable for visible and hide of analatic button of sidenavbar
@@ -34,6 +38,14 @@ const Navbars = ({
   const uniqueValues = new Set();
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
+  // temporary labelname
+  const [templabel, setTemplebel] = useState("");
+  //show calender variable
+  const [calendershow, setCalendershow] = useState(false);
+const showcalender=()=>{
+  setCalendershow(!calendershow);
+}
+
 
   async function seedevicetype() {
     try {
@@ -46,16 +58,25 @@ const Navbars = ({
     }
   }
 
+  const islogout = () => {
+    setLogout(!logout);
+  };
+
   //  delete  labels
-  const devicetype = useRef(null);
-  const labeldelete = (metric) => {
+  const deletedevicetype = useRef(null);
+
+  const labeldelete = () => {
     const deletedata = {
-      device_type: devicetype.current.value,
-      param: metric,
+      device_type: deletedevicetype.current.value,
+      param: templabel,
     };
     //write api for delte label here
   };
+  //delete modal for delete
+  const [labeltodelete, Setlabeltodelete] = useState(false);
+
   //Add labels
+  const devicetype = useRef(null);
   const labelname = useRef(null);
   const labeladd = async () => {
     const newData = {
@@ -151,6 +172,7 @@ const Navbars = ({
                       setShowInput(!showInput);
                       setDeleteoption(false);
                       seedevicetype();
+                      setShowdelete(false);
                     }}
                   >
                     Add Labels
@@ -167,6 +189,7 @@ const Navbars = ({
                       seedevicetype();
                       setDeleteoption(!deleteoption);
                       setShowdelete(!showdelete);
+                      setShowInput(false);
                     }}
                   >
                     Delete
@@ -181,12 +204,12 @@ const Navbars = ({
                       width: "93%",
                       height: "34px",
                     }}
-                    ref={devicetype}
+                    ref={deletedevicetype}
                   >
                     <option>Select Your device .....</option>
                     {devicetypes.map((device, index) => (
-                      <option key={index} value={device}>
-                        {device}
+                      <option key={index} value={device[0]}>
+                        {device[0]}
                       </option>
                     ))}
                   </Form.Select>
@@ -210,57 +233,56 @@ const Navbars = ({
                       ))}
                     </Form.Select>
 
-                   
-  <form
-    onSubmit={(e) =>{ 
-      e.preventDefault();
-      labeladd();
-      setTimeout(() => {
-        seedevicetype();
-      }, 500);
-      }
-    }
-      
-  >
-     <div className="p-2 d-flex justify-content-between">
-    <input
-      type="text"
-      className="form-control"
-      id="inlineFormInput"
-      placeholder="Add Your Labels....."
-      style={{
-        width: "80%",
-        height: "34px",
-      }}
-      ref={labelname}
-      required
-      onInvalid={(e) => e.target.setCustomValidity('Please Enter Your Label Name')} 
-  onChange={(e) => e.target.setCustomValidity('')}
-    />
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        labeladd();
+                        setTimeout(() => {
+                          seedevicetype();
+                          setShowInput(false);
+                        }, 500);
+                      }}
+                    >
+                      <div className="p-2 d-flex justify-content-between">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inlineFormInput"
+                          placeholder="Add Your Labels....."
+                          style={{
+                            width: "80%",
+                            height: "34px",
+                          }}
+                          ref={labelname}
+                          required
+                          onInvalid={(e) =>
+                            e.target.setCustomValidity(
+                              "Please Enter Your Label Name"
+                            )
+                          }
+                          onChange={(e) => e.target.setCustomValidity("")}
+                        />
 
-    <button
-      type="submit" 
-      className="btn btn-success px-0 py-0 text-center"
-      style={{
-        textAlign: "center",
-        height: "34px",
-        width: "45px",
-      }}
-    >
-      <i
-        className="bi bi-plus fw-bold"
-        style={{
-          fontSize: "25px",
-          cursor: "pointer",
-          display: "contents",
-        }}
-       
-      ></i>
-    </button>
-    </div>
-  </form>
-
-
+                        <button
+                          type="submit"
+                          className="btn btn-success px-0 py-0 text-center"
+                          style={{
+                            textAlign: "center",
+                            height: "34px",
+                            width: "45px",
+                          }}
+                        >
+                          <i
+                            className="bi bi-plus fw-bold"
+                            style={{
+                              fontSize: "25px",
+                              cursor: "pointer",
+                              display: "contents",
+                            }}
+                          ></i>
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 )}
                 {/* END Logic  for adding input field  */}
@@ -286,7 +308,8 @@ const Navbars = ({
                             cursor: "pointer",
                           }}
                           onClick={() => {
-                            labeldelete(metric);
+                            setTemplebel(metric);
+                            Setlabeltodelete(!labeltodelete);
                           }}
                         ></i>
                       ) : (
@@ -297,7 +320,7 @@ const Navbars = ({
                             role="switch"
                             style={{ fontSize: "20px" }}
                             onChange={(e) =>
-                              handleToggle(`toggle${metric}`, e.target.checked)
+                              handleToggle(metric, e.target.checked)
                             }
                           />
                         </div>
@@ -366,6 +389,9 @@ const Navbars = ({
           <i
             className="img2 bi bi-calendar-week m-3"
             style={{ fontSize: 30 }}
+            onClick={() => {
+              showcalender();
+            }}
           ></i>
 
           <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
@@ -378,6 +404,7 @@ const Navbars = ({
           <i
             className="img5 bi bi-box-arrow-right m-3 "
             style={{ fontSize: 30 }}
+            onClick={islogout}
           ></i>
         </div>
       </div>
@@ -594,6 +621,199 @@ const Navbars = ({
       </div>
 
       {/* SideNavbar End */}
+
+      {/* Logout Modal Start */}
+
+      {logout ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
+              fontSize: "23px",
+              width: "600px",
+              height: "200px",
+            }}
+          >
+            {/* Modal Heading */}
+            <div
+              className="heading d-flex justify-content-between  "
+              style={{ backgroundColor: "#00216e" }}
+            >
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                  color: "white",
+                }}
+              >
+                Log OUT
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30 }}
+                onClick={islogout}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <div style={{ marginLeft: "25px" }}>
+                <p> Are you sure About Logout !</p>
+              </div>
+
+              <div className="d-flex justify-content-end mt-3">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={islogout}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* Logout Modal End */}
+
+      {/* START Delete Label Modal  */}
+      {labeltodelete ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
+              fontSize: "23px",
+              width: "600px",
+              height: "200px",
+            }}
+          >
+            {/* Modal Heading */}
+            <div
+              className="heading d-flex justify-content-between  "
+              style={{ backgroundColor: "#00216e" }}
+            >
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                  color: "white",
+                }}
+              >
+                DELETE Parameter
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30 }}
+                onClick={islogout}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <div style={{ marginLeft: "25px" }}>
+                <p> Hey ! Are you sure to Delete This Parameter ?</p>
+              </div>
+
+              <div className="d-flex justify-content-end mt-3">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    Setlabeltodelete(!labeltodelete);
+                    labeldelete();
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    Setlabeltodelete(!labeltodelete);
+                  }}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* DeleteButton Modal End */}
+
+      {/* START calender Modal  */}
+      {calendershow ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
+              fontSize: "23px",
+              width: "800px",
+              
+            }}
+          >
+            {/* Modal Heading */}
+            <div
+              className="heading d-flex justify-content-between  "
+              style={{ backgroundColor: "#00216e" }}
+            >
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                  color: "white",
+                }}
+              >
+                ADD Your ToDo
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30 }}
+                onClick={() => {
+                  showcalender();
+                }}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* calender Modal End */}
+
+
+
+
+
+
     </>
   );
 };

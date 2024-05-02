@@ -18,24 +18,20 @@ const Usernotification = () => {
   const [completedeviceadd, setCompliteDeviceAdd] = useState(false);
   //context
   const { isSidebarOpen } = useContext(AdminContext);
-
   const [totaluser, setTotalUser] = useState(0);
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
   const [userindex, setUserindex] = useState("");
 
-  const formData = new FormData();
 
   const [data, setData] = useState({
-    password: "",
-    account_nm: "",
-    lat: "",
-    long: "",
+    mobno:9777703470,
     userpic: null,
     userdocs: null,
-    devicename: "",
-    devicetype: "",
-    location_data: [],
+    sensors:null,
+    address:"pipili",
+   
+ 
   });
 
   // all variable fkor account create of a use
@@ -54,9 +50,10 @@ const Usernotification = () => {
   const latlngaccentered = () => {
     setData({
       ...data,
-      lat: userLatitude.current.value,
-      long: userLongitude.current.value,
-      account_nm: AccName.current.value,
+       account_nm: AccName.current.value,
+      lat:parseFloat( userLatitude.current.value),
+      long: parseFloat(userLongitude.current.value),
+     
     });
   };
 
@@ -67,31 +64,20 @@ const Usernotification = () => {
   const devinametypelocentered = () => {
     setData({
       ...data,
-      device_nm: devicename.current.value,
+      devicename: devicename.current.value,
       devicetype: device.current.value,
-      location_data: devicelocation.current.value.split(',').map(value => value.trim()) ,
+      location_data: devicelocation.current.value.split(',').map(value =>parseFloat( value.trim())) ,
     });
   };
 
   const addNweUser = async () => {
-    formData.append("mobno", "9777703470");
-    formData.append("password", data.password);
-    formData.append("account_nm", data.account_nm);
-    formData.append("lat", data.lat);
-    formData.append("long", data.long);
-    formData.append("userpic", "");
-    formData.append("userdocs", "");
-    formData.append("devicename", data.devicename);
-    formData.append("devicetype", data.devicetype);
-    formData.append("location_data",JSON.stringify(data.location_data));
-    formData.append("sensors", "ph,do,orp");
-    formData.append("address", "");
+  
 
     try {
-      console.log(formData);
+      console.log(data);
       const response = await axios.post(
         `http://20.244.51.20:8000/user_create/`,
-        formData
+        data
       );
       console.log(response);
     } catch (error) {

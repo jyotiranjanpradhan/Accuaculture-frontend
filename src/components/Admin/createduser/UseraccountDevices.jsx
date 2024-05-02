@@ -84,7 +84,36 @@ const UseraccountDevices = () => {
   }
   useEffect(() => {
     usersDeviceFetch();
+    seedevicetype();
   },[]);
+
+  //variabvle for add device
+
+  const [devicetypes, setDevicetypes] = useState([]);
+
+  async function seedevicetype() {
+    try {
+      const response = await axios.get(
+        "http://20.244.51.20:8000/devicetype_view/"
+      );
+      setDevicetypes(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+const device =useRef(null);
+const accname=useRef(null);
+const divlocation=useRef(null);
+
+// const data={
+//   deviceee:device.current.value,
+//   accnamee:accname.current.value,
+//   locationnn:divlocation.current.value.split(',').map(value =>parseFloat( value.trim())),
+
+// }
+
+//write api here for add device 
 
   //Here Content can take lat and lng props from backend
   const center = {
@@ -94,12 +123,12 @@ const UseraccountDevices = () => {
 
   //Height and Width for Google Map
   const containerStyle = {
-    width: "900px",
-    height: "100%",
+    width: "613px",
+    height: "99%",
   };
 
-const showStatus = (deviceType,deviceId) =>{
-  navigate(`/createduser/useraccounts/UseraccountDevices/ngxdynamics/${deviceType}/${deviceId}`)
+const showStatus = (deviceType,deviceId,accountid) =>{
+  navigate(`/createduser/useraccounts/UseraccountDevices/ngxdynamics/${accountid}/${deviceType}/${deviceId}`)
 }
 
   return (
@@ -132,7 +161,11 @@ const showStatus = (deviceType,deviceId) =>{
                 fontSize: "20px",
                 cursor: "pointer",
               }}
-              onClick={adddevice}
+              
+              onClick={()=>{
+                
+                adddevice();
+              }}
             >
               New Device
             </p>
@@ -305,7 +338,7 @@ const showStatus = (deviceType,deviceId) =>{
                       textAlign: "cenetr",
                       marginLeft: "8px",
                     }}
-                    onClick={()=>showStatus(data[2],data[0])}
+                    onClick={()=>showStatus(data[2],data[0],accountid)}
                   >
                     Stats
                   </button>
@@ -349,6 +382,7 @@ const showStatus = (deviceType,deviceId) =>{
             >
               <label htnlFor="formGroupExampleInput">Device Name</label>
               <input
+              ref={accname}
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
@@ -371,14 +405,18 @@ const showStatus = (deviceType,deviceId) =>{
                   className="form-select"
                   aria-label="Default select example"
                   style={{ width: "200px" }}
+                  ref={device}
                 >
                   <option selected>select Device Type</option>
-                  <option value="Monitoring">Monitoring</option>
-                  <option value="Gateway">Gateway</option>
-                  <option value="Aeration">Aeration</option>
-                </select>
+                  {devicetypes.map((device, index) => (
+                    <option key={index} value={device[0]}>
+                      {device[0]}
+                    </option>
+                  ))}
+                </select> 
 
                 <input
+                ref={divlocation}
                   type="text"
                   className="form-control"
                   placeholder="Device...."
@@ -521,9 +559,11 @@ const showStatus = (deviceType,deviceId) =>{
                   style={{ width: "200px" }}
                 >
                   <option selected>select Device Type</option>
-                  <option value="Monitoring">Monitoring</option>
-                  <option value="Gateway">Gateway</option>
-                  <option value="Aeration">Aeration</option>
+                  {devicetypes.map((device, index) => (
+                    <option key={index} value={device[0]}>
+                      {device[0]}
+                    </option>
+                  ))}
                 </select>
               </div>
 
