@@ -12,13 +12,13 @@ function App() {
   return (
     <>
       <Router>
-        <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
+        {/* <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
           <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
             <AdminMainPage />
           </LoadScript>
-        </AdminContext.Provider>
+        </AdminContext.Provider> */}
 
-        {/* <Usersmainpage></Usersmainpage> */}
+        <Usersmainpage></Usersmainpage>
       </Router>
     </>
   );

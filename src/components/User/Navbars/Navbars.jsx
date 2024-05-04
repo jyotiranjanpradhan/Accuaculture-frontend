@@ -484,22 +484,63 @@ const fetchProfilepicture = async () => {
       {/* SideNavbar Start */}
 
       <div className="side d-flex  flex-column  ">
-        <img
-          src={profileImage || farmer}
-          alt="farmer"
-          style={{
-            marginLeft: "8px",
-            backgroundColor: "white",
-            height: "38px",
-            width: "39px",
-            marginTop: 20,
-            borderRadius: "50%",
-            padding: "2px",
-            height: "45px",
-            cursor:"pointer"
-          }}
-          onClick={dpUpload}
-        />
+
+      <Dropdown drop="end">
+          <Dropdown.Toggle
+            variant="transparent"
+            style={{ border: "none", height: "40px" }}
+          >
+            <img
+              src={profileImage || farmer}
+              alt="farmer"
+              style={{
+              
+                backgroundColor: "white",
+                height: "38px",
+                width: "39px",
+                marginTop: 20,
+                borderRadius: "50%",
+                padding: "2px",
+                height: "45px",
+                cursor: "pointer",
+                display:'flex'
+              }}
+              // 
+            />
+          </Dropdown.Toggle>
+          <Dropdown.Menu
+            className="dropclass"
+            style={{
+              fontSize: "15px",
+              fontWeight: "500",
+              width: "200px",
+             
+              marginTop:'10px'
+            }}
+          >
+            <div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>ID :</p>
+                <p>{}</p>
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>Name :</p>
+                <p>{}</p>
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>Address :</p>
+                <p>{}</p>
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+              <p onClick={dpUpload}>Update Your Profile Photo  HERE! </p>
+              </div>
+              
+              
+            </div>
+          </Dropdown.Menu>
+        </Dropdown>
+
+       
 
         <div className="logos">
           <img
