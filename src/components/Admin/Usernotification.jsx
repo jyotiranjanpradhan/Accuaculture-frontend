@@ -811,7 +811,6 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                       width: "200px",
                     }}
                   >
-                    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
                       <GoogleMap
                         mapContainerStyle={containerStyle}
                         center={{ lat: latitudes, lng: longitudes }}
@@ -819,7 +818,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                       >
                         {/* Markers go here */}
                       </GoogleMap>
-                    </LoadScript>
+              
                   </div>
                 </>
               ) : null}
@@ -857,7 +856,6 @@ export default Usernotification;
 
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
-    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
@@ -868,6 +866,6 @@ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
           
         />
       </GoogleMap>
-    </LoadScript>
+   
   );
 };
