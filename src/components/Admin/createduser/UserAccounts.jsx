@@ -62,9 +62,17 @@ const UserAccounts = () => {
 
   const deleteAccount=async()=>{
     console.log(tempaccountid);
+    const accountdata={
+      accountid:tempaccountid
+    }
    try {
-    const response= await axios.post(`http://4.188.244.11/account_delete/`,tempaccountid);
+    const response= await axios.post(`http://4.188.244.11/account_delete/`,accountdata);
   console.log(response); 
+  if(response){
+    setTimeout(() => {
+      userAccountFetch();
+    }, 500);
+  }
   } catch (error) {
     console.log(error);
    }

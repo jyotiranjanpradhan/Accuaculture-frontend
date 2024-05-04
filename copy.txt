@@ -1,121 +1,145 @@
-
-
-http://20.244.51.20:8000/devicetype_view/= show all device type
-
-
- 
-
-    
-      {/* START calender Modal  */}
-      {calendershow ? (
+{nextmodel ? (
         <div className="check-model ">
           <div
             className="model"
-            style={{
-              fontSize: "23px",
-              width: "600px",
-              height: "200px",
-            }}
+            style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
-            {/* Modal Heading */}
-            <div
-              className="heading d-flex justify-content-between  "
-              style={{ backgroundColor: "#00216e" }}
-            >
+            <div className="heading d-flex justify-content-between ">
               <p
-                style={{
-                  marginTop: "8px",
-                  marginLeft: "30px",
-                  fontSize: 25,
-                  color: "white",
-                }}
+                style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
               >
-                ADD Your ToDo
+                New User Details
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
-                onClick={setCalendershow(false)}
+                onClick={opennextmodel}
               ></i>
             </div>
-            {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              
-              <FullCalendar
-      plugins={[ dayGridPlugin ]}
-      initialView="dayGridMonth"
-    />
-
-            </div>
-          </div>
-        </div>
-      ) : null}
-      {/* calender Modal End */}
-
-
-
-      {calendershow ? (
-        <div className="check-model ">
-          <div
-            className="model"
-            style={{
-              fontSize: "23px",
-              width: "600px",
-              height: "200px",
-            }}
-          >
-            {/* Modal Heading */}
-            <div
-              className="heading d-flex justify-content-between  "
-              style={{ backgroundColor: "#00216e" }}
-            >
-              <p
-                style={{
-                  marginTop: "8px",
-                  marginLeft: "30px",
-                  fontSize: 25,
-                  color: "white",
-                }}
-              >
-                Log OUT
-              </p>
-              <i
-                class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
-                         onClick={setCalendershow(false)}
-              ></i>
-            </div>
-            {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <p> Are you sure About Logout !</p>
+              <div className="d-flex">
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
+                  {" "}
+                  <img
+                    src={latitude}
+                    style={{ width: "20px", marginBottom: "5px" }}
+                    alt="Latitude logo"
+                  ></img>{" "}
+                  Latitude
+                </label>
+                <label for="formGroupExampleInput">
+                  <img
+                    src={longitude}
+                    style={{
+                      width: "20px",
+                      marginBottom: "5px",
+                      marginRight: "2px",
+                    }}
+                    alt="Longitude logo"
+                  ></img>
+                  Longitude
+                </label>
               </div>
 
-              <div className="d-flex justify-content-end mt-3">
+              <div className="d-flex">
+                <input
+                  ref={userLatitude}
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter Latitude"
+                  style={{ width: "200px" }}
+                ></input>
+
+                <input
+                  ref={userLongitude}
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter Longitude"
+                  style={{ width: "200px", marginLeft: "50px" }}
+                ></input>
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <label for="formGroupExampleInput">
+                  <i
+                    class="bi bi-person-vcard"
+                    style={{ fontSize: "20px", marginRight: "2px" }}
+                  ></i>
+                  Account Name
+                </label>
+                <input
+                  ref={AccName}
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter AccountName"
+                  style={{ width: "200px" }}
+                ></input>
+              </div>
+
+              <div className="d-flex  mt-2">
+                <button
+                  type="button"
+                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "center",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    latlngaccentered();
+                    searchlatlng(
+                      userLatitude.current.value,
+                      userLongitude.current.value
+                    );
+                  }}
+                >
+                  <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
+                  Search
+                </button>
+              </div>
+
+              <div style={{ marginTop: "20px", height: "400px" }}>
+                <GoogleMapdata
+                  containerStyle={containerStyle}
+                  lat={latitudes}
+                  lng={longitudes}
+                />
+              </div>
+
+              <div
+                className="d-flex justify-content-end mt-2 "
+                style={{ padding: "5px" }}
+              >
+                <button
+                  type="button"
+                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    latlngaccentered();
+                    opennextmodel();
+                    latlngaccentered();
+                    opendevicetypemodel();
+                  }}
+                >
+                  Next
+                </button>
                 <button
                   type="button"
                   className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "cenetr",
-                    marginRight: "15px",
+                    marginRight: "25px",
                   }}
+                  onClick={opennextmodel}
                 >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                  onClick={islogout}
-                >
-                  No
+                  Reject
                 </button>
               </div>
             </div>
           </div>
         </div>
       ) : null}
-      {/* Logout Modal End */}

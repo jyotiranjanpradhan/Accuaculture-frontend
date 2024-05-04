@@ -9,15 +9,18 @@ import { Dropdown } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-
+import addgif from "../usersimage/Added.gif";
+import deletesuccess from "../usersimage/deleteanimation.gif";
+import CalendarComponent from "../CalendarComponent ";
+import loadingprofile  from'../usersimage/loading.gif';
 const Navbars = ({
   handleToggle,
   useraccount,
   updateCoordinates,
   setdevice,
 }) => {
+
+  const mobileno="9777703470"
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
@@ -30,8 +33,13 @@ const Navbars = ({
   const [showdelete, setShowdelete] = useState(false);
   //DEVICE DETAILS STORE FOR NAVBAR
   const [devicedetails, setdevicedetails] = useState([]);
+  //Label add animation
+  const [addanimation, setAddanimation] = useState(false);
   // DELETE OPTION FOR LABELS
   const [deleteoption, setDeleteoption] = useState(false);
+  const [deleteanimation, setDeleteAnimation] = useState(false);
+  // Variable for temporary divice id  on each device click
+  const [accid, setaccid] = useState(null);
   //TOTAL LABELS PRESENT TO A ACCOUNT
   const [devicelabels, setdevicelabels] = useState([]);
   // SET FOR TEMPORARY STORE ALL DEVICE LABELS
@@ -42,21 +50,61 @@ const Navbars = ({
   const [templabel, setTemplebel] = useState("");
   //show calender variable
   const [calendershow, setCalendershow] = useState(false);
-const showcalender=()=>{
-  setCalendershow(!calendershow);
+  const showcalender = () => {
+    setCalendershow(!calendershow);
+  };
+//variable for profile picture upload
+const[profilepicaddmodal,setProfilepicaddmodal]=useState(false);
+const dpUpload=()=>{
+  setProfilepicaddmodal(!profilepicaddmodal);
+}
+const[profilepicaddanimation,setProfilepicaddanmation]=useState(false);
+
+const photo=useRef(null)
+
+const profileadd=()=>{
+const profilepicdata={
+  Mobno: mobileno,
+  user_pic:photo.current.files[0]
+}
+console.log(profilepicdata);
+
+
+// add api here 
 }
 
+const [profileImage, setProfileImage] = useState(null);
 
+const fetchProfilepicture = async () => {
+  try {
+    //add api here 
+    const response = await axios.get('api');
+    if(response)
+    setProfileImage(response.data.image);
+  } catch (error) {
+    console.error('Error fetching profile image:', error);
+  } 
+};
+
+
+//no od decie type per user account
   async function seedevicetype() {
     try {
       const response = await axios.get(
-        "http://20.244.51.20:8000/devicetype_view/"
+        `http://20.244.51.20:8000/userside_devicetype/${accid}/`
       );
-      setDevicetypes(response.data.results);
+
+      setDevicetypes(response.data.message);
     } catch (error) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    if (!showInput) {
+      seedevicetype();
+    }
+  }, [showInput]);
 
   const islogout = () => {
     setLogout(!logout);
@@ -65,12 +113,27 @@ const showcalender=()=>{
   //  delete  labels
   const deletedevicetype = useRef(null);
 
-  const labeldelete = () => {
+  const labeldelete = async () => {
     const deletedata = {
+      Mobno: mobileno,
       device_type: deletedevicetype.current.value,
       param: templabel,
     };
-    //write api for delte label here
+    // write API for delete label here
+    try {
+      const response = await axios.post(
+        "http://20.244.51.20:8000/param_delete/",
+        deletedata
+      );
+      if (response) {
+        setDeleteAnimation(!deleteanimation);
+        setTimeout(() => {
+          setDeleteAnimation(false);
+        }, 2500);
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
   //delete modal for delete
   const [labeltodelete, Setlabeltodelete] = useState(false);
@@ -80,7 +143,7 @@ const showcalender=()=>{
   const labelname = useRef(null);
   const labeladd = async () => {
     const newData = {
-      Mobno: "9777703470",
+      Mobno: mobileno,
       device_type: devicetype.current.value,
       param: labelname.current.value,
     };
@@ -91,6 +154,12 @@ const showcalender=()=>{
         newData
       );
       console.log("Response:", response);
+      if (response) {
+        setAddanimation(true);
+        setTimeout(() => {
+          setAddanimation(false);
+        }, 2500);
+      }
     } catch (error) {
       console.log("Error:", error);
     }
@@ -133,6 +202,7 @@ const showcalender=()=>{
   useEffect(() => {
     if (useraccount.items && useraccount.items.length > 0) {
       devicefetch(useraccount.items[0][1]);
+      setaccid(useraccount.items[0][1]);
       devicelabelFetch(useraccount.items[0][1]);
     }
   }, [useraccount]);
@@ -208,8 +278,8 @@ const showcalender=()=>{
                   >
                     <option>Select Your device .....</option>
                     {devicetypes.map((device, index) => (
-                      <option key={index} value={device[0]}>
-                        {device[0]}
+                      <option key={index} value={device}>
+                        {device}
                       </option>
                     ))}
                   </Form.Select>
@@ -227,8 +297,8 @@ const showcalender=()=>{
                     >
                       <option>Select Your device .....</option>
                       {devicetypes.map((device, index) => (
-                        <option key={index} value={device[0]}>
-                          {device[0]}
+                        <option key={index} value={device}>
+                          {device}
                         </option>
                       ))}
                     </Form.Select>
@@ -237,10 +307,10 @@ const showcalender=()=>{
                       onSubmit={(e) => {
                         e.preventDefault();
                         labeladd();
+                        setShowInput(false);
                         setTimeout(() => {
-                          seedevicetype();
-                          setShowInput(false);
-                        }, 500);
+                          devicelabelFetch(accid);
+                        }, 1000);
                       }}
                     >
                       <div className="p-2 d-flex justify-content-between">
@@ -415,7 +485,7 @@ const showcalender=()=>{
 
       <div className="side d-flex  flex-column  ">
         <img
-          src={farmer}
+          src={profileImage || farmer}
           alt="farmer"
           style={{
             marginLeft: "8px",
@@ -426,7 +496,9 @@ const showcalender=()=>{
             borderRadius: "50%",
             padding: "2px",
             height: "45px",
+            cursor:"pointer"
           }}
+          onClick={dpUpload}
         />
 
         <div className="logos">
@@ -455,7 +527,6 @@ const showcalender=()=>{
               {useraccount &&
                 useraccount.items &&
                 useraccount.items.map((data) => {
-                  console.log(data);
                   return (
                     <Dropdown drop="end" key={data[1]}>
                       <Dropdown.Toggle
@@ -487,6 +558,7 @@ const showcalender=()=>{
                           devicefetch(newDeviceId);
                           handleClickAccountDetails(data[2], data[3], data[4]);
                           devicelabelFetch(newDeviceId);
+                          setaccid(data[1]);
                         }}
                       >
                         <div>
@@ -690,6 +762,28 @@ const showcalender=()=>{
       ) : null}
       {/* Logout Modal End */}
 
+      {/* START ADD aNIMATION */}
+      {addanimation ? (
+        <div
+          className="check-model"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>
+            <img
+              src={addgif}
+              alt="successful"
+              style={{ width: "200px", transform: "scale(2)" }}
+            />
+          </div>
+        </div>
+      ) : null}
+      {/* END ADD aNIMATION */}
+
       {/* START Delete Label Modal  */}
       {labeltodelete ? (
         <div className="check-model ">
@@ -718,8 +812,10 @@ const showcalender=()=>{
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
-                onClick={islogout}
+                style={{ fontSize: 30, color: "red" }}
+                onClick={() => {
+                  Setlabeltodelete(false);
+                }}
               ></i>
             </div>
             {/* Modal Content */}
@@ -739,6 +835,9 @@ const showcalender=()=>{
                   onClick={() => {
                     Setlabeltodelete(!labeltodelete);
                     labeldelete();
+                    setTimeout(() => {
+                      devicelabelFetch(accid);
+                    }, 1000);
                   }}
                 >
                   Yes
@@ -763,14 +862,81 @@ const showcalender=()=>{
       ) : null}
       {/* DeleteButton Modal End */}
 
+      {/* START dELETE aNIMATION */}
+      {deleteanimation ? (
+        <div
+          className="check-model"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>
+            <img
+              src={deletesuccess}
+              alt="successful"
+              style={{ width: "200px", transform: "scale(3)" }}
+            />
+          </div>
+        </div>
+      ) : null}
+      {/* END dELETE aNIMATION */}
+
       {/* START calender Modal  */}
       {calendershow ? (
         <div className="check-model ">
           <div
             className="model"
             style={{
+              width: "850px",
+              top: "10px",
+              padding: "10px",
+              marginTop: "20px",
+            }}
+          >
+            {/* Modal Heading */}
+            <div
+              className="heading d-flex justify-content-between  "
+              style={{ backgroundColor: "#00216e" }}
+            >
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                  color: "white",
+                }}
+              >
+                Calender
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30, color: "red" }}
+                onClick={() => {
+                  showcalender();
+                }}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginTop: "30px" }}>
+              <CalendarComponent />
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* calender Modal End */}
+
+
+      {/* Start Profile picture Input Label Modal  */}
+      {profilepicaddmodal ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
               fontSize: "23px",
-              width: "800px",
+              width: "600px",
               
             }}
           >
@@ -787,32 +953,85 @@ const showcalender=()=>{
                   color: "white",
                 }}
               >
-                ADD Your ToDo
+                Upload Your Best One 
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30, color: "red" }}
                 onClick={() => {
-                  showcalender();
+                  dpUpload();
                 }}
               ></i>
             </div>
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-              />
+              <div >
+
+              <i class="bi bi-person-bounding-box d-flex" style={{justifyContent:'center' ,fontSize:90}}></i>
+              <br />
+                <input ref={photo} type="file"  accept=".jpg , .png" />
+              </div>
+
+              <div className="d-flex justify-content-end mt-3 p-2">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    dpUpload();
+                  }}
+                >Cancel
+                 
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={() => {
+                    dpUpload();
+                    setProfilepicaddanmation(true); 
+                    profileadd();
+                  }}
+                >
+                   Upload
+                </button>
+              </div>
             </div>
           </div>
         </div>
       ) : null}
-      {/* calender Modal End */}
+      {/* End Profile picture Input Label Modal*/}
 
 
 
-
-
+      {/* START profile pic upload aNIMATION */}
+      {profilepicaddanimation ? (
+        <div
+          className="check-model"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div>
+            <img
+              src={loadingprofile}
+              alt="successful"
+              className="transparent-background"
+              style={{ width: "200px", transform: "scale(2)"}}
+            />
+          </div>
+        </div>
+      ) : null}
+      {/* END profilepic upload aNIMATION */}
 
     </>
   );

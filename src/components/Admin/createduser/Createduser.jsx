@@ -3,7 +3,12 @@ import "../Adminpage.css";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-import { GoogleMap, LoadScript , Marker, InfoWindow } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  LoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
 
@@ -26,6 +31,7 @@ const Createduser = () => {
   const [createdusererror, setCreatedusdererror] = useState("");
   const [requesteduser, setRequesteduser] = useState([]);
   const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
+  const [usermobno, setUSermobno] = useState("");
 
   const openModels = () => {
     setOpenModel(!openModel);
@@ -83,20 +89,30 @@ const Createduser = () => {
     height: "100%",
   };
 
+  //variable for add account
+  const latt = useRef(null);
+  const lngg = useRef(null);
+  const accname = useRef(null);
 
-//variable for add account 
-const latt=useRef(null);
-const lngg=useRef(null);
-const accname=useRef(null);
+  const addacount = async () => {
+    const userdata = {
+      lat: parseFloat(latt.current.value),
+      long: parseFloat(lngg.current.value),
+      accountname: accname.current.value,
+      address: "pipilibydefault",
+      usermobno: usermobno,
+    };
 
-// const data={
-//   latttt:parseFloat( latt.current.value),
-//   lngggg:parseFloat( lngg.current.value),
-//   accnameee:accname.current.value
-// }
-// write api for add acount
-
-
+    try {
+      const res = await axios.post(
+        `http://20.244.51.20:8000/account_create/`,
+        userdata
+      );
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       {/* Page Start */}
@@ -120,7 +136,7 @@ const accname=useRef(null);
                 borderRadius: "20px",
               }}
             >
-              Total User Requested
+              Total User Accepted
             </p>
           </div>
           <p
@@ -202,7 +218,10 @@ const accname=useRef(null);
                       style={{
                         textAlign: "cenetr",
                       }}
-                      onClick={openModels}
+                      onClick={() => {
+                        openModels();
+                        setUSermobno(data[1]);
+                      }}
                     >
                       Add Account
                     </button>
@@ -310,7 +329,7 @@ const accname=useRef(null);
               <p
                 style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
               >
-                New User Details
+                New Account Details
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
@@ -319,7 +338,7 @@ const accname=useRef(null);
               ></i>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div className="d-flex" style={{height:'49px'}}>
+              <div className="d-flex" style={{ height: "49px" }}>
                 <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   {" "}
                   <img
@@ -342,20 +361,19 @@ const accname=useRef(null);
                   Longitude
                 </label>
 
-                <label for="formGroupExampleInput"style={{ width: "250px" }}>
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   <i
                     class="bi bi-person-vcard"
                     style={{ fontSize: "20px", marginRight: "2px" }}
                   ></i>
                   Account Name
                 </label>
-                
               </div>
 
               <div className="d-flex">
                 <input
-                ref={latt}
-                  type="text"
+                  ref={latt}
+                  type="number"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Latitude"
@@ -363,42 +381,38 @@ const accname=useRef(null);
                 ></input>
 
                 <input
-                ref={lngg}
-                  type="text"
+                  ref={lngg}
+                  type="number"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Longitude"
                   style={{ width: "200px", marginLeft: "50px" }}
                 ></input>
 
-                
-                  <input
+                <input
                   ref={accname}
-                    type="text"
-                    class="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter AccountName"
-                    style={{ width: "200px", marginLeft: "50px" }}
-                  ></input>
-                
-                
-                <button
-                    type="button"
-                    className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                    style={{
-                      textAlign: "center",
-                      marginLeft: "50px" 
-                    }}
-                    onClick={()=>{
-                      searchlatlng(latt.current.value,lngg.current.value)
-                    }}
-                  >
-                    <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
-                    Search
-                  </button>
+                  type="text"
+                  class="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Enter AccountName"
+                  style={{ width: "200px", marginLeft: "50px" }}
+                ></input>
 
+                <button
+                  type="button"
+                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "center",
+                    marginLeft: "50px",
+                  }}
+                  onClick={() => {
+                    searchlatlng(latt.current.value, lngg.current.value);
+                  }}
+                >
+                  <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
+                  Search
+                </button>
               </div>
-         
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
@@ -419,7 +433,10 @@ const accname=useRef(null);
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={() => {}}
+                  onClick={() => {
+                    addacount();
+                    openModels();
+                  }}
                 >
                   Submit
                 </button>

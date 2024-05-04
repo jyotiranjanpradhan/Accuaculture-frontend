@@ -102,16 +102,30 @@ const UseraccountDevices = () => {
     }
   }
 
-const device =useRef(null);
-const accname=useRef(null);
+const devicetype =useRef(null);
+const devicenamee=useRef(null);
 const divlocation=useRef(null);
 
-// const data={
-//   deviceee:device.current.value,
-//   accnamee:accname.current.value,
-//   locationnn:divlocation.current.value.split(',').map(value =>parseFloat( value.trim())),
+const deviceadd=async()=>{
+  const devicedata={
+    devicename:devicenamee.current.value,
+    devicetype:devicetype.current.value,
+    location:divlocation.current.value.split(',').map(value =>parseFloat( value.trim())),
+    accountid:accountid
+  }
+ try {
+   const res=await axios.post(`http://4.188.244.11/device_create/`,devicedata);
+ console.log(res);
+if(res){
+  completlyadddevice();
+  usersDeviceFetch();
 
-// }
+}  
+} catch (error) {
+  console.log(error);
+ }
+}
+
 
 //write api here for add device 
 
@@ -382,7 +396,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
             >
               <label htnlFor="formGroupExampleInput">Device Name</label>
               <input
-              ref={accname}
+              ref={devicenamee}
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
@@ -405,7 +419,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                   className="form-select"
                   aria-label="Default select example"
                   style={{ width: "200px" }}
-                  ref={device}
+                  ref={devicetype}
                 >
                   <option selected>select Device Type</option>
                   {devicetypes.map((device, index) => (
@@ -443,7 +457,10 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                   marginRight: "15px",
                   margin: "10px 15px 10px 0",
                 }}
-                onClick={completlyadddevice}
+                onClick={()=>{
+                  deviceadd();
+                  adddevice();
+                }}
               >
                 Add Device
               </button>

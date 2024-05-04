@@ -22,6 +22,23 @@ const Usernotification = () => {
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
   const [userindex, setUserindex] = useState("");
+// variable for next and previous button
+const itemsPerPage = 5;
+const [currentPage, setCurrentPage] = useState(1);
+
+const handleNextPage = () => {
+  setCurrentPage((prevPage) => prevPage + 1);
+};
+
+const handlePrevPage = () => {
+  setCurrentPage((prevPage) => prevPage - 1);
+};
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
+
+
 
 
   const [data, setData] = useState({
@@ -252,7 +269,7 @@ const Usernotification = () => {
             </thead>
 
             <tbody>
-              {regestereduser.map((data, index) => (
+              {currentItems.map((data, index) => (
                 <tr key={index}>
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[0]}</td>
@@ -315,10 +332,12 @@ const Usernotification = () => {
               backgroundColor: "#5F9EFB",
               color: "white",
             }}
+            disabled={currentPage === 1}
+            onClick={handlePrevPage}
           >
             Previous
           </button>{" "}
-          <p style={{ marginTop: "09px" }}>Page 1 of 1 </p>
+          <p style={{ marginTop: "09px" }}>Page {currentPage} of {Math.ceil(regestereduser.length / itemsPerPage)} </p>
           <button
             type="button"
             className="btn btn-success"
@@ -329,6 +348,8 @@ const Usernotification = () => {
               height: "43px",
               marginLeft: "4px",
             }}
+            disabled={indexOfLastItem >= regestereduser.length}
+            onClick={handleNextPage}
           >
             Next
           </button>
@@ -340,7 +361,7 @@ const Usernotification = () => {
       {/* model Start */}
       {openModel ? (
         <div className="check-model ">
-          <div className="model" style={{ fontSize: "23px", marginTop: "10%" }}>
+          <div className="model" style={{ fontSize: "23px", marginTop: "10%",width:'600px' }}>
             <div className="heading d-flex justify-content-between ">
               <p
                 style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
@@ -417,6 +438,7 @@ const Usernotification = () => {
                     textAlign: "cenetr",
                     marginRight: "25px",
                   }}
+                  onClick={openModels}
                 >
                   Reject
                 </button>
@@ -448,7 +470,7 @@ const Usernotification = () => {
               ></i>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div className="d-flex">
+            <div className="d-flex" style={{ height: "49px" }}>
                 <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   {" "}
                   <img
@@ -458,7 +480,7 @@ const Usernotification = () => {
                   ></img>{" "}
                   Latitude
                 </label>
-                <label for="formGroupExampleInput">
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   <img
                     src={longitude}
                     style={{
@@ -470,12 +492,20 @@ const Usernotification = () => {
                   ></img>
                   Longitude
                 </label>
+
+                <label for="formGroupExampleInput" style={{ width: "250px" }}>
+                  <i
+                    class="bi bi-person-vcard"
+                    style={{ fontSize: "20px", marginRight: "2px" }}
+                  ></i>
+                  Account Name
+                </label>
               </div>
 
               <div className="d-flex">
                 <input
                   ref={userLatitude}
-                  type="text"
+                  type="number"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Latitude"
@@ -484,45 +514,31 @@ const Usernotification = () => {
 
                 <input
                   ref={userLongitude}
-                  type="text"
+                  type="number"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter Longitude"
                   style={{ width: "200px", marginLeft: "50px" }}
                 ></input>
-              </div>
-              <div style={{ marginTop: "20px" }}>
-                <label for="formGroupExampleInput">
-                  <i
-                    class="bi bi-person-vcard"
-                    style={{ fontSize: "20px", marginRight: "2px" }}
-                  ></i>
-                  Account Name
-                </label>
+
                 <input
                   ref={AccName}
                   type="text"
                   class="form-control"
                   id="formGroupExampleInput"
                   placeholder="Enter AccountName"
-                  style={{ width: "200px" }}
+                  style={{ width: "200px", marginLeft: "50px" }}
                 ></input>
-              </div>
 
-              <div className="d-flex  mt-2">
                 <button
                   type="button"
                   className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "center",
-                    marginRight: "15px",
+                    marginLeft: "50px",
                   }}
                   onClick={() => {
-                    latlngaccentered();
-                    searchlatlng(
-                      userLatitude.current.value,
-                      userLongitude.current.value
-                    );
+                    searchlatlng(userLatitude.current.value, userLongitude.current.value);
                   }}
                 >
                   <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
