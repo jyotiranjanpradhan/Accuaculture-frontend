@@ -53,7 +53,22 @@ const Navbars = ({
   const showcalender = () => {
     setCalendershow(!calendershow);
   };
+
 //variable for profile picture upload
+const [selectedImage, setSelectedImage] = useState('');
+const handleImageChange = () => {
+  const file = photo.current.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    setSelectedImage(e.target.result);
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+};
+
 const[profilepicaddmodal,setProfilepicaddmodal]=useState(false);
 const dpUpload=()=>{
   setProfilepicaddmodal(!profilepicaddmodal);
@@ -77,7 +92,7 @@ const [profileImage, setProfileImage] = useState(null);
 
 const fetchProfilepicture = async () => {
   try {
-    //add api here 
+    //add api here by  mobileno
     const response = await axios.get('api');
     if(response)
     setProfileImage(response.data.image);
@@ -1003,6 +1018,7 @@ const fetchProfilepicture = async () => {
                   dpUpload();
                 }}
               ></i>
+             
             </div>
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
@@ -1010,7 +1026,11 @@ const fetchProfilepicture = async () => {
 
               <i class="bi bi-person-bounding-box d-flex" style={{justifyContent:'center' ,fontSize:90}}></i>
               <br />
-                <input ref={photo} type="file"  accept=".jpg , .png" />
+                <input ref={photo} type="file" onChange={handleImageChange}  accept=".jpg , .png" />
+
+                {selectedImage && (
+        <img src={selectedImage} alt="Selected" style={{ maxWidth: '50%', margin:'5px 0 0 3px' }} />
+      )}
               </div>
 
               <div className="d-flex justify-content-end mt-3 p-2">
@@ -1051,7 +1071,7 @@ const fetchProfilepicture = async () => {
 
 
 
-      {/* START profile pic upload aNIMATION */}
+      {/* START profile pic Added aNIMATION */}
       {profilepicaddanimation ? (
         <div
           className="check-model"
