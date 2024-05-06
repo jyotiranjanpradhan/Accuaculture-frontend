@@ -39,13 +39,15 @@ const Navbars = ({
   const [deleteoption, setDeleteoption] = useState(false);
   const [deleteanimation, setDeleteAnimation] = useState(false);
   // Variable for temporary divice id  on each device click
-  const [accid, setaccid] = useState(null);
+  const [accid, setaccid] = useState();
   //TOTAL LABELS PRESENT TO A ACCOUNT
   const [devicelabels, setdevicelabels] = useState([]);
   // SET FOR TEMPORARY STORE ALL DEVICE LABELS
   const uniqueValues = new Set();
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
+  //user details 
+  const[userdetails,setUserdetails]=useState("")
   // temporary labelname
   const [templabel, setTemplebel] = useState("");
   //show calender variable
@@ -114,23 +116,41 @@ const Navbars = ({
   const fetchProfilepicture = async () => {
     try {
       //add api here by  mobileno
-      const response = await axios.get("api");
-      if (response) setProfileImage(response.data.image);
+      const response = await axios.get(`http://20.244.51.20:8000/imageview/${mobileno}/`);
+      console.log(response.data.image);
+      if (response) setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
     } catch (error) {
       console.error("Error fetching profile image:", error);
     }
   };
 
+  
+
+  const fetchuserdetails = async () => {
+    try {
+      //add api here by  mobileno
+      const response = await axios.get(`http://20.244.51.20:8000/user_view/${mobileno}/`);
+      console.log(response);
+      
+    } catch (error) {
+      console.error( error);
+    }
+  };
+
+
+
   //number of device types per user 
   async function seedevicetype() {
     try {
+      if(accid){
       const response = await axios.get(
         `http://20.244.51.20:8000/userside_devicetype/${accid}/`
       );
 
       setDevicetypes(response.data.message);
+      }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -205,6 +225,7 @@ const Navbars = ({
       const response = await axios.get(
         `http://20.244.51.20:8000/userside_device_view/${deviceid}/`
       );
+      
       setdevice(response.data);
       setdevicedetails(response.data);
     } catch (error) {
@@ -238,6 +259,8 @@ const Navbars = ({
       devicefetch(useraccount.items[0][1]);
       setaccid(useraccount.items[0][1]);
       devicelabelFetch(useraccount.items[0][1]);
+      fetchProfilepicture();
+      fetchuserdetails();
     }
   }, [useraccount]);
 

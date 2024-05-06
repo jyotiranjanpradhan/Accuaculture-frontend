@@ -14,13 +14,13 @@ import longitude from "../Constant img/longitude.png";
 
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
-    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+   
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
       ></GoogleMap>
-    </LoadScript>
+
   );
 };
 

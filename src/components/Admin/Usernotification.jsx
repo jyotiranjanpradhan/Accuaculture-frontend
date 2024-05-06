@@ -22,6 +22,12 @@ const Usernotification = () => {
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
   const [userindex, setUserindex] = useState("");
+  const [address, setAddress] = useState('');
+  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude FOR ADD USER
+  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude FOR ADD USER
+  const [latitudesdevice, setlatitudesdevice] = useState(20.2961); // Initial latitude FOR ADD USER
+  const [longitudesdevice, setlongitudesdevice] = useState(85.8245); // Initial longitude FOR ADD USER
+
 // variable for next and previous button
 const itemsPerPage = 5;
 const [currentPage, setCurrentPage] = useState(1);
@@ -42,13 +48,10 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const [data, setData] = useState({
-    mobno:9777703470,
     userpic: null,
     userdocs: null,
     sensors:null,
-    address:"pipili",
-   
- 
+  
   });
 
   // all variable fkor account create of a use
@@ -57,8 +60,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
     setData({ ...data, password: Password.current.value });
   };
 
-  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
-  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
+ 
 
   const userLatitude = useRef(null);
   const userLongitude = useRef(null);
@@ -67,6 +69,8 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
   const latlngaccentered = () => {
     setData({
       ...data,
+      mobno:regestereduser[userindex][1],
+      address:address,
        account_nm: AccName.current.value,
       lat:parseFloat( userLatitude.current.value),
       long: parseFloat(userLongitude.current.value),
@@ -81,18 +85,20 @@ const city=cityname.current.value;
       const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`);
       const data = await response.json();
       const { lat, lng } = data.results[0].geometry.location;
-      searchlatlng( lat, lng );
+      setlatitudesdevice(lat);
+      setlongitudesdevice(lng);
     } catch (error) {
       console.error('Error fetching coordinates:', error);
     }
   };
 
+  const [devicecordinate,setdevicecordinate]=useState('');
 
   const handleMapClick = (e) => {
     const clickedLat = e.latLng.lat();
     const clickedLng = e.latLng.lng();
-    console.log('Clicked Coordinates:', clickedLat, clickedLng);
-    // You can store these coordinates in a variable or state as needed
+    const coordinates = `${clickedLat},${clickedLng}`;
+    setdevicecordinate( coordinates);
   };
 
   const devicename = useRef(null);
@@ -203,6 +209,26 @@ const city=cityname.current.value;
   };
 
 
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const location = { lat: parseFloat(latitudes), lng: parseFloat(longitudes) };
+
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log(results[0].formatted_address);
+          setAddress(results[0].formatted_address);
+        } else {
+          setAddress('Address not found');
+        }
+      } else {
+        setAddress('Geocoder failed due to: ' + status);
+      }
+    });
+  }, [latitudes, longitudes]);
+
+
   return (
     <>
       <div
@@ -311,6 +337,7 @@ const city=cityname.current.value;
                       onClick={() => {
                         setUserindex(index);
                         openModels();
+                    
                       }}
                     >
                       Check
@@ -776,6 +803,7 @@ const city=cityname.current.value;
                 </select>
 
                 <input
+                value={devicecordinate}
                   type="text"
                   class="form-control"
                   placeholder="Device Location...."
@@ -844,13 +872,13 @@ const city=cityname.current.value;
                   >
                       <GoogleMap
                         mapContainerStyle={containerStylefordeviceadd}
-                        center={{ lat: latitudes, lng: longitudes }}
+                        center={{ lat: latitudesdevice, lng: longitudesdevice }}
                         zoom={10}
                         onClick={handleMapClick}
                     
                       >
                        <Marker
-          position={{ lat: parseFloat(latitudes), lng: parseFloat(longitudes) }}
+          position={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
           
         />
                       </GoogleMap>
