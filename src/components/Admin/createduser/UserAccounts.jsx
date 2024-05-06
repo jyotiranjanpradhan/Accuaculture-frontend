@@ -44,6 +44,22 @@ const UserAccounts = () => {
     userAccountFetch();
   }, []);
 
+  // variable for next and previous button
+const itemsPerPage = 5;
+const [currentPage, setCurrentPage] = useState(1);
+
+const handleNextPage = () => {
+  setCurrentPage((prevPage) => prevPage + 1);
+};
+
+const handlePrevPage = () => {
+  setCurrentPage((prevPage) => prevPage - 1);
+};
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
+
   async function accountNameUpdate() {
     const accountbody = {
       accountid: indivisualaccountsid,
@@ -117,11 +133,11 @@ const UserAccounts = () => {
         {/* Table start */}
 
         <div className="parent-div-of-table">
-          <table className="Tablestyle table table-hover table-striped">
+          <table className="table table-bordered table-striped table-hover table-design">
             <thead style={{ backgroundColor: "#7DE1AF" }}>
               <tr>
                 <th
-                  className=""
+                   className="text-center"
                   scope="col"
                   style={{
                     backgroundColor: "#7CDFAD",
@@ -130,14 +146,14 @@ const UserAccounts = () => {
                 >
                   Sl.No
                 </th>
-                <th scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
                   Account ID
                 </th>
-                <th scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
                   Account Name
                 </th>
 
-                <th
+                <th  className="text-center"
                   scope="col"
                   style={{
                     backgroundColor: "#7CDFAD",
@@ -149,12 +165,12 @@ const UserAccounts = () => {
               </tr>
             </thead>
             <tbody>
-              {useraccount.map((data, index) => (
+              {currentItems.map((data, index) => (
                 <tr key={index + 1}>
-                  <td>{index + 1}</td>
-                  <td>{data[1]}</td>
-                  <td>{data[0]}</td>
-                  <td>
+                  <td  className="text-center">{index + 1}</td>
+                  <td className="text-center">{data[1]}</td>
+                  <td className="text-center">{data[0]}</td>
+                  <td className="text-center">
                     <button
                       type="button"
                       className="btn  btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -229,7 +245,7 @@ const UserAccounts = () => {
 
         {/* Redirect Start */}
         <div className="redirects">
-          <button
+        <button
             type="button"
             className="btn "
             style={{
@@ -241,10 +257,12 @@ const UserAccounts = () => {
               backgroundColor: "#5F9EFB",
               color: "white",
             }}
+            disabled={currentPage === 1}
+            onClick={handlePrevPage}
           >
             Previous
           </button>{" "}
-          <p style={{ marginTop: "09px" }}>Page 1 of 1 </p>
+          <p style={{ marginTop: "09px" }}>Page {currentPage} of {Math.ceil(useraccount.length / itemsPerPage)} </p>
           <button
             type="button"
             className="btn btn-success"
@@ -255,6 +273,8 @@ const UserAccounts = () => {
               height: "43px",
               marginLeft: "4px",
             }}
+            disabled={indexOfLastItem >= useraccount.length}
+            onClick={handleNextPage}
           >
             Next
           </button>

@@ -32,6 +32,11 @@ const Createduser = () => {
   const [requesteduser, setRequesteduser] = useState([]);
   const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
   const [usermobno, setUSermobno] = useState("");
+  const [address, setAddress] = useState('');
+  
+  //Here Content can take lat and lng props from backend
+  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
+  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
 
   const openModels = () => {
     setOpenModel(!openModel);
@@ -39,6 +44,23 @@ const Createduser = () => {
   const openDeleteModels = () => {
     setDeleteButton(!deletebutton);
   };
+
+  // variable for next and previous button
+const itemsPerPage = 5;
+const [currentPage, setCurrentPage] = useState(1);
+
+const handleNextPage = () => {
+  setCurrentPage((prevPage) => prevPage + 1);
+};
+
+const handlePrevPage = () => {
+  setCurrentPage((prevPage) => prevPage - 1);
+};
+
+const indexOfLastItem = currentPage * itemsPerPage;
+const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
+
   //context
   const { isSidebarOpen } = useContext(AdminContext);
 
@@ -68,11 +90,23 @@ const Createduser = () => {
 
   useEffect(() => {
     createduserfetch();
-  }, []);
+    const geocoder = new window.google.maps.Geocoder();
+    const location = { lat: parseFloat(latitudes), lng: parseFloat(longitudes) };
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log(results[0].formatted_address);
+          setAddress(results[0].formatted_address);
+        } else {
+          setAddress('Address not found');
+        }
+      } else {
+        setAddress('Geocoder failed due to: ' + status);
+      }
+    });
+  }, [latitudes, longitudes]);
+  
 
-  //Here Content can take lat and lng props from backend
-  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
-  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
 
   function searchlatlng(lats, lngs) {
     setLatitude(
@@ -99,7 +133,7 @@ const Createduser = () => {
       lat: parseFloat(latt.current.value),
       long: parseFloat(lngg.current.value),
       accountname: accname.current.value,
-      address: "pipilibydefault",
+      address: address,
       usermobno: usermobno,
     };
 
@@ -109,6 +143,7 @@ const Createduser = () => {
         userdata
       );
       console.log(res);
+      console.log(userdata);
     } catch (error) {
       console.log(error);
     }
@@ -205,7 +240,7 @@ const Createduser = () => {
               </tr>
             </thead>
             <tbody>
-              {requesteduser.map((data, index) => (
+              {currentItems.map((data, index) => (
                 <tr key={index + 1}>
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[0]}</td>
@@ -296,10 +331,12 @@ const Createduser = () => {
               backgroundColor: "#5F9EFB",
               color: "white",
             }}
+            disabled={currentPage === 1}
+            onClick={handlePrevPage}
           >
             Previous
           </button>{" "}
-          <p style={{ marginTop: "09px" }}>Page 1 of 1 </p>
+          <p style={{ marginTop: "09px" }}>Page {currentPage} of {Math.ceil(requesteduser.length / itemsPerPage)} </p>
           <button
             type="button"
             className="btn btn-success"
@@ -310,6 +347,8 @@ const Createduser = () => {
               height: "43px",
               marginLeft: "4px",
             }}
+            disabled={indexOfLastItem >= requesteduser.length}
+            onClick={handleNextPage}
           >
             Next
           </button>
@@ -410,6 +449,7 @@ const Createduser = () => {
                   }}
                 >
                   <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
+
                   Search
                 </button>
               </div>

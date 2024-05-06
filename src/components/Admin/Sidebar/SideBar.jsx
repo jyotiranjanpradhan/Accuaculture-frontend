@@ -8,6 +8,7 @@ import { AdminContext } from "../../../App";
 
 const Sidebar = () => {
   //for showing logout popup on click of user logo on top navbar
+  const [logouttext,setLogouttext]=useState(false);
   const [logout, setLogout] = useState(false);
 
   //for on and  off of sidebar if sidebar is open show icon with corresponding name if  close only show icon
@@ -16,6 +17,9 @@ const Sidebar = () => {
   // from context api for expand and collapse of content according to sidebar
   const { isSidebarOpen, setIsSidebarOpen } = useContext(AdminContext);
 
+  const tologout=()=>{
+    setLogouttext(!logouttext);
+  }
   const islogout = () => {
     setLogout(!logout);
   };
@@ -38,11 +42,11 @@ const Sidebar = () => {
               alignItems: "center",
               marginRight: "50px",
             }}
-            onClick={islogout}
+            onClick={tologout}
           ></i>
         </div>
         <div className="d-flex justify-content-end ">
-          {logout && (
+          {logouttext && (
             <>
               <div
                 style={{
@@ -62,7 +66,9 @@ const Sidebar = () => {
                     justifyContent: "center",
                     fontSize: 20,
                     fontWeight: "bold",
+                    cursor:'pointer'
                   }}
+                  onClick={islogout}
                 >
                   <i
                     class="bi bi-box-arrow-right"
@@ -71,6 +77,7 @@ const Sidebar = () => {
                       marginRight: "5px",
                       fontSize: 30,
                     }}
+                   
                   ></i>
                   Logout
                 </p>
@@ -321,6 +328,72 @@ const Sidebar = () => {
       )}
 
       {/* End sidebar logic */}
+
+      {logout ? (
+        <div className="check-model ">
+          <div
+            className="model"
+            style={{
+              fontSize: "23px",
+              width: "600px",
+              height: "200px",
+            }}
+          >
+            {/* Modal Heading */}
+            <div
+              className="heading d-flex justify-content-between  "
+              style={{ backgroundColor: "#00216e" }}
+            >
+              <p
+                style={{
+                  marginTop: "8px",
+                  marginLeft: "30px",
+                  fontSize: 25,
+                  color: "white",
+                }}
+              >
+                Log OUT
+              </p>
+              <i
+                class="bi bi-x-octagon cancel-button-modal "
+                style={{ fontSize: 30 }}
+                onClick={islogout}
+              ></i>
+            </div>
+            {/* Modal Content */}
+            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <div style={{ marginLeft: "25px" }}>
+                <p> Are you sure About Logout !</p>
+              </div>
+
+              <div className="d-flex justify-content-end mt-3">
+                <button
+                  type="button"
+                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={islogout}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {/* Logout Modal End */}
     </>
   );
 };

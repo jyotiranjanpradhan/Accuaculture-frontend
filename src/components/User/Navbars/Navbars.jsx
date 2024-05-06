@@ -19,8 +19,7 @@ const Navbars = ({
   updateCoordinates,
   setdevice,
 }) => {
-
-  const mobileno="9777703470"
+  const mobileno = "9777703470";
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
@@ -46,8 +45,8 @@ const Navbars = ({
   const uniqueValues = new Set();
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
-  //user details 
-  const[userdetails,setUserdetails]=useState("")
+  //user details
+  const [userdetails, setUserdetails] = useState("");
   // temporary labelname
   const [templabel, setTemplebel] = useState("");
   //show calender variable
@@ -76,11 +75,11 @@ const Navbars = ({
   const dpUpload = () => {
     setProfilepicaddmodal(!profilepicaddmodal);
   };
-  
+
   const [profilepicaddanimation, setProfilepicaddanimation] = useState(false);
-  
+
   const photo = useRef(null);
-  
+
   const profileadd = async () => {
     if (!photo.current.files[0]) {
       alert("Please select a file.");
@@ -91,66 +90,63 @@ const Navbars = ({
     formData.append("user_pic", photo.current.files[0]);
     formData.append("user_docs", null);
     console.log(formData);
-  
+
     try {
       const response = await axios.post(
         "http://20.244.51.20:8000/user_pic_docs/",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", 
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       console.log(response);
-      
     } catch (error) {
       console.log(error);
-    
-    } 
+    }
   };
-  
 
   const [profileImage, setProfileImage] = useState(null);
 
   const fetchProfilepicture = async () => {
     try {
       //add api here by  mobileno
-      const response = await axios.get(`http://20.244.51.20:8000/imageview/${mobileno}/`);
+      const response = await axios.get(
+        `http://20.244.51.20:8000/imageview/${mobileno}/`
+      );
       console.log(response.data.image);
-      if (response) setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
+      if (response)
+        setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
     } catch (error) {
       console.error("Error fetching profile image:", error);
     }
   };
 
-  
-
   const fetchuserdetails = async () => {
     try {
       //add api here by  mobileno
-      const response = await axios.get(`http://20.244.51.20:8000/user_view/${mobileno}/`);
+      const response = await axios.get(
+        `http://20.244.51.20:8000/user_view/${mobileno}/`
+      );
       console.log(response);
-      
     } catch (error) {
-      console.error( error);
+      console.error(error);
     }
   };
 
-
-
-  //number of device types per user 
+  //number of device types per user
   async function seedevicetype() {
     try {
-      if(accid){
-      const response = await axios.get(
-        `http://20.244.51.20:8000/userside_devicetype/${accid}/`
-      );
+      if (accid) {
+        const response = await axios.get(
+          `http://20.244.51.20:8000/userside_devicetype/${accid}/`
+        );
 
-      setDevicetypes(response.data.message);
+        setDevicetypes(response.data.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -225,7 +221,7 @@ const Navbars = ({
       const response = await axios.get(
         `http://20.244.51.20:8000/userside_device_view/${deviceid}/`
       );
-      
+
       setdevice(response.data);
       setdevicedetails(response.data);
     } catch (error) {

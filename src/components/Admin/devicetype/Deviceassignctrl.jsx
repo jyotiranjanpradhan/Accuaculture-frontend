@@ -305,30 +305,34 @@ const Deviceassignctrl = () => {
       <div
         style={{
           marginLeft: isSidebarOpen ? "280px" : "110px",
+        
           marginTop: "7px",
         }}
       >
         {/* Table  start */}
 
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-around">
           <div
             className="table1"
             style={{
-              width: "600px",
+              width: "45%",
               border: "1px solid",
               borderRadius: "10px",
               marginTop: "20px",
-              width: "50%",
+              maxHeight:"900px",
+              
+              overflowY:'scroll'
+              
             }}
           >
-            <p style={{ fontSize: 30, fontWeight: "bold" }}>
+            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft:'30px' }}>
               Assigned Controls
             </p>
-            <table className="table table-striped table-hover ">
+            <table className="table table-bordered table-striped table-hover table-design ">
               <thead>
                 <tr>
-                  <th scope="col">Control Name</th>
-                  <th scope="col">Actions</th>
+                  <th className="text-center" scope="col">Control Name</th>
+                  <th className="text-center" scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -336,8 +340,8 @@ const Deviceassignctrl = () => {
                   if (data.button) {
                     return (
                       <tr key={index}>
-                        <td>{data.button.display_name}</td>
-                        <td>
+                        <td className="text-center">{data.button.display_name}</td>
+                        <td className="text-center">
                           <button
                             type="button"
                             className="btn btn-warning"
@@ -381,9 +385,9 @@ const Deviceassignctrl = () => {
                     // Use else if here
                     return (
                       <tr key={index}>
-                        <td>{data.slider.display_name}</td>
-                        {/* Changed "grapp" to "Graph" for clarity */}
-                        <td>
+                        <td className="text-center">{data.slider.display_name}</td>
+                     
+                        <td className="text-center">
                           <button
                             type="button"
                             className="btn btn-warning"
@@ -425,9 +429,9 @@ const Deviceassignctrl = () => {
                    
                     return (
                       <tr key={index}>
-                        <td>{data.graph.display_name}</td>
+                        <td className="text-center">{data.graph.display_name}</td>
                       
-                        <td>
+                        <td className="text-center">
                           <button
                             type="button"
                             className="btn btn-warning"
@@ -547,29 +551,31 @@ const Deviceassignctrl = () => {
           <div
             className="table2"
             style={{
-              width: "50%",
+              width: "45%",
+              height:'360px',
               border: "1px solid",
               borderRadius: "10px",
               margin: "20px 10px 0 10px",
             }}
           >
-            <p style={{ fontSize: 30, fontWeight: "bold" }}>
+            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft:'30px' }}>
               Available Controls
             </p>
-            <table className="table table-striped table-hover ">
+            <table className="table table-bordered table-striped table-hover table-design ">
               <thead>
                 <tr>
-                  <th scope="col">Control Name</th>
-                  <th scope="col">Actions</th>
+                  <th className="text-center" scope="col">Control Name</th>
+                  <th  className="text-center" scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>On Off Button</td>
-                  <td>
+                  <td className="text-center">On Off Button</td>
+                  <td className="text-center">
                     <button
+                    
                       type="button"
-                      className="btn btn-success"
+                      className="btn btn-success "
                       style={{
                         borderRadius: "16px",
                         fontSize: "20px",
@@ -582,8 +588,8 @@ const Deviceassignctrl = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td>Slider Input</td>
-                  <td>
+                  <td className="text-center">Slider Input</td>
+                  <td className="text-center">
                     <button
                       type="button"
                       className="btn btn-success"
@@ -600,8 +606,8 @@ const Deviceassignctrl = () => {
                 </tr>
 
                 <tr>
-                  <td>Line Graph</td>
-                  <td>
+                  <td className="text-center">Line Graph</td>
+                  <td className="text-center">
                     <button
                       type="button"
                       className="btn btn-success"

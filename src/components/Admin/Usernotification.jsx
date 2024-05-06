@@ -54,7 +54,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
   
   });
 
-  // all variable fkor account create of a use
+  // all variable fkor account create of a user
   const Password = useRef(null);
   const passwordenterrd = () => {
     setData({ ...data, password: Password.current.value });
@@ -78,6 +78,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
     });
   };
 
+  //  varible for add device for a user
 const cityname=useRef(null);
   const handleSearch = async () => {
 const city=cityname.current.value;
