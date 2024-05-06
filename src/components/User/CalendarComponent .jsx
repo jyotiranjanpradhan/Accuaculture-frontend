@@ -1,51 +1,84 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap"; // Assuming you are using Bootstrap for styling
 
 const CalendarComponent = () => {
-  const [events, setEvents] = useState([{}]);
+  const [events, setEvents] = useState([{ id: "fsfsf123", title: "fsfdsfds", date: "2024-05-04" }]);
   const [showModal, setShowModal] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [eventtodelete, Seteventtodelete] = useState(false);
   const [eventid, setEventid] = useState("");
 
+
+
+  const allevents=async()=>{
+try {
+  const response = await axios.get("http://20.244.51.20:8000/calender_view/9777703470");
+  console.log(response);
+} catch (error) {
+  console.log(error);
+}
+  }
+
   const handleDateClick = (arg) => {
     setSelectedDate(arg.dateStr);
-    console.log(arg.dateStr);
+ 
     setShowModal(true);
   };
 
   const handelDelete = (arg) => {
     setEventid(arg.event._def.publicId);
-    Seteventtodelete(!eventtodelete)
+    Seteventtodelete(!eventtodelete);
   };
-  const deleteEvent = () => {
+  const deleteEvent =async () => {
     const deleteeventdata = {
       Message_id: eventid,
     };
-     // Api for delete  and update events
+
+   try {
+     const response = await axios.post(
+       "http://20.244.51.20:8000/calender_delete/",
+       deleteeventdata
+     );
+     console.log(response);
+   } catch (error) {
+    console.log(error);
+   }
   };
 
   const generateUniqueId = () => {
     return Math.random().toString(36).substring(2) + Date.now().toString(36);
   };
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     const newEvent = {
-      Mobno:9777703470,
+      Mobno: 9777703470,
       Message_id: generateUniqueId() + (events.length + 1),
       Message: eventTitle,
       date: selectedDate,
     };
 
-//Add api Here tO poat event
-   
-    setShowModal(false);
     console.log(newEvent);
+   try {
+     const response = await axios.post(
+       "http://20.244.51.20:8000/calender_create/",
+       newEvent
+     );
+     console.log(response);
+   } catch (error) {
+    console.log(error);
+   }
+
+    setShowModal(false);
+    
   };
+  useEffect(()=>{
+    allevents();
+  },[])
 
   return (
     <>
@@ -138,7 +171,8 @@ const CalendarComponent = () => {
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={() => {deleteEvent();
+                  onClick={() => {
+                    deleteEvent();
                     Seteventtodelete(false);
                   }}
                 >

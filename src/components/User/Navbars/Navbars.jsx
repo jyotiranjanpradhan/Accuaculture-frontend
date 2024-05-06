@@ -12,15 +12,14 @@ import axios from "axios";
 import addgif from "../usersimage/Added.gif";
 import deletesuccess from "../usersimage/deleteanimation.gif";
 import CalendarComponent from "../CalendarComponent ";
-import loadingprofile  from'../usersimage/loading.gif';
+import loadingprofile from "../usersimage/loading.gif";
 const Navbars = ({
   handleToggle,
   useraccount,
   updateCoordinates,
   setdevice,
 }) => {
-
-  const mobileno="9777703470"
+  const mobileno = "9777703470";
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
@@ -54,55 +53,74 @@ const Navbars = ({
     setCalendershow(!calendershow);
   };
 
-//variable for profile picture upload
-const [selectedImage, setSelectedImage] = useState('');
-const handleImageChange = () => {
-  const file = photo.current.files[0];
-  const reader = new FileReader();
+  //variable for profile picture upload
+  const [selectedImage, setSelectedImage] = useState("");
+  const handleImageChange = () => {
+    const file = photo.current.files[0];
+    const reader = new FileReader();
 
-  reader.onload = (e) => {
-    setSelectedImage(e.target.result);
+    reader.onload = (e) => {
+      setSelectedImage(e.target.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
-  if (file) {
-    reader.readAsDataURL(file);
-  }
-};
+  const [profilepicaddmodal, setProfilepicaddmodal] = useState(false);
 
-const[profilepicaddmodal,setProfilepicaddmodal]=useState(false);
-const dpUpload=()=>{
-  setProfilepicaddmodal(!profilepicaddmodal);
-}
-const[profilepicaddanimation,setProfilepicaddanmation]=useState(false);
+  const dpUpload = () => {
+    setProfilepicaddmodal(!profilepicaddmodal);
+  };
+  
+  const [profilepicaddanimation, setProfilepicaddanimation] = useState(false);
+  
+  const photo = useRef(null);
+  
+  const profileadd = async () => {
+    if (!photo.current.files[0]) {
+      alert("Please select a file.");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("Mobno", mobileno);
+    formData.append("user_pic", photo.current.files[0]);
+    formData.append("user_docs", null);
+    console.log(formData);
+  
+    try {
+      const response = await axios.post(
+        "http://20.244.51.20:8000/user_pic_docs/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        }
+      );
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error);
+    
+    } 
+  };
+  
 
-const photo=useRef(null)
+  const [profileImage, setProfileImage] = useState(null);
 
-const profileadd=()=>{
-const profilepicdata={
-  Mobno: mobileno,
-  user_pic:photo.current.files[0]
-}
-console.log(profilepicdata);
+  const fetchProfilepicture = async () => {
+    try {
+      //add api here by  mobileno
+      const response = await axios.get("api");
+      if (response) setProfileImage(response.data.image);
+    } catch (error) {
+      console.error("Error fetching profile image:", error);
+    }
+  };
 
-
-// add api here 
-}
-
-const [profileImage, setProfileImage] = useState(null);
-
-const fetchProfilepicture = async () => {
-  try {
-    //add api here by  mobileno
-    const response = await axios.get('api');
-    if(response)
-    setProfileImage(response.data.image);
-  } catch (error) {
-    console.error('Error fetching profile image:', error);
-  } 
-};
-
-
-//no od decie type per user account
+  //number of device types per user 
   async function seedevicetype() {
     try {
       const response = await axios.get(
@@ -134,7 +152,7 @@ const fetchProfilepicture = async () => {
       device_type: deletedevicetype.current.value,
       param: templabel,
     };
-    // write API for delete label here
+
     try {
       const response = await axios.post(
         "http://20.244.51.20:8000/param_delete/",
@@ -153,7 +171,7 @@ const fetchProfilepicture = async () => {
   //delete modal for delete
   const [labeltodelete, Setlabeltodelete] = useState(false);
 
-  //Add labels
+  //Add labels to device
   const devicetype = useRef(null);
   const labelname = useRef(null);
   const labeladd = async () => {
@@ -198,7 +216,7 @@ const fetchProfilepicture = async () => {
     updateCoordinates(latitude, longitude, address);
   };
 
-  // HOW MANTY LABELS PRESENT IN A DEVICE
+  // HOW MANY LABELS PRESENT IN A DEVICE
   async function devicelabelFetch(deviceid) {
     try {
       const response = await axios.get(
@@ -499,8 +517,7 @@ const fetchProfilepicture = async () => {
       {/* SideNavbar Start */}
 
       <div className="side d-flex  flex-column  ">
-
-      <Dropdown drop="end">
+        <Dropdown drop="end">
           <Dropdown.Toggle
             variant="transparent"
             style={{ border: "none", height: "40px" }}
@@ -509,7 +526,6 @@ const fetchProfilepicture = async () => {
               src={profileImage || farmer}
               alt="farmer"
               style={{
-              
                 backgroundColor: "white",
                 height: "38px",
                 width: "39px",
@@ -518,9 +534,9 @@ const fetchProfilepicture = async () => {
                 padding: "2px",
                 height: "45px",
                 cursor: "pointer",
-                display:'flex'
+                display: "flex",
               }}
-              // 
+              //
             />
           </Dropdown.Toggle>
           <Dropdown.Menu
@@ -529,8 +545,8 @@ const fetchProfilepicture = async () => {
               fontSize: "15px",
               fontWeight: "500",
               width: "200px",
-             
-              marginTop:'10px'
+
+              marginTop: "10px",
             }}
           >
             <div>
@@ -547,15 +563,11 @@ const fetchProfilepicture = async () => {
                 <p>{}</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
-              <p onClick={dpUpload}>Update Your Profile Photo  HERE! </p>
+                <p onClick={dpUpload}>Update Your Profile Photo HERE! </p>
               </div>
-              
-              
             </div>
           </Dropdown.Menu>
         </Dropdown>
-
-       
 
         <div className="logos">
           <img
@@ -984,7 +996,6 @@ const fetchProfilepicture = async () => {
       ) : null}
       {/* calender Modal End */}
 
-
       {/* Start Profile picture Input Label Modal  */}
       {profilepicaddmodal ? (
         <div className="check-model ">
@@ -993,7 +1004,6 @@ const fetchProfilepicture = async () => {
             style={{
               fontSize: "23px",
               width: "600px",
-              
             }}
           >
             {/* Modal Heading */}
@@ -1009,7 +1019,7 @@ const fetchProfilepicture = async () => {
                   color: "white",
                 }}
               >
-                Upload Your Best One 
+                Upload Your Best One
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
@@ -1018,19 +1028,29 @@ const fetchProfilepicture = async () => {
                   dpUpload();
                 }}
               ></i>
-             
             </div>
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div >
-
-              <i class="bi bi-person-bounding-box d-flex" style={{justifyContent:'center' ,fontSize:90}}></i>
-              <br />
-                <input ref={photo} type="file" onChange={handleImageChange}  accept=".jpg , .png" />
+              <div>
+                <i
+                  class="bi bi-person-bounding-box d-flex"
+                  style={{ justifyContent: "center", fontSize: 90 }}
+                ></i>
+                <br />
+                <input
+                  ref={photo}
+                  type="file"
+                  onChange={handleImageChange}
+                  accept=".jpg , .png"
+                />
 
                 {selectedImage && (
-        <img src={selectedImage} alt="Selected" style={{ maxWidth: '50%', margin:'5px 0 0 3px' }} />
-      )}
+                  <img
+                    src={selectedImage}
+                    alt="Selected"
+                    style={{ maxWidth: "50%", margin: "5px 0 0 3px" }}
+                  />
+                )}
               </div>
 
               <div className="d-flex justify-content-end mt-3 p-2">
@@ -1044,8 +1064,8 @@ const fetchProfilepicture = async () => {
                   onClick={() => {
                     dpUpload();
                   }}
-                >Cancel
-                 
+                >
+                  Cancel
                 </button>
                 <button
                   type="button"
@@ -1056,11 +1076,11 @@ const fetchProfilepicture = async () => {
                   }}
                   onClick={() => {
                     dpUpload();
-                    setProfilepicaddanmation(true); 
+                    setProfilepicaddanimation(true);
                     profileadd();
                   }}
                 >
-                   Upload
+                  Upload
                 </button>
               </div>
             </div>
@@ -1068,8 +1088,6 @@ const fetchProfilepicture = async () => {
         </div>
       ) : null}
       {/* End Profile picture Input Label Modal*/}
-
-
 
       {/* START profile pic Added aNIMATION */}
       {profilepicaddanimation ? (
@@ -1087,13 +1105,12 @@ const fetchProfilepicture = async () => {
               src={loadingprofile}
               alt="successful"
               className="transparent-background"
-              style={{ width: "200px", transform: "scale(2)"}}
+              style={{ width: "200px", transform: "scale(2)" }}
             />
           </div>
         </div>
       ) : null}
       {/* END profilepic upload aNIMATION */}
-
     </>
   );
 };

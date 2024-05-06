@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import latitude from "./Constant img/latitude.png";
 import longitude from "./Constant img/longitude.png";
 import "./Adminpage.css";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap,  Marker } from "@react-google-maps/api";
 import success from "./Constant img/success.gif";
 import { AdminContext } from "../../App";
 import axios from "axios";
@@ -72,6 +72,27 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
       long: parseFloat(userLongitude.current.value),
      
     });
+  };
+
+const cityname=useRef(null);
+  const handleSearch = async () => {
+const city=cityname.current.value;
+    try {
+      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`);
+      const data = await response.json();
+      const { lat, lng } = data.results[0].geometry.location;
+      searchlatlng( lat, lng );
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+    }
+  };
+
+
+  const handleMapClick = (e) => {
+    const clickedLat = e.latLng.lat();
+    const clickedLng = e.latLng.lng();
+    console.log('Clicked Coordinates:', clickedLat, clickedLng);
+    // You can store these coordinates in a variable or state as needed
   };
 
   const devicename = useRef(null);
@@ -172,10 +193,15 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
   }
 
   //Height and Width for Google Map
-  const containerStyle = {
+  const containerStyleforaccontadd = {
     width: "900px",
     height: "100%",
   };
+  const containerStylefordeviceadd = {
+    width: "610px",
+    height: "100%",
+  };
+
 
   return (
     <>
@@ -548,7 +574,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
-                  containerStyle={containerStyle}
+                  containerStyle={containerStyleforaccontadd}
                   lat={latitudes}
                   lng={longitudes}
                 />
@@ -702,7 +728,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device List</p>
+              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
@@ -789,6 +815,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                 <>
                   <div className="d-flex">
                     <input
+                    ref={cityname}
                       class="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
@@ -799,7 +826,11 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                       class="btn btn-outline-success my-2 my-sm-0"
                       type="submit"
                       style={{ marginLeft: "10px" }}
+                      onClick={()=>{
+                        handleSearch();
+                      }}
                     >
+
                       Search
                     </button>
                   </div>
@@ -812,11 +843,16 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                     }}
                   >
                       <GoogleMap
-                        mapContainerStyle={containerStyle}
+                        mapContainerStyle={containerStylefordeviceadd}
                         center={{ lat: latitudes, lng: longitudes }}
                         zoom={10}
+                        onClick={handleMapClick}
+                    
                       >
-                        {/* Markers go here */}
+                       <Marker
+          position={{ lat: parseFloat(latitudes), lng: parseFloat(longitudes) }}
+          
+        />
                       </GoogleMap>
               
                   </div>
