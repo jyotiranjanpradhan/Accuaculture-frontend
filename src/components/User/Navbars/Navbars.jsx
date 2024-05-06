@@ -19,7 +19,8 @@ const Navbars = ({
   updateCoordinates,
   setdevice,
 }) => {
-  const mobileno = "9777703470";
+
+  const mobileno="9777703470"
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
