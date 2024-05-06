@@ -14,11 +14,11 @@ function App() {
       <Router>
         <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
           <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-            <AdminMainPage />
+            {/* <AdminMainPage /> */}
           </LoadScript>
         </AdminContext.Provider>
 
-        {/* <Usersmainpage></Usersmainpage> */}
+        <Usersmainpage></Usersmainpage>
       </Router>
     </>
   );

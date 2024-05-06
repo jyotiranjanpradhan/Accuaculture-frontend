@@ -9,11 +9,20 @@ import mappin from "../usersimage/map-pin.png";
 import { GoogleMap, LoadScript,Marker ,InfoWindow } from "@react-google-maps/api";
 import Chartbox from "../Chartbox";
 import { useJsApiLoader } from '@react-google-maps/api';
+import mqtt from 'mqtt';
 
 const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
   const [activeMarker, setActiveMarker] = useState(null);
+  
+
+
 
   const center = lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng) } : { lat: 0, lng: 0 };
+
+  
+
+
+
 
   const handleMarkerHover = (marker) => {
     setActiveMarker(marker);
@@ -78,6 +87,47 @@ const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
 };
 const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
   const [wdata, setWdata] = useState(null);
+  const [client, setClient] = useState(null);
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const mqttClient = mqtt.connect({
+      hostname: '4.240.114.7',
+      port: 9001,
+      protocol: 'ws',
+      username: 'BarifloLabs',
+      password: 'Bfl@123'
+    });
+
+    setClient(mqttClient);
+
+    mqttClient.on('connect', () => {
+      console.log('Connected to MQTT broker');
+        // mqttClient.subscribe(`${542484815423712}/data`);
+        // mqttClient.subscribe(`${578689832956829}/data`);
+        // mqttClient.subscribe(`${372582595849208}/data`);
+      devicesofaUser.forEach(device => {
+        const deviceId = device[1];
+        // console.log(deviceId);
+        mqttClient.subscribe(`${deviceId}/data`);
+      });
+    });
+
+    mqttClient.on('message', (topic,payload) => {
+      const data = JSON.parse(payload.toString());
+      console.log(data);
+      setChartData(data)
+      // console.log(chartData);
+    })
+
+    return () => {
+      if (mqttClient) {
+        mqttClient.end();
+        console.log('Disconnected from MQTT broker');
+      }
+    };
+   
+  }, []);
 
   let center = {
     lat: oneaccountdata.latitude,
@@ -111,6 +161,9 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
 
     weatherData({ lat: center.lat, lng: center.lng });
   }, [center.lat, center.lng]);
+
+
+ 
 
   return (
     <>
@@ -166,7 +219,7 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
       <div className="chartcontainer">
         <div style={{ padding: "8px" }}>
           {Object.keys(toggleStates).map((metric) => (
-            toggleStates[metric] && <Chartbox key={metric} metric={metric} />
+            toggleStates[metric] && <Chartbox key={metric} metric={metric} data={chartData}/>
           ))}
         </div>
       </div>
