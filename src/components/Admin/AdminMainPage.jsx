@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SideBar from "./Sidebar/SideBar";
 import Footer from "./footer/Footer";
 import Usernotification from "./Usernotification";
@@ -17,9 +17,9 @@ const AdminMainPage = () => {
     <div >
   
       <SideBar />
+    
       <Routes>
-      <Route path="/" element={<Usernotification/>} />
-
+        <Route path="/" element={<Usernotification/>} />
         <Route path="/createduser" element={<Createduser/>}/>
         <Route path="/createduser/useraccounts/:mob" element={<UserAccounts/>}/>
         <Route path="/createduser/useraccounts/UseraccountDevices/:accountid" element={<UseraccountDevices/>}/>
@@ -27,10 +27,11 @@ const AdminMainPage = () => {
         <Route path="/devicetypecreate" element={<Devicetypecreate />} />
         <Route path="/devicetypecreate/deviceassignctrls/:devicename/:version" element={<Deviceassignctrl/>} />
         <Route path="/createduser/useraccounts/UseraccountDevices/ngxdynamics/:accountid/:deviceType/:deviceId" element={<NgxDynamic/>} />
-        < Route  path="/ocr" element={<Ocr/>}/>
+        <Route  path="/ocr" element={<Ocr/>}/>
         <Route path="/thermal" element={<Thermal/>}/>
         
       </Routes>
+      
       <Footer />
       
       

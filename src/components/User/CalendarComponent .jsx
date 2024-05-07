@@ -6,7 +6,7 @@ import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap"; // Assuming you are using Bootstrap for styling
 
 const CalendarComponent = () => {
-  const [events, setEvents] = useState([{ id: "fsfsf123", title: "fsfdsfds", date: "2024-05-04" }]);
+  const [events, setEvents] = useState([{ id: "", title: "", date: "" }]);
   const [showModal, setShowModal] = useState(false);
   const [eventTitle, setEventTitle] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
@@ -17,8 +17,16 @@ const CalendarComponent = () => {
 
   const allevents=async()=>{
 try {
-  const response = await axios.get("http://20.244.51.20:8000/calender_view/9777703470");
-  console.log(response);
+  const response = await axios.get("http://20.244.51.146:8000/calender_view/9777703470/");
+  console.log(response.data.message);
+  if(response){
+    const updatedEvents = response.data.message.map((messageArray) => ({
+      id: messageArray[1], // Assuming messageArray[1] is the message id
+      title: messageArray[2], // Assuming messageArray[2] is the message
+      date: messageArray[0], // Assuming messageArray[0] is the date
+    }));
+    setEvents(updatedEvents);
+  }
 } catch (error) {
   console.log(error);
 }
@@ -29,6 +37,8 @@ try {
  
     setShowModal(true);
   };
+
+ 
 
   const handelDelete = (arg) => {
     setEventid(arg.event._def.publicId);
@@ -41,9 +51,12 @@ try {
 
    try {
      const response = await axios.post(
-       "http://20.244.51.20:8000/calender_delete/",
+       "http://20.244.51.146:8000/calender_delete/",
        deleteeventdata
      );
+     if(response){
+      allevents();
+     }
      console.log(response);
    } catch (error) {
     console.log(error);
@@ -65,10 +78,12 @@ try {
     console.log(newEvent);
    try {
      const response = await axios.post(
-       "http://20.244.51.20:8000/calender_create/",
+       "http://20.244.51.146:8000/calender_create/",
        newEvent
      );
      console.log(response);
+     if(response)
+     allevents();
    } catch (error) {
     console.log(error);
    }

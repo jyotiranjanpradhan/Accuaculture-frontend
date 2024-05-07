@@ -102,6 +102,14 @@ const Navbars = ({
         }
       );
       console.log(response);
+      if(response){
+        setProfilepicaddanimation(true);
+        setTimeout(() => {
+          setProfilepicaddanimation(false);
+          fetchProfilepicture();
+        }, 2000);
+      }
+      
     } catch (error) {
       console.log(error);
     }
@@ -571,19 +579,20 @@ const Navbars = ({
           >
             <div>
               <div className="d-flex flex-row justify-content-between p-2">
-                <p>ID :</p>
+              <p>Name :</p>
+                <p>{}</p>
+               
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>Mob : </p>
+                <p>{mobileno}</p>
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>Adhar-No.:</p>
                 <p>{}</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
-                <p>Name :</p>
-                <p>{}</p>
-              </div>
-              <div className="d-flex flex-row justify-content-between p-2">
-                <p>Address :</p>
-                <p>{}</p>
-              </div>
-              <div className="d-flex flex-row justify-content-between p-2">
-                <p onClick={dpUpload}>Update Your Profile Photo HERE! </p>
+                <p  style={{cursor:'pointer'}} onClick={dpUpload}>Update Your Profile Photo HERE! </p>
               </div>
             </div>
           </Dropdown.Menu>
@@ -1096,7 +1105,6 @@ const Navbars = ({
                   }}
                   onClick={() => {
                     dpUpload();
-                    setProfilepicaddanimation(true);
                     profileadd();
                   }}
                 >
