@@ -14,17 +14,16 @@ import longitude from "../Constant img/longitude.png";
 
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
-   
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-        zoom={15}
-      ></GoogleMap>
-
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+      zoom={15}
+    ></GoogleMap>
   );
 };
 
 const Createduser = () => {
+  const admin_id = localStorage.getItem("admin_id");
   const [openModel, setOpenModel] = useState(false);
   const [deletebutton, setDeleteButton] = useState(false);
   const [totaluserrequested, setTotaluserrequested] = useState(0);
@@ -32,8 +31,8 @@ const Createduser = () => {
   const [requesteduser, setRequesteduser] = useState([]);
   const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
   const [usermobno, setUSermobno] = useState("");
-  const [address, setAddress] = useState('');
-  
+  const [address, setAddress] = useState("");
+
   //Here Content can take lat and lng props from backend
   const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
   const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
@@ -46,20 +45,20 @@ const Createduser = () => {
   };
 
   // variable for next and previous button
-const itemsPerPage = 5;
-const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
 
-const handleNextPage = () => {
-  setCurrentPage((prevPage) => prevPage + 1);
-};
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
-const handlePrevPage = () => {
-  setCurrentPage((prevPage) => prevPage - 1);
-};
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
 
-const indexOfLastItem = currentPage * itemsPerPage;
-const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
 
   //context
   const { isSidebarOpen } = useContext(AdminContext);
@@ -67,7 +66,7 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
   const createduserfetch = async () => {
     try {
       const response = await axios.get(
-        "http://4.188.244.11/user_view/9777171033/"
+        `http://4.188.244.11/user_view/${admin_id}/`
       );
       setTotaluserrequested(response.data.items.length);
       setRequesteduser(response.data.items);
@@ -91,22 +90,23 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
   useEffect(() => {
     createduserfetch();
     const geocoder = new window.google.maps.Geocoder();
-    const location = { lat: parseFloat(latitudes), lng: parseFloat(longitudes) };
+    const location = {
+      lat: parseFloat(latitudes),
+      lng: parseFloat(longitudes),
+    };
     geocoder.geocode({ location }, (results, status) => {
-      if (status === 'OK') {
+      if (status === "OK") {
         if (results[0]) {
           console.log(results[0].formatted_address);
           setAddress(results[0].formatted_address);
         } else {
-          setAddress('Address not found');
+          setAddress("Address not found");
         }
       } else {
-        setAddress('Geocoder failed due to: ' + status);
+        setAddress("Geocoder failed due to: " + status);
       }
     });
   }, [latitudes, longitudes]);
-  
-
 
   function searchlatlng(lats, lngs) {
     setLatitude(
@@ -260,7 +260,7 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
                     >
                       Add Account
                     </button>
-                    <Link to={`/createduser/useraccounts/${data[1]}`}>
+                    <Link to={`/admin/createduser/useraccounts/${data[1]}`}>
                       <button
                         type="button"
                         className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -336,7 +336,10 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
           >
             Previous
           </button>{" "}
-          <p style={{ marginTop: "09px" }}>Page {currentPage} of {Math.ceil(requesteduser.length / itemsPerPage)} </p>
+          <p style={{ marginTop: "09px" }}>
+            Page {currentPage} of{" "}
+            {Math.ceil(requesteduser.length / itemsPerPage)}{" "}
+          </p>
           <button
             type="button"
             className="btn btn-success"
@@ -371,88 +374,113 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
                 New Account Details
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
                 onClick={openModels}
               ></i>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div className="d-flex" style={{ height: "49px" }}>
-                <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                  {" "}
-                  <img
-                    src={latitude}
-                    style={{ width: "20px", marginBottom: "5px" }}
-                    alt="Latitude logo"
-                  ></img>{" "}
-                  Latitude
-                </label>
-                <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                  <img
-                    src={longitude}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  searchlatlng(latt.current.value, lngg.current.value);
+                }}
+              >
+                <div className="d-flex" style={{ height: "49px" }}>
+                  <label style={{ width: "250px" }}>
+                    {" "}
+                    <img
+                      src={latitude}
+                      style={{ width: "20px", marginBottom: "5px" }}
+                      alt="Latitude logo"
+                    ></img>{" "}
+                    Latitude
+                  </label>
+                  <label style={{ width: "250px" }}>
+                    <img
+                      src={longitude}
+                      style={{
+                        width: "20px",
+                        marginBottom: "5px",
+                        marginRight: "2px",
+                      }}
+                      alt="Longitude logo"
+                    ></img>
+                    Longitude
+                  </label>
+
+                  <label style={{ width: "250px" }}>
+                    <i
+                      className="bi bi-person-vcard"
+                      style={{ fontSize: "20px", marginRight: "2px" }}
+                    ></i>
+                    Account Name
+                  </label>
+                </div>
+
+                <div className="d-flex">
+                  <input
+                    ref={latt}
+                    type="number"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Latitude"
+                    style={{ width: "200px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please Enter Account Longitude"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+
+                  <input
+                    ref={lngg}
+                    type="number"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Longitude"
+                    style={{ width: "200px", marginLeft: "50px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please Enter Account Latitude"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+
+                  <input
+                    ref={accname}
+                    type="text"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter AccountName"
+                    style={{ width: "200px", marginLeft: "50px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity("Please Enter Account Name")
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                     style={{
-                      width: "20px",
-                      marginBottom: "5px",
-                      marginRight: "2px",
+                      textAlign: "center",
+                      marginLeft: "50px",
                     }}
-                    alt="Longitude logo"
-                  ></img>
-                  Longitude
-                </label>
-
-                <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                  <i
-                    class="bi bi-person-vcard"
-                    style={{ fontSize: "20px", marginRight: "2px" }}
-                  ></i>
-                  Account Name
-                </label>
-              </div>
-
-              <div className="d-flex">
-                <input
-                  ref={latt}
-                  type="number"
-                  class="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Latitude"
-                  style={{ width: "200px" }}
-                ></input>
-
-                <input
-                  ref={lngg}
-                  type="number"
-                  class="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Longitude"
-                  style={{ width: "200px", marginLeft: "50px" }}
-                ></input>
-
-                <input
-                  ref={accname}
-                  type="text"
-                  class="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter AccountName"
-                  style={{ width: "200px", marginLeft: "50px" }}
-                ></input>
-
-                <button
-                  type="button"
-                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "center",
-                    marginLeft: "50px",
-                  }}
-                  onClick={() => {
-                    searchlatlng(latt.current.value, lngg.current.value);
-                  }}
-                >
-                  <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
-
-                  Search
-                </button>
-              </div>
+                  >
+                    <i
+                      className="bi bi-search"
+                      style={{ marginRight: "3px" }}
+                    ></i>
+                    Search
+                  </button>
+                </div>
+              </form>
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
@@ -511,7 +539,7 @@ const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
                 Delete Account
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
                 onClick={openDeleteModels}
               ></i>

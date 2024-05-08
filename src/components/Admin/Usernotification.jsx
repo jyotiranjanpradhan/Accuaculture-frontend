@@ -10,6 +10,10 @@ import { AdminContext } from "../../App";
 import axios from "axios";
 
 const Usernotification = () => {
+  const admin_id = localStorage.getItem('admin_id');
+
+
+
   const [openModel, setOpenModel] = useState(false);
   const [nextmodel, setNextModel] = useState(false);
   const [devicetype, setDeviceType] = useState(false);
@@ -125,6 +129,12 @@ const city=cityname.current.value;
         data
       );
       console.log(response);
+      if(response){
+        setCompliteDeviceAdd(!completedeviceadd);
+        setTimeout(() => {
+          setCompliteDeviceAdd(false);
+        }, 1000);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -134,7 +144,7 @@ const city=cityname.current.value;
   const userNotificationfetch = async () => {
     try {
       const responce = await axios.get(
-        "http://4.188.244.11/register_view/9777171033/"
+        `http://4.188.244.11/register_view/${admin_id}/`
       );
       setTotalUser(responce.data.items.length);
       setRegestereduser(responce.data.items);
@@ -168,12 +178,6 @@ const city=cityname.current.value;
     setShowmap(!showmap);
   };
 
-  const completlyadddevice = () => {
-    setCompliteDeviceAdd(!completedeviceadd);
-    setTimeout(() => {
-      setCompliteDeviceAdd(false);
-    }, 1000);
-  };
 
   const [devicetypes, setDevicetypes] = useState([]);
 
@@ -414,6 +418,14 @@ const city=cityname.current.value;
       {/* regestereduser[userindex] */}
       {/* model Start */}
       {openModel ? (
+        <form
+        onSubmit={(e) => {
+         e.preventDefault();
+         openModels();
+                    opennextmodel();
+                    passwordenterrd();
+        }}
+        >
         <div className="check-model ">
           <div className="model" style={{ fontSize: "23px", marginTop: "10%",width:'600px' }}>
             <div className="heading d-flex justify-content-between ">
@@ -464,6 +476,13 @@ const city=cityname.current.value;
                       id="exampleInputPassword1"
                       placeholder="Password"
                       style={{ marginLeft: "25px", width: "400px" }}
+                      required
+onInvalid={(e) =>
+e.target.setCustomValidity(
+ "Please Enter Your Password For User"
+)
+}
+onChange={(e) => e.target.setCustomValidity("")}
                     />
                   </div>
                 </p>
@@ -471,17 +490,13 @@ const city=cityname.current.value;
 
               <div className="d-flex justify-content-end mt-5 p-2">
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "center",
                     marginRight: "15px",
                   }}
-                  onClick={() => {
-                    openModels();
-                    opennextmodel();
-                    passwordenterrd();
-                  }}
+                
                 >
                   Next
                 </button>
@@ -500,6 +515,7 @@ const city=cityname.current.value;
             </div>
           </div>
         </div>
+        </form>
       ) : null}
 
       {/* Model Close */}
@@ -524,6 +540,12 @@ const city=cityname.current.value;
               ></i>
             </div>
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <form
+onSubmit={(e) => {
+ e.preventDefault();
+ searchlatlng(userLatitude.current.value, userLongitude.current.value);
+}}
+>
             <div className="d-flex" style={{ height: "49px" }}>
                 <label for="formGroupExampleInput" style={{ width: "250px" }}>
                   {" "}
@@ -556,7 +578,10 @@ const city=cityname.current.value;
                 </label>
               </div>
 
+
               <div className="d-flex">
+                
+
                 <input
                   ref={userLatitude}
                   type="number"
@@ -564,6 +589,13 @@ const city=cityname.current.value;
                   id="formGroupExampleInput"
                   placeholder="Enter Latitude"
                   style={{ width: "200px" }}
+                  required
+onInvalid={(e) =>
+e.target.setCustomValidity(
+ "Please Enter Latitude For User Account"
+)
+}
+onChange={(e) => e.target.setCustomValidity("")}
                 ></input>
 
                 <input
@@ -573,6 +605,13 @@ const city=cityname.current.value;
                   id="formGroupExampleInput"
                   placeholder="Enter Longitude"
                   style={{ width: "200px", marginLeft: "50px" }}
+                  required
+onInvalid={(e) =>
+e.target.setCustomValidity(
+ "Please Enter Longitude"
+)
+}
+onChange={(e) => e.target.setCustomValidity("")}
                 ></input>
 
                 <input
@@ -582,23 +621,30 @@ const city=cityname.current.value;
                   id="formGroupExampleInput"
                   placeholder="Enter AccountName"
                   style={{ width: "200px", marginLeft: "50px" }}
+                  required
+onInvalid={(e) =>
+e.target.setCustomValidity(
+ "Please Enter Account Name"
+)
+}
+onChange={(e) => e.target.setCustomValidity("")}
                 ></input>
 
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "center",
                     marginLeft: "50px",
                   }}
-                  onClick={() => {
-                    searchlatlng(userLatitude.current.value, userLongitude.current.value);
-                  }}
+                 
                 >
                   <i class="bi bi-search" style={{ marginRight: "3px" }}></i>
                   Search
                 </button>
+               
               </div>
+              </form>
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
@@ -621,9 +667,15 @@ const city=cityname.current.value;
                   }}
                   onClick={() => {
                     latlngaccentered();
-                    opennextmodel();
+                    
                     latlngaccentered();
-                    opendevicetypemodel();
+                    console.log(AccName.target);
+                
+                      opennextmodel();
+                      opendevicetypemodel();
+                 
+
+                    
                   }}
                 >
                   Next
@@ -727,7 +779,7 @@ const city=cityname.current.value;
                     margin: "10px 15px 10px 0",
                   }}
                   onClick={() => {
-                    completlyadddevice();
+                    
                     addNweUser();
                     opendevicetypemodel();
                   }}

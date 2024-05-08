@@ -103,10 +103,13 @@ const Deviceassignctrl = () => {
 
   const [allowuserslider, setAllowUserslider] = useState("");
 
-  async function sliderEdit(editvalue){
+  async function sliderEdit(editvalue) {
     try {
       console.log(editvalue);
-      const response=await axios.post(`http://4.188.244.11/slider_control_edit/`,editvalue);
+      const response = await axios.post(
+        `http://4.188.244.11/slider_control_edit/`,
+        editvalue
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -125,13 +128,16 @@ const Deviceassignctrl = () => {
 
   const [allowusergraph, setAllowUsergraph] = useState(false);
 
-  async function graphedit(editvalue){
-   try {
-     const response=await  axios.post(`http://4.188.244.11/graph_control_edit/`,editvalue);
-     console.log(response);
-   } catch (error) {
-    console.log(error);
-   }
+  async function graphedit(editvalue) {
+    try {
+      const response = await axios.post(
+        `http://4.188.244.11/graph_control_edit/`,
+        editvalue
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   //Variable  END for Graph
@@ -223,9 +229,13 @@ const Deviceassignctrl = () => {
   const disnamebutton = useRef(null);
   const vpinbutton = useRef(null);
   const allowbutton = useRef(null);
-  async function addbutton(datatoadd){
+  async function addbutton(datatoadd) {
     try {
-      const response =axios.post(`http://4.188.244.11/on_off_control/`,datatoadd)
+      const response = await axios.post(
+        `http://4.188.244.11/on_off_control/`,
+        datatoadd
+      );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -242,9 +252,12 @@ const Deviceassignctrl = () => {
   const steppslider = useRef(null);
   const allowslider = useRef(null);
 
-  async function addslider(datatoadd){
+  async function addslider(datatoadd) {
     try {
-      const response =axios.post(`http://4.188.244.11/slider_control/`,datatoadd)
+      const response = axios.post(
+        `http://4.188.244.11/slider_control/`,
+        datatoadd
+      );
     } catch (error) {
       console.log(error);
     }
@@ -259,9 +272,12 @@ const Deviceassignctrl = () => {
   const ylabel = useRef(null);
   const allowgraph = useRef(null);
 
-  async function addgraph(datatoadd){
+  async function addgraph(datatoadd) {
     try {
-      const response =axios.post(`http://4.188.244.11/graph_control/`,datatoadd)
+      const response = axios.post(
+        `http://4.188.244.11/graph_control/`,
+        datatoadd
+      );
     } catch (error) {
       console.log(error);
     }
@@ -305,7 +321,7 @@ const Deviceassignctrl = () => {
       <div
         style={{
           marginLeft: isSidebarOpen ? "280px" : "110px",
-        
+
           marginTop: "7px",
         }}
       >
@@ -319,158 +335,167 @@ const Deviceassignctrl = () => {
               border: "1px solid",
               borderRadius: "10px",
               marginTop: "20px",
-              maxHeight:"900px",
-              
-              overflowY:'scroll'
-              
+              maxHeight: "600px",
+
+              overflowY: "scroll",
             }}
           >
-            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft:'30px' }}>
+            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft: "30px" }}>
               Assigned Controls
             </p>
             <table className="table table-bordered table-striped table-hover table-design ">
               <thead>
                 <tr>
-                  <th className="text-center" scope="col">Control Name</th>
-                  <th className="text-center" scope="col">Actions</th>
+                  <th className="text-center" scope="col">
+                    Control Name
+                  </th>
+                  <th className="text-center" scope="col">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {assignedctrldata?.length>0 && assignedctrldata ?.map((data, index) => {
-                  if (data.button) {
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{data.button.display_name}</td>
-                        <td className="text-center">
-                          <button
-                            type="button"
-                            className="btn btn-warning"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                            }}
-                            onClick={() => {
-                              asignctrlEditmodalbutton(index);
-                            }}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                              marginLeft: "8px",
-                            }}
-                            onClick={() => {
-                              openDeleteModels();
-                              const dataobedelete = {
-                                type_name: devicename,
-                                type_ver: version,
-                                display_name: data.button.display_name,
-                                virtual_pin: data.button.virtual_pin,
-                              };
-                              setDataisgoingtodelete(dataobedelete);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  } else if (data.slider) {
-                    // Use else if here
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{data.slider.display_name}</td>
-                     
-                        <td className="text-center">
-                          <button
-                            type="button"
-                            className="btn btn-warning"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                            }}
-                            onClick={() => asignctrlEditmodalbutton(index)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                              marginLeft: "8px",
-                            }}
-                            onClick={() => {
-                              openDeleteModels();
-                              const dataobedelete = {
-                                type_name: devicename,
-                                type_ver: version,
-                                display_name: data.slider.display_name,
-                                virtual_pin: data.slider.virtual_pin,
-                              };
-                              setDataisgoingtodelete(dataobedelete);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  } else if (data.graph) {
-                   
-                    return (
-                      <tr key={index}>
-                        <td className="text-center">{data.graph.display_name}</td>
-                      
-                        <td className="text-center">
-                          <button
-                            type="button"
-                            className="btn btn-warning"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                            }}
-                            onClick={() => asignctrlEditmodalbutton(index)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-danger"
-                            style={{
-                              borderRadius: "16px",
-                              fontSize: "20px",
-                              verticalAlign: "center",
-                              marginLeft: "8px",
-                            }}
-                            onClick={() => {
-                              openDeleteModels();
-                              const dataobedelete = {
-                                type_name: devicename,
-                                type_ver: version,
-                                display_name: data.graph.display_name,
-                                virtual_pin:data.graph.params,
-                              };
-                              setDataisgoingtodelete(dataobedelete);
-                            }}
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  }
-                })}
+                {assignedctrldata?.length > 0 &&
+                  assignedctrldata?.map((data, index) => {
+                    if (data.button) {
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">
+                            {data.button.display_name}
+                          </td>
+                          <td className="text-center">
+                            <button
+                              type="button"
+                              className="btn btn-warning"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                              }}
+                              onClick={() => {
+                                asignctrlEditmodalbutton(index);
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                                marginLeft: "8px",
+                              }}
+                              onClick={() => {
+                                openDeleteModels();
+                                const dataobedelete = {
+                                  type_name: devicename,
+                                  type_ver: version,
+                                  display_name: data.button.display_name,
+                                  virtual_pin: data.button.virtual_pin,
+                                };
+                                setDataisgoingtodelete(dataobedelete);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    } else if (data.slider) {
+                      // Use else if here
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">
+                            {data.slider.display_name}
+                          </td>
+
+                          <td className="text-center">
+                            <button
+                              type="button"
+                              className="btn btn-warning"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                              }}
+                              onClick={() => asignctrlEditmodalbutton(index)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                                marginLeft: "8px",
+                              }}
+                              onClick={() => {
+                                openDeleteModels();
+                                const dataobedelete = {
+                                  type_name: devicename,
+                                  type_ver: version,
+                                  display_name: data.slider.display_name,
+                                  virtual_pin: data.slider.virtual_pin,
+                                };
+                                setDataisgoingtodelete(dataobedelete);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    } else if (data.graph) {
+                      return (
+                        <tr key={index}>
+                          <td className="text-center">
+                            {data.graph.display_name}
+                          </td>
+
+                          <td className="text-center">
+                            <button
+                              type="button"
+                              className="btn btn-warning"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                              }}
+                              onClick={() => asignctrlEditmodalbutton(index)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger"
+                              style={{
+                                borderRadius: "16px",
+                                fontSize: "20px",
+                                verticalAlign: "center",
+                                marginLeft: "8px",
+                              }}
+                              onClick={() => {
+                                openDeleteModels();
+                                const dataobedelete = {
+                                  type_name: devicename,
+                                  type_ver: version,
+                                  display_name: data.graph.display_name,
+                                  virtual_pin: data.graph.params,
+                                };
+                                setDataisgoingtodelete(dataobedelete);
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    }
+                  })}
               </tbody>
             </table>
           </div>
@@ -505,10 +530,7 @@ const Deviceassignctrl = () => {
                 {/* Modal Content */}
                 <div style={{ marginLeft: "20px", marginTop: "30px" }}>
                   <div style={{ marginLeft: "25px" }}>
-                    <p>
-                      
-                      Are you sure to Delete this deivce-type Permanently ?
-                    </p>
+                    <p>Are you sure to Delete this deivce-type Permanently ?</p>
                   </div>
 
                   <div className="d-flex justify-content-end mt-3">
@@ -551,21 +573,25 @@ const Deviceassignctrl = () => {
           <div
             className="table2"
             style={{
-              width: "45%",
-              height:'360px',
+              width: "40%",
+              height: "360px",
               border: "1px solid",
               borderRadius: "10px",
               margin: "20px 10px 0 10px",
             }}
           >
-            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft:'30px' }}>
+            <p style={{ fontSize: 30, fontWeight: "bold", marginLeft: "30px" }}>
               Available Controls
             </p>
             <table className="table table-bordered table-striped table-hover table-design ">
               <thead>
                 <tr>
-                  <th className="text-center" scope="col">Control Name</th>
-                  <th  className="text-center" scope="col">Actions</th>
+                  <th className="text-center" scope="col">
+                    Control Name
+                  </th>
+                  <th className="text-center" scope="col">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -573,7 +599,6 @@ const Deviceassignctrl = () => {
                   <td className="text-center">On Off Button</td>
                   <td className="text-center">
                     <button
-                    
                       type="button"
                       className="btn btn-success "
                       style={{
@@ -647,60 +672,10 @@ const Deviceassignctrl = () => {
               ></i>
             </div>
             {/* Modal Heading End */}
-            <table className="table">
-              <tbody style={{ marginLeft: "20px" }}>
-                <tr>
-                  <td>Display Name:- </td>
-                  <td>
-                    
-                    <input
-                      ref={disnamebutton}
-                      type="text"
-                      className="form-control"
-                      placeholder="First name"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Virtual pin:- </td>
-                  <td>
-                    
-                    <input
-                      ref={vpinbutton}
-                      type="text"
-                      className="form-control"
-                      placeholder="Virtual pin"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <input
-                    ref={allowbutton}
-                    className="form-check-input"
-                    type="checkbox"
-                    id="gridCheck1"
-                    style={{ marginLeft: "10px" }}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="gridCheck1"
-                    style={{ marginLeft: "10px", padding: "0px" }}
-                  >
-                    Allow User Access
-                  </label>
-                </tr>
-              </tbody>
-            </table>
-            <button
-              type="button"
-              className="btn btn-success"
-              style={{
-                borderRadius: "16px",
-                fontSize: "20px",
-                verticalAlign: "cenetr",
-                marginLeft: "20px",
-              }}
-              onClick={() => {
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
                 const buttondata = {
                   type_name: devicename,
                   type_ver: version,
@@ -714,11 +689,73 @@ const Deviceassignctrl = () => {
                 setTimeout(() => {
                   fetchdata();
                 }, 1000);
-
               }}
             >
-              Add
-            </button>
+              <table className="table">
+                <tbody style={{ marginLeft: "20px" }}>
+                  <tr>
+                    <td>Display Name:- </td>
+                    <td>
+                      <input
+                        ref={disnamebutton}
+                        type="text"
+                        className="form-control"
+                        placeholder="First name"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Your Name")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Virtual pin:- </td>
+                    <td>
+                      <input
+                        ref={vpinbutton}
+                        type="number"
+                        className="form-control"
+                        placeholder="Virtual pin"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Your  pin")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <input
+                      ref={allowbutton}
+                      className="form-check-input"
+                      type="checkbox"
+                      id="gridCheck1"
+                      style={{ marginLeft: "10px" }}
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="gridCheck1"
+                      style={{ marginLeft: "10px", padding: "0px" }}
+                    >
+                      Allow User Access
+                    </label>
+                  </tr>
+                </tbody>
+              </table>
+              <button
+                type="submit"
+                className="btn btn-success"
+                style={{
+                  borderRadius: "16px",
+                  fontSize: "20px",
+                  verticalAlign: "cenetr",
+                  marginLeft: "20px",
+                }}
+              >
+                Add
+              </button>
+            </form>
           </div>
         </div>
       ) : null}
@@ -747,102 +784,10 @@ const Deviceassignctrl = () => {
               ></i>
             </div>
             {/* Modal Heading End */}
-            <table className="table table-hover">
-              <tbody style={{ marginLeft: "20px" }}>
-                <tr>
-                  <td>Display Name:- </td>
-                  <td>
-                    
-                    <input
-                      ref={disnameslider}
-                      type="text"
-                      className="form-control"
-                      placeholder="First name"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>Virtual pin:- </td>
-                  <td>
-                    
-                    <input
-                      ref={vpinslider}
-                      type="text"
-                      className="form-control"
-                      placeholder="Virtual pin"
-                    />
-                  </td>
-                </tr>
 
-                <tr>
-                  <td>Min:- </td>
-                  <td>
-                    
-                    <input
-                      ref={minnslider}
-                      type="text"
-                      className="form-control"
-                      placeholder="Min"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Max:- </td>
-                  <td>
-                    
-                    <input
-                      ref={maxxslider}
-                      type="text"
-                      className="form-control"
-                      placeholder="Max"
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Step Value:- </td>
-                  <td>
-                    
-                    <input
-                      ref={steppslider}
-                      type="text"
-                      className="form-control"
-                      placeholder="Step value"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input
-                      className="form-check-input"
-                      ref={allowslider}
-                      type="checkbox"
-                      id="gridCheck1"
-                      style={{ marginLeft: "10px" }}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlfor="gridCheck1"
-                      style={{ marginLeft: "10px", padding: "0px" }}
-                    >
-                      Allow User Access
-                    </label>
-                  </td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
-            <button
-              type="button"
-              className="btn btn-success"
-              style={{
-                borderRadius: "16px",
-                fontSize: "20px",
-                verticalAlign: "cenetr",
-                marginLeft: "20px",
-              }}
-              onClick={() => {
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
                 const sliderdata = {
                   type_name: devicename,
                   type_ver: version,
@@ -861,8 +806,125 @@ const Deviceassignctrl = () => {
                 }, 1000);
               }}
             >
-              Submit
-            </button>
+              <table className="table table-hover">
+                <tbody style={{ marginLeft: "20px" }}>
+                  <tr>
+                    <td>Display Name:- </td>
+                    <td>
+                      <input
+                        ref={disnameslider}
+                        type="text"
+                        className="form-control"
+                        placeholder="First name"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Name")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Virtual pin:- </td>
+                    <td>
+                      <input
+                        ref={vpinslider}
+                        type="number"
+                        className="form-control"
+                        placeholder="Virtual pin"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Virtual Pin")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Min:- </td>
+                    <td>
+                      <input
+                        ref={minnslider}
+                        type="number"
+                        className="form-control"
+                        placeholder="Min"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Min")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Max:- </td>
+                    <td>
+                      <input
+                        ref={maxxslider}
+                        type="number"
+                        className="form-control"
+                        placeholder="Max"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Max")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Step Value:- </td>
+                    <td>
+                      <input
+                        ref={steppslider}
+                        type="number"
+                        className="form-control"
+                        placeholder="Step value"
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity("Please Enter Step value")
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input
+                        className="form-check-input"
+                        ref={allowslider}
+                        type="checkbox"
+                        id="gridCheck1"
+                        style={{ marginLeft: "10px" }}
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlfor="gridCheck1"
+                        style={{ marginLeft: "10px", padding: "0px" }}
+                      >
+                        Allow User Access
+                      </label>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button
+                type="submit"
+                className="btn btn-success"
+                style={{
+                  borderRadius: "16px",
+                  fontSize: "20px",
+                  verticalAlign: "cenetr",
+                  marginLeft: "20px",
+                }}
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       ) : null}
@@ -891,12 +953,12 @@ const Deviceassignctrl = () => {
               ></i>
             </div>
             {/* Modal Heading End */}
+
             <table className="table table-hover">
               <tbody style={{ marginLeft: "20px" }}>
                 <tr>
                   <td>Display Name:- </td>
                   <td>
-                    
                     <input
                       ref={disnamegraph}
                       type="text"
@@ -908,7 +970,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>X-axis Label Name:- </td>
                   <td>
-                    
                     <input
                       ref={xlable}
                       type="text"
@@ -921,7 +982,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Y-axis Label Name:- </td>
                   <td>
-                    
                     <input
                       ref={ylabel}
                       type="text"
@@ -934,7 +994,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Label</td>
                   <td className="d-flex flex-row justify-content-between">
-                    
                     Color
                     <td>Action</td>
                   </td>
@@ -1054,7 +1113,6 @@ const Deviceassignctrl = () => {
                   fetchdata();
                 }, 1000);
               }}
-              
             >
               Submit
             </button>
@@ -1089,7 +1147,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Display Name:- </td>
                   <td>
-                    
                     <input
                       onChange={(e) => setDisplayNamebtn(e.target.value)}
                       value={displayNamebtn}
@@ -1102,7 +1159,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Virtual pin:- </td>
                   <td>
-                    
                     <input
                       onChange={(e) => setVirtualbtn(e.target.value)}
                       value={virtualbtn}
@@ -1208,7 +1264,7 @@ const Deviceassignctrl = () => {
                 </tr>
                 <tr>
                   <td>Virtual pin:- </td>
-                  <td>   
+                  <td>
                     <input
                       value={virtualslider}
                       onChange={(e) => setVirtualslider(e.target.value)}
@@ -1221,7 +1277,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Min:- </td>
                   <td>
-                    
                     <input
                       value={minslider}
                       onChange={(e) => setminslider(e.target.value)}
@@ -1234,7 +1289,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Max:- </td>
                   <td>
-                    
                     <input
                       value={maxslider}
                       onChange={(e) => setmaxslider(e.target.value)}
@@ -1247,7 +1301,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Step Value:- </td>
                   <td>
-                    
                     <input
                       value={stepslider}
                       onChange={(e) => setStepslider(e.target.value)}
@@ -1349,7 +1402,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Display Name:- </td>
                   <td>
-                    
                     <input
                       value={displayNamegraph}
                       onChange={(e) => setDisplayNamegraph(e.target.value)}
@@ -1362,7 +1414,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>X-axis Label Name:- </td>
                   <td>
-                    
                     <input
                       value={xgraph}
                       onChange={(e) => setxgraph(e.target.value)}
@@ -1376,7 +1427,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Y-axis Label Name:- </td>
                   <td>
-                    
                     <input
                       value={ygraph}
                       onChange={(e) => setygraph(e.target.value)}
@@ -1390,7 +1440,6 @@ const Deviceassignctrl = () => {
                 <tr>
                   <td>Label</td>
                   <td className="d-flex flex-row justify-content-between">
-                    
                     Color
                     <td>Action</td>
                   </td>

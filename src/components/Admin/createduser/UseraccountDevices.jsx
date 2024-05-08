@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link, useParams } from "react-router-dom";
 import Chart from "react-apexcharts";
-import { GoogleMap,  Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import success from "./success.gif";
 import { AdminContext } from "../../../App";
 import axios from "axios";
@@ -87,7 +87,7 @@ const UseraccountDevices = () => {
   useEffect(() => {
     usersDeviceFetch();
     seedevicetype();
-  },[]);
+  }, []);
 
   //variabvle for add device
 
@@ -104,60 +104,63 @@ const UseraccountDevices = () => {
     }
   }
 
-const devicetype =useRef(null);
-const devicenamee=useRef(null);
-const divlocation=useRef(null);
+  const devicetype = useRef(null);
+  const devicenamee = useRef(null);
+  const divlocation = useRef(null);
 
-const deviceadd=async()=>{
-  const devicedata={
-    devicename:devicenamee.current.value,
-    devicetype:devicetype.current.value,
-    location:divlocation.current.value.split(',').map(value =>parseFloat( value.trim())),
-    accountid:accountid
-  }
- try {
-   const res=await axios.post(`http://4.188.244.11/device_create/`,devicedata);
- console.log(res);
- console.log(devicedata);
-if(res){
-  completlyadddevice();
-  usersDeviceFetch();
+  const deviceadd = async () => {
+    const devicedata = {
+      devicename: devicenamee.current.value,
+      devicetype: devicetype.current.value,
+      location: divlocation.current.value
+        .split(",")
+        .map((value) => parseFloat(value.trim())),
+      accountid: accountid,
+    };
+    try {
+      const res = await axios.post(
+        `http://4.188.244.11/device_create/`,
+        devicedata
+      );
+      console.log(res);
+      console.log(devicedata);
+      if (res) {
+        completlyadddevice();
+        usersDeviceFetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-}  
-} catch (error) {
-  console.log(error);
- }
-}
+  //  varible for add device for a user
+  const cityname = useRef(null);
+  const handleSearch = async () => {
+    const city = cityname.current.value;
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`
+      );
+      const data = await response.json();
+      const { lat, lng } = data.results[0].geometry.location;
+      setlatitudesdevice(lat);
+      setlongitudesdevice(lng);
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+    }
+  };
 
- //  varible for add device for a user
- const cityname=useRef(null);
- const handleSearch = async () => {
-const city=cityname.current.value;
-   try {
-     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`);
-     const data = await response.json();
-     const { lat, lng } = data.results[0].geometry.location;
-     setlatitudesdevice(lat);
-     setlongitudesdevice(lng);
-   
-   } catch (error) {
-     console.error('Error fetching coordinates:', error);
-   }
- };
+  const [devicecordinate, setdevicecordinate] = useState("");
 
- const [devicecordinate,setdevicecordinate]=useState('');
+  const handleMapClick = (e) => {
+    const clickedLat = e.latLng.lat();
+    const clickedLng = e.latLng.lng();
+    const coordinates = `${clickedLat},${clickedLng}`;
+    console.log(coordinates);
+    setdevicecordinate(coordinates);
+  };
 
- const handleMapClick = (e) => {
- 
-   const clickedLat = e.latLng.lat();
-   const clickedLng = e.latLng.lng();
-   const coordinates = `${clickedLat},${clickedLng}`;
-   console.log(coordinates);
-   setdevicecordinate( coordinates);
- };
-
-
-//write api here for add device 
+  //write api here for add device
 
   //Here Content can take lat and lng props from backend
   const center = {
@@ -171,9 +174,11 @@ const city=cityname.current.value;
     height: "99%",
   };
 
-const showStatus = (deviceType,deviceId,accountid) =>{
-  navigate(`/createduser/useraccounts/UseraccountDevices/ngxdynamics/${accountid}/${deviceType}/${deviceId}`)
-}
+  const showStatus = (deviceType, deviceId, accountid) => {
+    navigate(
+      `/admin/createduser/useraccounts/UseraccountDevices/ngxdynamics/${accountid}/${deviceType}/${deviceId}`
+    );
+  };
 
   return (
     <>
@@ -205,9 +210,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                 fontSize: "20px",
                 cursor: "pointer",
               }}
-              
-              onClick={()=>{
-                
+              onClick={() => {
                 adddevice();
               }}
             >
@@ -374,19 +377,18 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                 >
                   Controls
                 </button>
-                {/* <Link to="/createduser/useraccounts/UseraccountDevices/ngxdynamics"> */}
-                  <button
-                    type="button"
-                    className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                    style={{
-                      textAlign: "cenetr",
-                      marginLeft: "8px",
-                    }}
-                    onClick={()=>showStatus(data[2],data[0],accountid)}
-                  >
-                    Stats
-                  </button>
-                {/* </Link> */}
+
+                <button
+                  type="button"
+                  className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginLeft: "8px",
+                  }}
+                  onClick={() => showStatus(data[2], data[0], accountid)}
+                >
+                  Stats
+                </button>
               </div>
             </div>
           ))}
@@ -417,6 +419,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
               ></i>
             </div>
             {/* Modal Content */}
+
             <div
               style={{
                 marginLeft: "20px",
@@ -424,84 +427,86 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                 marginRight: "10px",
               }}
             >
-              <label htnlFor="formGroupExampleInput">Device Name</label>
-              <input
-              ref={devicenamee}
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                placeholder="Device Name"
-                style={{ width: "400px" }}
-              ></input>
-
-              <div className="d-flex mt-2">
-                <label
-                  htnlFor="formGroupExampleInput"
-                  style={{ width: "250px" }}
-                >
-                  Device List
-                </label>
-                <label htnlFor="formGroupExampleInput">Device Location</label>
-              </div>
-
-              <div className="d-flex">
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  style={{ width: "200px" }}
-                  ref={devicetype}
-                >
-                  <option selected>select Device Type</option>
-                  {devicetypes.map((device, index) => (
-                    <option key={index} value={device[0]}>
-                      {device[0]}
-                    </option>
-                  ))}
-                </select> 
-
-                <input
-                ref={divlocation}
-                value={devicecordinate}
-                  type="text"
-                  className="form-control"
-                  placeholder="Device...."
-                  style={{ width: "200px", marginLeft: "50px" }}
-                ></input>
-              </div>
-
-              <button
-                type="button"
-                className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                style={{
-                  textAlign: "cenetr",
-                  marginRight: "15px",
-                }}
-                onClick={mapshow}
-              >
-                Add Device Location
-              </button>
-              <button
-                type="button"
-                className="btn  btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                style={{
-                  textAlign: "cenetr",
-                  marginRight: "15px",
-                  margin: "10px 15px 10px 0",
-                }}
-                onClick={()=>{
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
                   deviceadd();
                   adddevice();
                 }}
               >
-                Add Device
-              </button>
+                <label>Device Name</label>
+                <input
+                  ref={devicenamee}
+                  type="text"
+                  className="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Device Name"
+                  style={{ width: "400px" }}
+                  required
+                  onInvalid={(e) =>
+                    e.target.setCustomValidity("Please Enter Your Device Name")
+                  }
+                  onChange={(e) => e.target.setCustomValidity("")}
+                ></input>
+
+                <div className="d-flex mt-2">
+                  <label style={{ width: "250px" }}>Device Type</label>
+                  <label>Device Location</label>
+                </div>
+
+                <div className="d-flex">
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    style={{ width: "200px" }}
+                    ref={devicetype}
+                  >
+                    {devicetypes.map((device, index) => (
+                      <option key={index} value={device[0]}>
+                        {device[0]}
+                      </option>
+                    ))}
+                  </select>
+
+                  <input
+                    ref={divlocation}
+                    value={devicecordinate}
+                    type="text"
+                    className="form-control"
+                    placeholder="Device...."
+                    style={{ width: "200px", marginLeft: "50px" }}
+                  ></input>
+                </div>
+
+                <button
+                  type="button"
+                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                  }}
+                  onClick={mapshow}
+                >
+                  Add Device Location
+                </button>
+                <button
+                  type="submit"
+                  className="btn  btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                    margin: "10px 15px 10px 0",
+                  }}
+                >
+                  Add Device
+                </button>
+              </form>
 
               {showmap ? (
                 <>
                   <div className="d-flex">
                     <input
-                    
-                    ref={cityname}
+                      ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
@@ -510,7 +515,6 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                     />
                     <button
                       className="btn btn-outline-success my-2 my-sm-0"
-                      type="submit"
                       style={{ marginLeft: "10px" }}
                       onClick={handleSearch}
                     >
@@ -526,16 +530,21 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                     }}
                   >
                     <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
-        zoom={15}
-        onClick={handleMapClick}
-      >
-         <Marker
-          position={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
-          
-        />
-      </GoogleMap>
+                      mapContainerStyle={containerStyle}
+                      center={{
+                        lat: parseFloat(latitudesdevice),
+                        lng: parseFloat(longitudesdevice),
+                      }}
+                      zoom={15}
+                      onClick={handleMapClick}
+                    >
+                      <Marker
+                        position={{
+                          lat: parseFloat(latitudesdevice),
+                          lng: parseFloat(longitudesdevice),
+                        }}
+                      />
+                    </GoogleMap>
                   </div>
                 </>
               ) : null}
@@ -584,65 +593,75 @@ const showStatus = (deviceType,deviceId,accountid) =>{
               ></i>
             </div>
             {/* Modal Content */}
-            <div
-              style={{
-                marginLeft: "20px",
-                marginTop: "30px",
-                marginRight: "10px",
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                userDeviceEdit();
+                editdevice();
+                setTimeout(() => {
+                  usersDeviceFetch();
+                }, 1000);
               }}
             >
-              <label htmlFor="formGroupExampleInput">Device Name</label>
-              <input
-                ref={editdevicename}
-                type="text"
-                className="form-control"
-                id="formGroupExampleInput"
-                placeholder="Device Name"
-                style={{ width: "400px" }}
-              ></input>
-
-              <label
-                htnlFor="formGroupExampleInput"
-                style={{ width: "250px", marginTop: "4px" }}
-              >
-                Device Type
-              </label>
-
-              <div className="d-flex">
-                <select
-                  ref={editdevicetype}
-                  className="form-select"
-                  aria-label="Default select example"
-                  style={{ width: "200px" }}
-                >
-                  <option selected>select Device Type</option>
-                  {devicetypes.map((device, index) => (
-                    <option key={index} value={device[0]}>
-                      {device[0]}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <button
-                type="button"
-                className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+              <div
                 style={{
-                  textAlign: "cenetr",
-                  marginRight: "15px",
-                  margin: "10px 15px 10px 0",
-                }}
-                onClick={() => {
-                  userDeviceEdit();
-                  editdevice();
-                  setTimeout(() => {
-                    usersDeviceFetch();
-                  }, 1000);
+                  marginLeft: "20px",
+                  marginTop: "30px",
+                  marginRight: "10px",
                 }}
               >
-                Update Device
-              </button>
-            </div>
+                <label>Device Name</label>
+                <input
+                  ref={editdevicename}
+                  type="text"
+                  className="form-control"
+                  id="formGroupExampleInput"
+                  placeholder="Device Name"
+                  style={{ width: "400px" }}
+                  required
+                  onInvalid={(e) =>
+                    e.target.setCustomValidity("Please Enter Your Label Name")
+                  }
+                  onChange={(e) => e.target.setCustomValidity("")}
+                ></input>
+
+                <label style={{ width: "250px", marginTop: "4px" }}>
+                  Device Type
+                </label>
+
+                <div className="d-flex">
+                  <select
+                    ref={editdevicetype}
+                    className="form-select"
+                    aria-label="Default select example"
+                    style={{ width: "200px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity("Please Enter Your Label Name")
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  >
+                    {devicetypes.map((device, index) => (
+                      <option key={index} value={device[0]}>
+                        {device[0]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  style={{
+                    textAlign: "cenetr",
+                    marginRight: "15px",
+                    margin: "10px 15px 10px 0",
+                  }}
+                >
+                  Update Device
+                </button>
+              </div>
+            </form>
 
             {/* Modal Content End */}
           </div>
@@ -760,5 +779,3 @@ const showStatus = (deviceType,deviceId,accountid) =>{
 };
 
 export default UseraccountDevices;
-
-

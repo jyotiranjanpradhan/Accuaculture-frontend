@@ -33,9 +33,12 @@ const Devicetypecreate = () => {
   const devicetypename = useRef(null);
   const devicetypeversion = useRef(null);
 
-async function editdevice(deviceinfo){
+  async function editdevice(deviceinfo) {
     try {
-      const response =await axios.post(`http://4.188.244.11/devicetype_edit/`,deviceinfo);
+      const response = await axios.post(
+        `http://4.188.244.11/devicetype_edit/`,
+        deviceinfo
+      );
     } catch (error) {
       console.log(error);
     }
@@ -45,18 +48,18 @@ async function editdevice(deviceinfo){
 
   // START Delete DEVICE type
 
-async function deletedevicetype(devicedata) {
-  try {
-    const response =await axios.post(`http://4.188.244.11/devicetype_delete/`,devicedata)
-  } catch (error) {
-    console.log(error);
-    
+  async function deletedevicetype(devicedata) {
+    try {
+      const response = await axios.post(
+        `http://4.188.244.11/devicetype_delete/`,
+        devicedata
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
-}
 
-
-    // END Delete DEVICE type
-
+  // END Delete DEVICE type
 
   //context
   const { isSidebarOpen } = useContext(AdminContext);
@@ -220,7 +223,7 @@ async function deletedevicetype(devicedata) {
                     </button>
 
                     <Link
-                      to={`/devicetypecreate/deviceassignctrls/${data[0]}/${data[1]}`}
+                      to={`/admin/devicetypecreate/deviceassignctrls/${data[0]}/${data[1]}`}
                     >
                       <button
                         type="button"
@@ -253,7 +256,6 @@ async function deletedevicetype(devicedata) {
 
                         setDevicedata(thisdevicedata);
                       }}
-                     
                     >
                       Delete
                     </button>
@@ -321,75 +323,92 @@ async function deletedevicetype(devicedata) {
               ></i>
             </div>
             {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <label htmlFor="formGroupExampleInput">Name</label>
-                <input
-                  type="text"
-                  ref={devicetypename}
-                  className="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
-                ></input>
 
-                <label htmlFor="formGroupExampleInput">Version</label>
-                <input
-                  type="text"
-                  ref={devicetypeversion}
-                  className="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
-                ></input>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const devicedatas = {
+                  olddevicetypename: devicedata.devicename,
+                  olddevicetypeversion: devicedata.deviceversion,
+                  newtypeversion: devicetypeversion.current.value,
+                  newtypename: devicetypename.current.value,
+                };
 
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="defaultCheck1"
-                  style={{ fontSize: "20px", marginTop: "20px" }}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="defaultCheck1"
-                  style={{
-                    fontSize: "20px",
-                    marginLeft: "10px",
-                    marginTop: "14px",
-                  }}
-                >
-                  Enable
-                </label>
+                editdevice(devicedatas);
+                openModels();
+                setTimeout(() => {
+                  Devicetype();
+                }, 500);
+              }}
+            >
+              <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+                <div style={{ marginLeft: "25px" }}>
+                  <label htmlFor="formGroupExampleInput">Name</label>
+                  <input
+                    type="text"
+                    ref={devicetypename}
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Account Name"
+                    style={{ width: "400px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please Enter Device Type Name"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+
+                  <label htmlFor="formGroupExampleInput">Version</label>
+                  <input
+                    type="text"
+                    ref={devicetypeversion}
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Account Name"
+                    style={{ width: "400px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity("Please Enter Version")
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="defaultCheck1"
+                    style={{ fontSize: "20px", marginTop: "20px" }}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="defaultCheck1"
+                    style={{
+                      fontSize: "20px",
+                      marginLeft: "10px",
+                      marginTop: "14px",
+                    }}
+                  >
+                    Enable
+                  </label>
+                </div>
+
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    type="submit"
+                    className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "cenetr",
+                      marginRight: "15px",
+                    }}
+                  >
+                    Update Device
+                  </button>
+                </div>
               </div>
-
-              <div className="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                  onClick={() => {
-                    const devicedatas = {
-                      olddevicetypename: devicedata.devicename,
-                      olddevicetypeversion: devicedata.deviceversion,
-                      newtypeversion: devicetypeversion.current.value,
-                      newtypename: devicetypename.current.value,
-                    };
-            
-                    editdevice(devicedatas);
-                    openModels();
-                    setTimeout(() => {
-                      Devicetype();
-                    }, 500);
-                  }}
-                >
-                  Update Device
-                </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       ) : null}
@@ -416,71 +435,87 @@ async function deletedevicetype(devicedata) {
             </div>
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <label htmlFor="formGroupExampleInput">Name</label>
-                <input
-                  ref={devicename}
-                  type="text"
-                  className="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
-                ></input>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const newdevicedata = {
+                    typeversion: deviceversion.current.value,
+                    typename: devicename.current.value,
+                  };
 
-                <label htmlFor="formGroupExampleInput">Version</label>
-                <input
-                  ref={deviceversion}
-                  type="number"
-                  className="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
-                ></input>
+                  newdeviceadd(newdevicedata);
+                  deviceadd();
+                  setTimeout(() => {
+                    Devicetype();
+                  }, 1000);
+                }}
+              >
+                <div style={{ marginLeft: "25px" }}>
+                  <label htmlFor="formGroupExampleInput">Name</label>
+                  <input
+                    ref={devicename}
+                    type="text"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Account Name"
+                    style={{ width: "400px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please Enter Device Type Name"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
 
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="defaultCheck1"
-                  style={{ fontSize: "20px", marginTop: "20px" }}
-                />
-                <label
-                  className="form-check-label"
-                  htmlFor="defaultCheck1"
-                  style={{
-                    fontSize: "20px",
-                    marginLeft: "10px",
-                    marginTop: "14px",
-                  }}
-                >
-                  Enable
-                </label>
-              </div>
+                  <label htmlFor="formGroupExampleInput">Version</label>
+                  <input
+                    ref={deviceversion}
+                    type="number"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Account Name"
+                    style={{ width: "400px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity("Please Enter Version")
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
 
-              <div className="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                  onClick={() => {
-                    const newdevicedata = {
-                      typeversion: deviceversion.current.value,
-                      typename: devicename.current.value,
-                    };
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="defaultCheck1"
+                    style={{ fontSize: "20px", marginTop: "20px" }}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="defaultCheck1"
+                    style={{
+                      fontSize: "20px",
+                      marginLeft: "10px",
+                      marginTop: "14px",
+                    }}
+                  >
+                    Enable
+                  </label>
+                </div>
 
-                    newdeviceadd(newdevicedata);
-                    deviceadd();
-                    setTimeout(() => {
-                      Devicetype();
-                    }, 1000);
-                  }}
-                >
-                  Create Device
-                </button>
-              </div>
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    type="submit"
+                    className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "cenetr",
+                      marginRight: "15px",
+                    }}
+                  >
+                    Create Device
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -521,11 +556,11 @@ async function deletedevicetype(devicedata) {
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={()=>{
-                    const devicedatafordelete={
-                      devicetypename:devicedata.devicename,
-                      devicetypeversion:devicedata.deviceversion,
-                    }
+                  onClick={() => {
+                    const devicedatafordelete = {
+                      devicetypename: devicedata.devicename,
+                      devicetypeversion: devicedata.deviceversion,
+                    };
                     deletedevicetype(devicedatafordelete);
                     openDeleteModels();
                     setTimeout(() => {

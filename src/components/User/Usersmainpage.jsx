@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Usersmainpage = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mobno = urlParams.get("mobno");
+  localStorage.setItem("usermob", mobno);
+
   const [toggleStates, setToggleStates] = useState({
     Current: false,
     Voltage: false,
@@ -43,7 +47,7 @@ const Usersmainpage = () => {
   const accountFetch = async () => {
     try {
       const response = await axios.get(
-        `http://4.188.244.11/account_view/9777703470/`
+        `http://4.188.244.11/account_view/${mobno}/`
       );
       console.log(response);
       SetUseraccount(response.data);
@@ -66,22 +70,20 @@ const Usersmainpage = () => {
   }, [useraccount]);
   // vcariable for devices to pass content page
   const [devicesofaUser, setdevicesofaUser] = useState([]);
-  
 
   const setdevice = (deviceArray) => {
     setdevicesofaUser(deviceArray);
-    
   };
-useEffect(() => {
-  setdevice([])
-},[])
+  useEffect(() => {
+    setdevice([]);
+  }, []);
 
   useEffect(() => {
     if (devicesofaUser && devicesofaUser.length > 0) {
       console.log(devicesofaUser);
     }
   }, [devicesofaUser]);
- 
+
   return (
     <>
       <Navbars
@@ -90,7 +92,11 @@ useEffect(() => {
         updateCoordinates={updateCoordinates}
         setdevice={setdevice}
       />
-      <Content toggleStates={toggleStates} oneaccountdata={oneaccountdetails} devicesofaUser={devicesofaUser} />
+      <Content
+        toggleStates={toggleStates}
+        oneaccountdata={oneaccountdetails}
+        devicesofaUser={devicesofaUser}
+      />
     </>
   );
 };

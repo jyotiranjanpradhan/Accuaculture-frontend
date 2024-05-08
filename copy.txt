@@ -55,3 +55,32 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form
+onSubmit={(e) => {
+ e.preventDefault();
+}}
+>
+
+
+
+ required
+onInvalid={(e) =>
+e.target.setCustomValidity(
+ "Please Enter Your Label Name"
+)
+}
+onChange={(e) => e.target.setCustomValidity("")}

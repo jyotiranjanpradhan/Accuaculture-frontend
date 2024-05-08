@@ -12,55 +12,55 @@ const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [eventtodelete, Seteventtodelete] = useState(false);
   const [eventid, setEventid] = useState("");
+  const mobileno = localStorage.getItem("usermob");
+  console.log(mobileno);
 
-
-
-  const allevents=async()=>{
-try {
-  const response = await axios.get("http://20.244.51.146:8000/calender_view/9777703470/");
-  console.log(response.data.message);
-  if(response){
-    const updatedEvents = response.data.message.map((messageArray) => ({
-      id: messageArray[1], // Assuming messageArray[1] is the message id
-      title: messageArray[2], // Assuming messageArray[2] is the message
-      date: messageArray[0], // Assuming messageArray[0] is the date
-    }));
-    setEvents(updatedEvents);
-  }
-} catch (error) {
-  console.log(error);
-}
-  }
+  const allevents = async () => {
+    try {
+      const response = await axios.get(
+        `http://20.244.51.146:8000/calender_view/${mobileno}/`
+      );
+      console.log(response.data.message);
+      if (response) {
+        const updatedEvents = response.data.message.map((messageArray) => ({
+          id: messageArray[1], // Assuming messageArray[1] is the message id
+          title: messageArray[2], // Assuming messageArray[2] is the message
+          date: messageArray[0], // Assuming messageArray[0] is the date
+        }));
+        setEvents(updatedEvents);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleDateClick = (arg) => {
     setSelectedDate(arg.dateStr);
- 
+
     setShowModal(true);
   };
-
- 
 
   const handelDelete = (arg) => {
     setEventid(arg.event._def.publicId);
     Seteventtodelete(!eventtodelete);
   };
-  const deleteEvent =async () => {
+  const deleteEvent = async () => {
     const deleteeventdata = {
       Message_id: eventid,
     };
 
-   try {
-     const response = await axios.post(
-       "http://20.244.51.146:8000/calender_delete/",
-       deleteeventdata
-     );
-     if(response){
-      allevents();
-     }
-     console.log(response);
-   } catch (error) {
-    console.log(error);
-   }
+    try {
+      const response = await axios.post(
+        "http://20.244.51.146:8000/calender_delete/",
+        deleteeventdata
+      );
+      if (response) {
+        allevents();
+      }
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const generateUniqueId = () => {
@@ -69,31 +69,29 @@ try {
 
   const handleAddEvent = async () => {
     const newEvent = {
-      Mobno: 9777703470,
+      Mobno: mobileno,
       Message_id: generateUniqueId() + (events.length + 1),
       Message: eventTitle,
       date: selectedDate,
     };
 
     console.log(newEvent);
-   try {
-     const response = await axios.post(
-       "http://20.244.51.146:8000/calender_create/",
-       newEvent
-     );
-     console.log(response);
-     if(response)
-     allevents();
-   } catch (error) {
-    console.log(error);
-   }
+    try {
+      const response = await axios.post(
+        "http://20.244.51.146:8000/calender_create/",
+        newEvent
+      );
+      console.log(response);
+      if (response) allevents();
+    } catch (error) {
+      console.log(error);
+    }
 
     setShowModal(false);
-    
   };
-  useEffect(()=>{
+  useEffect(() => {
     allevents();
-  },[])
+  }, []);
 
   return (
     <>

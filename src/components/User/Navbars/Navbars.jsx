@@ -19,7 +19,8 @@ const Navbars = ({
   updateCoordinates,
   setdevice,
 }) => {
-  const mobileno = "9777703470";
+  const mobileno = localStorage.getItem("usermob");
+  console.log(mobileno);
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
@@ -102,14 +103,13 @@ const Navbars = ({
         }
       );
       console.log(response);
-      if(response){
+      if (response) {
         setProfilepicaddanimation(true);
         setTimeout(() => {
           setProfilepicaddanimation(false);
           fetchProfilepicture();
         }, 2000);
       }
-      
     } catch (error) {
       console.log(error);
     }
@@ -128,18 +128,6 @@ const Navbars = ({
         setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
     } catch (error) {
       console.error("Error fetching profile image:", error);
-    }
-  };
-
-  const fetchuserdetails = async () => {
-    try {
-      //add api here by  mobileno
-      const response = await axios.get(
-        `http://20.244.51.20:8000/user_view/${mobileno}/`
-      );
-      console.log(response);
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -211,7 +199,7 @@ const Navbars = ({
         "http://20.244.51.20:8000/param_update/",
         newData
       );
-      // console.log("Response:", response);
+      console.log("Response:", response);
       if (response) {
         setAddanimation(true);
         setTimeout(() => {
@@ -265,7 +253,6 @@ const Navbars = ({
       // console.log(useraccount.items[0][1]);
       devicelabelFetch(useraccount.items[0][1]);
       fetchProfilepicture();
-      fetchuserdetails();
     }
   }, [useraccount]);
 
@@ -580,9 +567,8 @@ const Navbars = ({
           >
             <div>
               <div className="d-flex flex-row justify-content-between p-2">
-              <p>Name :</p>
+                <p>Name :</p>
                 <p>{}</p>
-               
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Mob : </p>
@@ -593,7 +579,9 @@ const Navbars = ({
                 <p>{}</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
-                <p  style={{cursor:'pointer'}} onClick={dpUpload}>Update Your Profile Photo HERE! </p>
+                <p style={{ cursor: "pointer" }} onClick={dpUpload}>
+                  Update Your Profile Photo HERE!{" "}
+                </p>
               </div>
             </div>
           </Dropdown.Menu>

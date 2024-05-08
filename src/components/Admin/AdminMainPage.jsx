@@ -13,13 +13,20 @@ import Deviceassignctrl from "./devicetype/Deviceassignctrl";
 
 
 const AdminMainPage = () => {
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const mobno = urlParams.get('mono');
+  if(mobno)
+  localStorage.setItem('admin_id', mobno);
   return (
+
+
     <div >
   
       <SideBar />
     
       <Routes>
-        <Route path="/" element={<Usernotification/>} />
+        <Route path="/*" element={<Usernotification/>} />
         <Route path="/createduser" element={<Createduser/>}/>
         <Route path="/createduser/useraccounts/:mob" element={<UserAccounts/>}/>
         <Route path="/createduser/useraccounts/UseraccountDevices/:accountid" element={<UseraccountDevices/>}/>

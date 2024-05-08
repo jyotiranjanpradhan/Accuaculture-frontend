@@ -45,20 +45,20 @@ const UserAccounts = () => {
   }, []);
 
   // variable for next and previous button
-const itemsPerPage = 5;
-const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [currentPage, setCurrentPage] = useState(1);
 
-const handleNextPage = () => {
-  setCurrentPage((prevPage) => prevPage + 1);
-};
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
-const handlePrevPage = () => {
-  setCurrentPage((prevPage) => prevPage - 1);
-};
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
 
-const indexOfLastItem = currentPage * itemsPerPage;
-const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
 
   async function accountNameUpdate() {
     const accountbody = {
@@ -76,23 +76,26 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
     }
   }
 
-  const deleteAccount=async()=>{
+  const deleteAccount = async () => {
     console.log(tempaccountid);
-    const accountdata={
-      accountid:tempaccountid
+    const accountdata = {
+      accountid: tempaccountid,
+    };
+    try {
+      const response = await axios.post(
+        `http://4.188.244.11/account_delete/`,
+        accountdata
+      );
+      console.log(response);
+      if (response) {
+        setTimeout(() => {
+          userAccountFetch();
+        }, 500);
+      }
+    } catch (error) {
+      console.log(error);
     }
-   try {
-    const response= await axios.post(`http://4.188.244.11/account_delete/`,accountdata);
-  console.log(response); 
-  if(response){
-    setTimeout(() => {
-      userAccountFetch();
-    }, 500);
-  }
-  } catch (error) {
-    console.log(error);
-   }
-  }
+  };
 
   return (
     <>
@@ -137,7 +140,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
             <thead style={{ backgroundColor: "#7DE1AF" }}>
               <tr>
                 <th
-                   className="text-center"
+                  className="text-center"
                   scope="col"
                   style={{
                     backgroundColor: "#7CDFAD",
@@ -146,14 +149,23 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
                 >
                   Sl.No
                 </th>
-                <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "#7CDFAD" }}
+                >
                   Account ID
                 </th>
-                <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+                <th
+                  className="text-center"
+                  scope="col"
+                  style={{ backgroundColor: "#7CDFAD" }}
+                >
                   Account Name
                 </th>
 
-                <th  className="text-center"
+                <th
+                  className="text-center"
                   scope="col"
                   style={{
                     backgroundColor: "#7CDFAD",
@@ -167,7 +179,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
             <tbody>
               {currentItems.map((data, index) => (
                 <tr key={index + 1}>
-                  <td  className="text-center">{index + 1}</td>
+                  <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">{data[0]}</td>
                   <td className="text-center">
@@ -185,7 +197,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
                       Edit
                     </button>
                     <Link
-                      to={`/createduser/useraccounts/UseraccountDevices/${data[1]}`}
+                      to={`/admin/createduser/useraccounts/UseraccountDevices/${data[1]}`}
                     >
                       <button
                         type="button"
@@ -245,7 +257,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
 
         {/* Redirect Start */}
         <div className="redirects">
-        <button
+          <button
             type="button"
             className="btn "
             style={{
@@ -262,7 +274,9 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
           >
             Previous
           </button>{" "}
-          <p style={{ marginTop: "09px" }}>Page {currentPage} of {Math.ceil(useraccount.length / itemsPerPage)} </p>
+          <p style={{ marginTop: "09px" }}>
+            Page {currentPage} of {Math.ceil(useraccount.length / itemsPerPage)}{" "}
+          </p>
           <button
             type="button"
             className="btn btn-success"
@@ -287,56 +301,69 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
 
       {openModel ? (
         <div className="check-model ">
-          <div
-            className="model"
-            style={{ fontSize: "23px", width: "600px", height: "270px" }}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              accountNameUpdate();
+              openModels();
+              setTimeout(() => {
+                userAccountFetch();
+              }, 1000);
+            }}
           >
-            {/* Modal Heading */}
-            <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
-                Edit Account Name
-              </p>
-              <i
-                className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
-                onClick={openModels}
-              ></i>
-            </div>
-            {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <label htmlFor="formGroupExampleInput">Account Name</label>
-                <input
-                  ref={updateaccountname}
-                  type="text"
-                  className="form-control"
-                  id="formGroupExampleInput"
-                  placeholder="Enter Account Name"
-                  style={{ width: "400px" }}
-                ></input>
-              </div>
-
-              <div className="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                  onClick={() => {
-                    accountNameUpdate();
-                    openModels();
-                    setTimeout(() => {
-                      userAccountFetch();
-                    }, 1000);
-                  }}
+            <div
+              className="model"
+              style={{ fontSize: "23px", width: "600px", height: "270px" }}
+            >
+              {/* Modal Heading */}
+              <div className="heading d-flex justify-content-between  ">
+                <p
+                  style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}
                 >
-                  Update
-                </button>
+                  Edit Account Name
+                </p>
+                <i
+                  className="bi bi-x-octagon cancel-button-modal "
+                  style={{ fontSize: 30 }}
+                  onClick={openModels}
+                ></i>
+              </div>
+              {/* Modal Content */}
+              <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+                <div style={{ marginLeft: "25px" }}>
+                  <label htmlFor="formGroupExampleInput">Account Name</label>
+                  <input
+                    ref={updateaccountname}
+                    type="text"
+                    className="form-control"
+                    id="formGroupExampleInput"
+                    placeholder="Enter Account Name"
+                    style={{ width: "400px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please Enter Updated Account Name"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+                </div>
+
+                <div className="d-flex justify-content-end mt-3">
+                  <button
+                    type="submit"
+                    className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "cenetr",
+                      marginRight: "15px",
+                    }}
+                  >
+                    Update
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       ) : null}
 
@@ -375,7 +402,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={()=>{
+                  onClick={() => {
                     deleteAccount();
                     openDeleteModels();
                   }}
@@ -389,8 +416,7 @@ const currentItems = useraccount.slice(indexOfFirstItem, indexOfLastItem);
                     textAlign: "cenetr",
                     marginRight: "15px",
                   }}
-                  onClick={()=>{
-                   
+                  onClick={() => {
                     openDeleteModels();
                   }}
                 >

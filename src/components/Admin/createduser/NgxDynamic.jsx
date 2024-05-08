@@ -3,51 +3,54 @@ import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import Chart from "react-apexcharts";
 import { AdminContext } from "../../../App";
-import mqtt from 'mqtt';
+import mqtt from "mqtt";
 import { useParams } from "react-router-dom";
 
 const NgxDynamic = () => {
   const { isSidebarOpen } = useContext(AdminContext);
-  const { deviceType, deviceId ,accountid} = useParams();
+  const { deviceType, deviceId, accountid } = useParams();
   const [client, setClient] = useState(null);
   const [chartData, setChartData] = useState({});
-  const [graphHead, setGraphHead] = useState('');
+  const [graphHead, setGraphHead] = useState("");
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
-      hostname: '4.240.114.7',
+      hostname: "4.240.114.7",
       port: 9001,
-      protocol: 'ws',
-      username: 'BarifloLabs',
-      password: 'Bfl@123'
+      protocol: "ws",
+      username: "BarifloLabs",
+      password: "Bfl@123",
     });
 
     setClient(mqttClient);
 
-    mqttClient.on('connect', () => {
-      console.log('Connected to MQTT broker');
+    mqttClient.on("connect", () => {
+      console.log("Connected to MQTT broker");
       mqttClient.subscribe(`${deviceId}/data`);
     });
 
-    mqttClient.on('message', (topic, payload) => {
+    mqttClient.on("message", (topic, payload) => {
       const data = JSON.parse(payload.toString());
       const { paramType, paramValue, dataPoint } = data;
-      console.log(dataPoint.split(' ')[1]);
+      console.log(dataPoint.split(" ")[1]);
 
       // Update chart data based on the received MQTT message
-      setChartData(prevData => {
+      setChartData((prevData) => {
         // Check if the chartData already has a key for the current paramType
         if (prevData[paramType]) {
           // If yes, append the new value to the existing data array
           return {
             ...prevData,
-            [paramType]: [...prevData[paramType], { x: dataPoint, y: paramValue }]
+            [paramType]: [
+              ...prevData[paramType],
+              { x: dataPoint, y: paramValue },
+            ],
           };
         } else {
           // If no, create a new entry with the paramType as key and value as array with the new value
           return {
             ...prevData,
-            [paramType]: [{ x: dataPoint, y: paramValue }]
+            [paramType]: [{ x: dataPoint, y: paramValue }],
           };
         }
       });
@@ -59,7 +62,7 @@ const NgxDynamic = () => {
     return () => {
       if (mqttClient) {
         mqttClient.end();
-        console.log('Disconnected from MQTT broker');
+        console.log("Disconnected from MQTT broker");
       }
     };
   }, []);
@@ -67,17 +70,16 @@ const NgxDynamic = () => {
   const options = {
     chart: {
       id: "realtime",
-      
     },
     xaxis: {
       // type: 'datetime',
       title: {
-        text: 'time',
+        text: "time",
       },
     },
     yaxis: {
       title: {
-        text: 'Value',
+        text: "Value",
       },
     },
     dataLabels: {
@@ -85,19 +87,25 @@ const NgxDynamic = () => {
     },
     tooltip: {
       x: {
-        format: 'dd/MM/yy HH:mm'
-      },},
-      grid: {
-        show: false
+        format: "dd/MM/yy HH:mm",
       },
-      stroke: {
-        width: 3 // Adjust the width as needed
-      },
+    },
+    grid: {
+      show: false,
+    },
+    stroke: {
+      width: 3, // Adjust the width as needed
+    },
   };
 
   return (
     <>
-      <div style={{ marginLeft: isSidebarOpen ? "280px" : '110px', marginTop: "7px" }}>
+      <div
+        style={{
+          marginLeft: isSidebarOpen ? "280px" : "110px",
+          marginTop: "7px",
+        }}
+      >
         <div className="option" style={{ marginTop: "7px", display: "flex" }}>
           <Dropdown>
             <Dropdown.Toggle
@@ -128,7 +136,9 @@ const NgxDynamic = () => {
             </Dropdown.Menu>
           </Dropdown>
 
-          <Link to={`/createduser/useraccounts/UseraccountDevices/${accountid}`}>
+          <Link
+            to={`/admin/createduser/useraccounts/UseraccountDevices/${accountid}`}
+          >
             <button
               type="button"
               className="btn btn-danger"
@@ -149,7 +159,7 @@ const NgxDynamic = () => {
               <p style={{ fontSize: 30 }}>Chart for {paramType}</p>
               <Chart
                 options={options}
-                series={[{name: deviceId,data }]}
+                series={[{ name: deviceId, data }]}
                 type="area"
                 width={750}
                 height={650}

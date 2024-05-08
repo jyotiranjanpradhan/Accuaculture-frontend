@@ -6,142 +6,62 @@ import tempretureimg from "../usersimage/humidity.png";
 import drop from "../usersimage/drop (2).png";
 import wind from "../usersimage/windspeed.png";
 import mappin from "../usersimage/map-pin.png";
-import { GoogleMap, LoadScript,Marker ,InfoWindow } from "@react-google-maps/api";
 import Chartbox from "../Chartbox";
-import { useJsApiLoader } from '@react-google-maps/api';
-import mqtt from 'mqtt';
+import mqtt from "mqtt";
 import GoogleMapComponent from "../../Mapview";
 
-const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
-  const [activeMarker, setActiveMarker] = useState(null);
-
-
-
-  const center = lat && lng ? { lat: parseFloat(lat), lng: parseFloat(lng) } : { lat: 0, lng: 0 };
-
-  
-
-
-
-
-  const handleMarkerHover = (marker) => {
-    setActiveMarker(marker);
-  };
-
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk',
-    libraries: ['geometry'],
-  });
-
-  const roundMarkerIcon = {
-    path: isLoaded ? window.google.maps.SymbolPath.CIRCLE : null,
-    fillColor: 'red',
-    fillOpacity: 1,
-    strokeWeight: 1,
-    strokeColor: 'white',
-    scale: 10,
-  };
-
-  return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={15}
-      mapTypeId="satellite"
-    >
-      {lat && lng && (
-        <Marker
-          position={center}
-          onMouseOver={() => handleMarkerHover({ type: 'main' })}
-          onMouseOut={() => handleMarkerHover(null)}
-        >
-          {activeMarker && activeMarker.type === 'main' && (
-            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-              <div>
-                <p>{address}</p>
-              </div>
-            </InfoWindow>
-          )}
-        </Marker>
-      )}
-
-      {devices.map((device, index) => (
-        <Marker
-          key={index}
-          position={{ lat: parseFloat(device[2][0]), lng: parseFloat(device[2][1]) }}
-          icon={roundMarkerIcon}
-          onMouseOver={() => handleMarkerHover({ type: 'device', device })}
-          onMouseOut={() => handleMarkerHover(null)}
-        >
-          {activeMarker && activeMarker.type === 'device' && activeMarker.device === device && (
-            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-              <div>
-                <p>{device[0]}</p>
-              </div>
-            </InfoWindow>
-          )}
-        </Marker>
-      ))}
-    </GoogleMap>
-  ) : null;
-};
-const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
+const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
   const [wdata, setWdata] = useState(null);
 
   const [chartData, setChartData] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(devicesofaUser);
-
-  },[])
+  }, []);
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
-      hostname: '4.240.114.7',
+      hostname: "4.240.114.7",
       port: 9001,
-      protocol: 'ws',
-      username: 'BarifloLabs',
-      password: 'Bfl@123'
+      protocol: "ws",
+      username: "BarifloLabs",
+      password: "Bfl@123",
     });
 
     // setClient(mqttClient);
 
-    mqttClient.on('connect', () => {
-      console.log('Connected to MQTT broker');
-        // mqttClient.subscribe(`${542484815423712}/data`);
-        // mqttClient.subscribe(`${578689832956829}/data`);
-        // mqttClient.subscribe(`${372582595849208}/data`);
-      devicesofaUser.forEach(device => {
+    mqttClient.on("connect", () => {
+      console.log("Connected to MQTT broker");
+      // mqttClient.subscribe(`${542484815423712}/data`);
+      // mqttClient.subscribe(`${578689832956829}/data`);
+      // mqttClient.subscribe(`${372582595849208}/data`);
+      devicesofaUser.forEach((device) => {
         const deviceId = device[1];
         // console.log(deviceId);
         mqttClient.subscribe(`${deviceId}/data`);
       });
     });
 
-    mqttClient.on('message', (topic,payload) => {
+    mqttClient.on("message", (topic, payload) => {
       const data = JSON.parse(payload.toString());
       console.log(data);
-      setChartData(data)
+      setChartData(data);
       // console.log(chartData);
-    })
+    });
 
     return () => {
       if (mqttClient) {
         mqttClient.end();
-        console.log('Disconnected from MQTT broker');
+        console.log("Disconnected from MQTT broker");
       }
     };
-   
   }, []);
 
   let center = {
     lat: oneaccountdata.latitude,
-    lng:oneaccountdata.  longitude,
-    address:oneaccountdata.Address,
+    lng: oneaccountdata.longitude,
+    address: oneaccountdata.Address,
   };
-
-
-
 
   const containerStyle = {
     width: "100%",
@@ -167,29 +87,44 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
     weatherData({ lat: center.lat, lng: center.lng });
   }, [center.lat, center.lng]);
 
-
- 
-
   return (
     <>
       <div className="contain p-3">
         <div className="mapbox shadow">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
-          <GoogleMapComponent devicesNamesList={devicesofaUser} center={center}/>
+          <GoogleMapComponent
+            devicesNamesList={devicesofaUser}
+            center={center}
+          />
         </div>
-        <div className="weatherbox shadow" style={{ padding: "5px", width: "350px" }}>
+        <div
+          className="weatherbox shadow"
+          style={{ padding: "5px", width: "350px" }}
+        >
           {wdata ? (
             <div className="weatherdata">
-              <div className="d-flex" style={{ justifyContent: "space-between" }}>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
                 <div>
                   <p className="tempheading">Temperature </p>
-                  <p className="data">{(wdata.main.temp - 273.0).toFixed(2)}℃</p>
+                  <p className="data">
+                    {(wdata.main.temp - 273.0).toFixed(2)}℃
+                  </p>
                 </div>
                 <div>
-                  <img className="tempretureimg" src={tempretureimg} alt="temperetureicon" />
+                  <img
+                    className="tempretureimg"
+                    src={tempretureimg}
+                    alt="temperetureicon"
+                  />
                 </div>
               </div>
-              <div className="d-flex" style={{ justifyContent: "space-between" }}>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
                 <div>
                   <p className="tempheading">Humidity </p>
                   <p className="data">{wdata.main.humidity} %</p>
@@ -198,7 +133,10 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
                   <img className="humidityimg" src={drop} alt="humidityimg" />
                 </div>
               </div>
-              <div className="d-flex" style={{ justifyContent: "space-between" }}>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
                 <div>
                   <p className="tempheading">WindSpeed </p>
                   <p className="data">{wdata.wind.speed.toFixed(2)}Km/Hr</p>
@@ -207,13 +145,20 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
                   <img className="windspeedimg" src={wind} alt="windspeedimg" />
                 </div>
               </div>
-              <div className="d-flex" style={{ justifyContent: "space-between" }}>
+              <div
+                className="d-flex"
+                style={{ justifyContent: "space-between" }}
+              >
                 <div>
                   <p className="tempheading">Location </p>
                   <p className="data">{wdata.name}</p>
                 </div>
                 <div>
-                  <img className="windspeedimg" src={mappin} alt="windspeedimg" />
+                  <img
+                    className="windspeedimg"
+                    src={mappin}
+                    alt="windspeedimg"
+                  />
                 </div>
               </div>
             </div>
@@ -224,9 +169,12 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
       </div>
       <div className="chartcontainer">
         <div style={{ padding: "8px" }}>
-          {Object.keys(toggleStates).map((metric) => (
-            toggleStates[metric] && <Chartbox key={metric} metric={metric} data={chartData}/>
-          ))}
+          {Object.keys(toggleStates).map(
+            (metric) =>
+              toggleStates[metric] && (
+                <Chartbox key={metric} metric={metric} data={chartData} />
+              )
+          )}
         </div>
       </div>
     </>

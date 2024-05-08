@@ -10,32 +10,16 @@ function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-<<<<<<< HEAD
-    <>
-      <Router>
-        <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
-          <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-            {/* <AdminMainPage /> */}
-          </LoadScript>
-        </AdminContext.Provider>
-        <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-
-        <Usersmainpage></Usersmainpage>
-        </LoadScript>
-      </Router>
-    </>
-=======
     <Router>
       <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
         <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
           <Routes>
             <Route path="/admin/*" element={<AdminMainPage />} />
-            <Route path="/users" element={<Usersmainpage />} />
+            <Route path="/users/*" element={<Usersmainpage />} />
           </Routes>
         </LoadScript>
       </AdminContext.Provider>
     </Router>
->>>>>>> 2755ec22b9b02ecd02c461a3e314c3422ebe7f2b
   );
 }
 
