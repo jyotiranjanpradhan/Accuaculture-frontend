@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import latitude from "./Constant img/latitude.png";
 import longitude from "./Constant img/longitude.png";
 import "./Adminpage.css";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap,  Marker } from "@react-google-maps/api";
 import success from "./Constant img/success.gif";
 import { AdminContext } from "../../App";
 import axios from "axios";
@@ -22,6 +22,12 @@ const Usernotification = () => {
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
   const [userindex, setUserindex] = useState("");
+  const [address, setAddress] = useState('');
+  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude FOR ADD USER
+  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude FOR ADD USER
+  const [latitudesdevice, setlatitudesdevice] = useState(20.2961); // Initial latitude FOR ADD USER
+  const [longitudesdevice, setlongitudesdevice] = useState(85.8245); // Initial longitude FOR ADD USER
+
 // variable for next and previous button
 const itemsPerPage = 5;
 const [currentPage, setCurrentPage] = useState(1);
@@ -42,23 +48,19 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
 
 
   const [data, setData] = useState({
-    mobno:9777703470,
     userpic: null,
     userdocs: null,
     sensors:null,
-    address:"pipili",
-   
- 
+  
   });
 
-  // all variable fkor account create of a use
+  // all variable fkor account create of a user
   const Password = useRef(null);
   const passwordenterrd = () => {
     setData({ ...data, password: Password.current.value });
   };
 
-  const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
-  const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
+ 
 
   const userLatitude = useRef(null);
   const userLongitude = useRef(null);
@@ -67,11 +69,37 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
   const latlngaccentered = () => {
     setData({
       ...data,
+      mobno:regestereduser[userindex][1],
+      address:address,
        account_nm: AccName.current.value,
       lat:parseFloat( userLatitude.current.value),
       long: parseFloat(userLongitude.current.value),
      
     });
+  };
+
+  //  varible for add device for a user
+const cityname=useRef(null);
+  const handleSearch = async () => {
+const city=cityname.current.value;
+    try {
+      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`);
+      const data = await response.json();
+      const { lat, lng } = data.results[0].geometry.location;
+      setlatitudesdevice(lat);
+      setlongitudesdevice(lng);
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+    }
+  };
+
+  const [devicecordinate,setdevicecordinate]=useState('');
+
+  const handleMapClick = (e) => {
+    const clickedLat = e.latLng.lat();
+    const clickedLng = e.latLng.lng();
+    const coordinates = `${clickedLat},${clickedLng}`;
+    setdevicecordinate( coordinates);
   };
 
   const devicename = useRef(null);
@@ -172,10 +200,35 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
   }
 
   //Height and Width for Google Map
-  const containerStyle = {
+  const containerStyleforaccontadd = {
     width: "900px",
     height: "100%",
   };
+  const containerStylefordeviceadd = {
+    width: "610px",
+    height: "100%",
+  };
+
+
+
+  useEffect(() => {
+    const geocoder = new window.google.maps.Geocoder();
+    const location = { lat: parseFloat(latitudes), lng: parseFloat(longitudes) };
+
+    geocoder.geocode({ location }, (results, status) => {
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log(results[0].formatted_address);
+          setAddress(results[0].formatted_address);
+        } else {
+          setAddress('Address not found');
+        }
+      } else {
+        setAddress('Geocoder failed due to: ' + status);
+      }
+    });
+  }, [latitudes, longitudes]);
+
 
   return (
     <>
@@ -285,6 +338,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                       onClick={() => {
                         setUserindex(index);
                         openModels();
+                    
                       }}
                     >
                       Check
@@ -548,7 +602,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
 
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
-                  containerStyle={containerStyle}
+                  containerStyle={containerStyleforaccontadd}
                   lat={latitudes}
                   lng={longitudes}
                 />
@@ -702,7 +756,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device List</p>
+              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
@@ -750,6 +804,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                 </select>
 
                 <input
+                value={devicecordinate}
                   type="text"
                   class="form-control"
                   placeholder="Device Location...."
@@ -789,6 +844,7 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                 <>
                   <div className="d-flex">
                     <input
+                    ref={cityname}
                       class="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
@@ -799,7 +855,11 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                       class="btn btn-outline-success my-2 my-sm-0"
                       type="submit"
                       style={{ marginLeft: "10px" }}
+                      onClick={()=>{
+                        handleSearch();
+                      }}
                     >
+
                       Search
                     </button>
                   </div>
@@ -812,11 +872,16 @@ const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
                     }}
                   >
                       <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={{ lat: latitudes, lng: longitudes }}
+                        mapContainerStyle={containerStylefordeviceadd}
+                        center={{ lat: latitudesdevice, lng: longitudesdevice }}
                         zoom={10}
+                        onClick={handleMapClick}
+                    
                       >
-                        {/* Markers go here */}
+                       <Marker
+          position={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
+          
+        />
                       </GoogleMap>
               
                   </div>

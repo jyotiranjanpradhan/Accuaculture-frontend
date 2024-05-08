@@ -87,7 +87,7 @@ const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
 };
 const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
   const [wdata, setWdata] = useState(null);
-  const [client, setClient] = useState(null);
+
   const [chartData, setChartData] = useState([]);
 
   useEffect(()=>{
@@ -104,7 +104,7 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
       password: 'Bfl@123'
     });
 
-    setClient(mqttClient);
+    // setClient(mqttClient);
 
     mqttClient.on('connect', () => {
       console.log('Connected to MQTT broker');

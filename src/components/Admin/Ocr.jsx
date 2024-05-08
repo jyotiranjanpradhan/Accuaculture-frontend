@@ -11,11 +11,11 @@ const Ocr = () => {
       {/* Table start */}
 
       <div className="parent-div-of-table">
-        <table className="Tablestyle table table-hover table-striped">
+        <table className="table table-bordered table-striped table-hover table-design">
           <thead style={{ backgroundColor: "#7DE1AF" }}>
             <tr>
               <th
-                className=""
+               className="text-center"
                 scope="col"
                 style={{
                   backgroundColor: "#7CDFAD",
@@ -24,16 +24,16 @@ const Ocr = () => {
               >
                 Sl.No
               </th>
-              <th scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
                 Name
               </th>
-              <th scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
                 Mobile No
               </th>
-              <th scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
                 Image Name
               </th>
-              <th
+              <th  className="text-center"
                 scope="col"
                 style={{
                   backgroundColor: "#7CDFAD",

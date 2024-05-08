@@ -35,11 +35,11 @@ const Thermal = () => {
       {/* Table start */}
 
       <div className="parent-div-of-table">
-        <table className="Tablestyle table table-hover table-striped">
+        <table className="table table-bordered table-striped table-hover table-design">
           <thead style={{ backgroundColor: "#7DE1AF" }}>
             <tr>
               <th
-                className=""
+                className="text-center"
                 scope="col"
                 style={{
                   backgroundColor: "#7CDFAD",
@@ -50,6 +50,7 @@ const Thermal = () => {
               </th>
 
               <th
+              className="text-center"
                 scope="col"
                 style={{
                   backgroundColor: "#7CDFAD",

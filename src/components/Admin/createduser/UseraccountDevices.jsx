@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Link, useParams } from "react-router-dom";
 import Chart from "react-apexcharts";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { GoogleMap,  Marker } from "@react-google-maps/api";
 import success from "./success.gif";
 import { AdminContext } from "../../../App";
 import axios from "axios";
@@ -26,6 +26,8 @@ const UseraccountDevices = () => {
   //context for collapse and expand of content according sidebar on off
   const { isSidebarOpen } = useContext(AdminContext);
   const navigate = useNavigate();
+  const [latitudesdevice, setlatitudesdevice] = useState(20.2961); // Initial latitude FOR ADD USER
+  const [longitudesdevice, setlongitudesdevice] = useState(85.8245); // Initial longitude FOR ADD USER
 
   const adddevice = () => {
     setDevicetobeadd(!devicetobeadd);
@@ -116,6 +118,7 @@ const deviceadd=async()=>{
  try {
    const res=await axios.post(`http://4.188.244.11/device_create/`,devicedata);
  console.log(res);
+ console.log(devicedata);
 if(res){
   completlyadddevice();
   usersDeviceFetch();
@@ -125,6 +128,33 @@ if(res){
   console.log(error);
  }
 }
+
+ //  varible for add device for a user
+ const cityname=useRef(null);
+ const handleSearch = async () => {
+const city=cityname.current.value;
+   try {
+     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk`);
+     const data = await response.json();
+     const { lat, lng } = data.results[0].geometry.location;
+     setlatitudesdevice(lat);
+     setlongitudesdevice(lng);
+   
+   } catch (error) {
+     console.error('Error fetching coordinates:', error);
+   }
+ };
+
+ const [devicecordinate,setdevicecordinate]=useState('');
+
+ const handleMapClick = (e) => {
+ 
+   const clickedLat = e.latLng.lat();
+   const clickedLng = e.latLng.lng();
+   const coordinates = `${clickedLat},${clickedLng}`;
+   console.log(coordinates);
+   setdevicecordinate( coordinates);
+ };
 
 
 //write api here for add device 
@@ -379,7 +409,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device List</p>
+              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 }}
@@ -431,6 +461,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
 
                 <input
                 ref={divlocation}
+                value={devicecordinate}
                   type="text"
                   className="form-control"
                   placeholder="Device...."
@@ -469,6 +500,8 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                 <>
                   <div className="d-flex">
                     <input
+                    
+                    ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
@@ -479,6 +512,7 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                       className="btn btn-outline-success my-2 my-sm-0"
                       type="submit"
                       style={{ marginLeft: "10px" }}
+                      onClick={handleSearch}
                     >
                       Search
                     </button>
@@ -491,11 +525,17 @@ const showStatus = (deviceType,deviceId,accountid) =>{
                       width: "200px",
                     }}
                   >
-                    <GoogleMapdata
-                      containerStyle={containerStyle}
-                      lat={center.lat}
-                      lng={center.lng}
-                    />
+                    <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
+        zoom={15}
+        onClick={handleMapClick}
+      >
+         <Marker
+          position={{ lat: parseFloat(latitudesdevice), lng: parseFloat(longitudesdevice) }}
+          
+        />
+      </GoogleMap>
                   </div>
                 </>
               ) : null}
@@ -721,14 +761,4 @@ const showStatus = (deviceType,deviceId,accountid) =>{
 
 export default UseraccountDevices;
 
-const GoogleMapdata = ({ containerStyle, lat, lng }) => {
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-        zoom={15}
-      ></GoogleMap>
-    </LoadScript>
-  );
-};
+
