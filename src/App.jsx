@@ -17,8 +17,10 @@ function App() {
             {/* <AdminMainPage /> */}
           </LoadScript>
         </AdminContext.Provider>
+        <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
 
         <Usersmainpage></Usersmainpage>
+        </LoadScript>
       </Router>
     </>
   );

@@ -39,7 +39,7 @@ const Navbars = ({
   const [deleteoption, setDeleteoption] = useState(false);
   const [deleteanimation, setDeleteAnimation] = useState(false);
   // Variable for temporary divice id  on each device click
-  const [accid, setaccid] = useState(null);
+  const [accid, setaccid] = useState();
   //TOTAL LABELS PRESENT TO A ACCOUNT
   const [devicelabels, setdevicelabels] = useState([]);
   // SET FOR TEMPORARY STORE ALL DEVICE LABELS
@@ -168,7 +168,7 @@ const fetchProfilepicture = async () => {
         "http://20.244.51.20:8000/param_update/",
         newData
       );
-      console.log("Response:", response);
+      // console.log("Response:", response);
       if (response) {
         setAddanimation(true);
         setTimeout(() => {
@@ -218,6 +218,7 @@ const fetchProfilepicture = async () => {
     if (useraccount.items && useraccount.items.length > 0) {
       devicefetch(useraccount.items[0][1]);
       setaccid(useraccount.items[0][1]);
+      // console.log(useraccount.items[0][1]);
       devicelabelFetch(useraccount.items[0][1]);
     }
   }, [useraccount]);

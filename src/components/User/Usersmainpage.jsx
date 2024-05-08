@@ -45,6 +45,7 @@ const Usersmainpage = () => {
       const response = await axios.get(
         `http://4.188.244.11/account_view/7787998637/`
       );
+      console.log(response);
       SetUseraccount(response.data);
     } catch (error) {
       console.log(error);
@@ -65,16 +66,22 @@ const Usersmainpage = () => {
   }, [useraccount]);
   // vcariable for devices to pass content page
   const [devicesofaUser, setdevicesofaUser] = useState([]);
+  
 
   const setdevice = (deviceArray) => {
     setdevicesofaUser(deviceArray);
+    
   };
+useEffect(() => {
+  setdevice([])
+},[])
 
   useEffect(() => {
     if (devicesofaUser && devicesofaUser.length > 0) {
       console.log(devicesofaUser);
     }
   }, [devicesofaUser]);
+ 
   return (
     <>
       <Navbars

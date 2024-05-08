@@ -10,10 +10,10 @@ import { GoogleMap, LoadScript,Marker ,InfoWindow } from "@react-google-maps/api
 import Chartbox from "../Chartbox";
 import { useJsApiLoader } from '@react-google-maps/api';
 import mqtt from 'mqtt';
+import GoogleMapComponent from "../../Mapview";
 
 const GoogleMapdata = ({ containerStyle, lat, lng, address, devices }) => {
   const [activeMarker, setActiveMarker] = useState(null);
-  
 
 
 
@@ -89,6 +89,11 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
   const [wdata, setWdata] = useState(null);
   const [client, setClient] = useState(null);
   const [chartData, setChartData] = useState([]);
+
+  useEffect(()=>{
+    console.log(devicesofaUser);
+
+  },[])
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
@@ -169,7 +174,8 @@ const Content = ({ toggleStates,oneaccountdata,devicesofaUser}) => {
     <>
       <div className="contain p-3">
         <div className="mapbox shadow">
-          <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} />
+          {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
+          <GoogleMapComponent devicesNamesList={devicesofaUser} center={center}/>
         </div>
         <div className="weatherbox shadow" style={{ padding: "5px", width: "350px" }}>
           {wdata ? (
