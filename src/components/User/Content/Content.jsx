@@ -15,9 +15,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
 
   const [chartData, setChartData] = useState([]);
 
-  useEffect(() => {
-    console.log(devicesofaUser);
-  }, []);
+ 
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
@@ -44,9 +42,9 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
 
     mqttClient.on("message", (topic, payload) => {
       const data = JSON.parse(payload.toString());
-      console.log(data);
+      // console.log(data);
       setChartData(data);
-      console.log(chartData);
+      // console.log(chartData);
     });
 
     return () => {

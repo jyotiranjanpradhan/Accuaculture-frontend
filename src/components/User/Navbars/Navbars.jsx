@@ -13,6 +13,9 @@ import addgif from "../usersimage/Added.gif";
 import deletesuccess from "../usersimage/deleteanimation.gif";
 import CalendarComponent from "../CalendarComponent ";
 import loadingprofile from "../usersimage/loading.gif";
+import mqtt from "mqtt";
+
+
 const Navbars = ({
   handleToggle,
   useraccount,
@@ -48,6 +51,48 @@ const Navbars = ({
   const uniqueValues = new Set();
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
+  const [deviceStates, setDeviceStates] = useState(() => {
+    const storedDeviceStates = localStorage.getItem('deviceStates');
+    return storedDeviceStates ? JSON.parse(storedDeviceStates) : {};
+  })
+
+  // Function to initialize device states
+  const initializeDeviceStates = () => {
+    // Check if deviceStates is already initialized
+    if (Object.keys(deviceStates).length === 0) {
+      const updatedDeviceStates = {};
+      devicedetails.forEach(devicedata => {
+        const deviceId = devicedata[1];
+        if (deviceStates[deviceId] === undefined) {
+          updatedDeviceStates[deviceId] = {
+            checked: false,
+            virtualPin: devicedata[2]
+          };
+        } else {
+          updatedDeviceStates[deviceId] = {
+            ...deviceStates[deviceId],
+            virtualPin: devicedata[2]
+          };
+        }
+      });
+      setDeviceStates(updatedDeviceStates);
+      localStorage.setItem('deviceStates', JSON.stringify(updatedDeviceStates));
+    }
+  };
+
+  // Initialize device states when component mounts
+  useEffect(() => {
+    initializeDeviceStates();
+  }, []);
+
+  const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
+    const updatedDeviceStates = {
+      ...deviceStates,
+      [deviceId]: { checked: isChecked, virtualPin }
+    };
+    setDeviceStates(updatedDeviceStates);
+    localStorage.setItem('deviceStates', JSON.stringify(updatedDeviceStates));
+  };
  
   const handleSwitchToggle = (devicedata,stst) => {
     console.log(JSON.parse(localStorage.getItem(devicedata[1]))[2]);
@@ -61,6 +106,48 @@ const Navbars = ({
     localStorage.setItem(devicedata[1],JSON.stringify(ondevicedata));
     
   };
+  useEffect(() => {
+    const mqttClient = mqtt.connect({
+      hostname: "4.240.114.7",
+      port: 9001,
+      protocol: "ws",
+      username: "BarifloLabs",
+      password: "Bfl@123",
+    });
+    const storedDeviceStates = localStorage.getItem('deviceStates');
+    if (storedDeviceStates) {
+      const deviceStates = JSON.parse(storedDeviceStates);
+
+      // Iterate over each key-value pair in deviceStates
+      Object.entries(deviceStates).forEach(([deviceId, { checked, virtualPin }]) => {
+        // Construct statusSend object
+        const statusSend = {
+          display_id: parseInt(deviceId),
+          virtual_pin: virtualPin,
+          status: checked ? true : false, // Assuming 'on' when checked, 'off' when unchecked
+        };
+
+        // Log or use statusSend object as needed
+        // console.log(statusSend);
+        const topic = parseInt(deviceId);
+          const message = JSON.stringify(statusSend);
+          const qos = 0; 
+          // console.log(message,topic);
+        try {
+          mqttClient.publish(topic, message, qos)
+          .subscribe({
+            next: () => console.log('Message published successfully.',message),
+            error: (error) => console.error('Failed to publish message:', error),
+          });
+        }
+        catch (error) {
+          console.error('MQTT connection error:', error);
+          console.error('Cannot publish message. MQTT connection is not established.');
+        }
+        
+      });
+    }
+  }, [handleCheckboxChange]);
   
   //user detaikls calkl 
   const userdatas=async()=>{
@@ -514,13 +601,13 @@ const Navbars = ({
                       className=" form-check form-switch"
                       style={{ fontSize: "x-large" }}
                     >
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                      checked={localStorage.getItem(devicedata[1])? JSON.parse(localStorage.getItem(devicedata[1]))[2]:false}
-                       onChange={(e) => handleSwitchToggle(devicedata,e.target.checked)}
-                      />
+                       <input
+                className="form-check-input"
+                type="checkbox"
+                role="switch"
+                checked={deviceStates[devicedata[1]] ? deviceStates[devicedata[1]].checked : false}
+               onChange={(e)=>{handleCheckboxChange(devicedata[1],e.target.checked,devicedata[3])}}
+              />
                     </div>
                   </div>
                   <hr className="my-0 text-secondary" />
