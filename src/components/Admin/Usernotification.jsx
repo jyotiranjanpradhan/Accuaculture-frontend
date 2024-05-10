@@ -977,6 +977,7 @@ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
         mapContainerStyle={containerStyle}
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
+        mapTypeId="satellite" 
       >
         <Marker
           position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}

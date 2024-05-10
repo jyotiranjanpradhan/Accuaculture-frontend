@@ -34,6 +34,7 @@ const Usersmainpage = () => {
   });
 
   const updateCoordinates = (lat, lng, address) => {
+    
     setOneAccountDetails({
       latitude: lat,
       longitude: lng,
@@ -102,3 +103,4 @@ const Usersmainpage = () => {
 };
 
 export default Usersmainpage;
+

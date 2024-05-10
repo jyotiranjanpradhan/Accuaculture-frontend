@@ -25,6 +25,8 @@ const Navbars = ({
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
+  //all details of user
+  const[userdetails,setUserdetails]=useState([""]);
   // variable for visible and hide of analatic button of sidenavbar
   const [analyticvisible, setAnalyticVisible] = useState(false);
   // variable for  input field open and close of topnavbar
@@ -46,8 +48,30 @@ const Navbars = ({
   const uniqueValues = new Set();
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
-  //user details
-  const [userdetails, setUserdetails] = useState("");
+ 
+  const handleSwitchToggle = (devicedata,stst) => {
+    console.log(JSON.parse(localStorage.getItem(devicedata[1]))[2]);
+  
+   const ondevicedata=([
+      devicedata[1],
+      devicedata[3],
+     stst 
+    ]);
+
+    localStorage.setItem(devicedata[1],JSON.stringify(ondevicedata));
+    
+  };
+  
+  //user detaikls calkl 
+  const userdatas=async()=>{
+ try {
+   const response=await axios.get(`http://20.244.51.20:8000/userside_user_view/${mobileno}/`);
+   console.log(response);
+   setUserdetails(response.data.message);
+ } catch (error) {
+  console.log(error);
+ }
+}
   // temporary labelname
   const [templabel, setTemplebel] = useState("");
   //show calender variable
@@ -115,7 +139,7 @@ const Navbars = ({
     }
   };
 
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(farmer);
 
   const fetchProfilepicture = async () => {
     try {
@@ -123,8 +147,8 @@ const Navbars = ({
       const response = await axios.get(
         `http://20.244.51.20:8000/imageview/${mobileno}/`
       );
-      console.log(response.data.image);
-      if (response)
+      console.log(response);
+      if (response.data.image)
         setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
     } catch (error) {
       console.error("Error fetching profile image:", error);
@@ -212,14 +236,15 @@ const Navbars = ({
   };
 
   // API CALL TO SEE HOW MANY DEVICE PRESENT IN A ACCOUNT
-  async function devicefetch(deviceid) {
+  async function devicefetch(Accid) {
     try {
       const response = await axios.get(
-        `http://20.244.51.20:8000/userside_device_view/${deviceid}/`
+        `http://20.244.51.20:8000/userside_device_view/${Accid}/`
       );
 
       setdevice(response.data);
       setdevicedetails(response.data);
+      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -228,13 +253,14 @@ const Navbars = ({
   // BY THIS FUNCTION CORDEINATE AND ADDRESS UPDATE ON USERMAIN PAGE  AND USERMAIN PAGE PASS THAT TO CONTENT TO SHOW ON MAP
   const handleClickAccountDetails = (latitude, longitude, address) => {
     updateCoordinates(latitude, longitude, address);
+  
   };
 
   // HOW MANY LABELS PRESENT IN A DEVICE
-  async function devicelabelFetch(deviceid) {
+  async function devicelabelFetch(Accid) {
     try {
       const response = await axios.get(
-        `http://20.244.51.20:8000/userside_graph_view/${deviceid}/`
+        `http://20.244.51.20:8000/userside_graph_view/${Accid}/`
       );
       for (const key in response.data) {
         response.data[key].forEach((value) => uniqueValues.add(value));
@@ -253,6 +279,7 @@ const Navbars = ({
       // console.log(useraccount.items[0][1]);
       devicelabelFetch(useraccount.items[0][1]);
       fetchProfilepicture();
+      userdatas();
     }
   }, [useraccount]);
 
@@ -470,6 +497,7 @@ const Navbars = ({
             >
               {devicedetails.map((devicedata) => (
                 <>
+               
                   <div className="d-flex justify-content-between p-2">
                     <div>
                       <p className="mb-0">
@@ -490,7 +518,8 @@ const Navbars = ({
                         className="form-check-input"
                         type="checkbox"
                         role="switch"
-                        id="flexSwitchCheckDefault"
+                      checked={localStorage.getItem(devicedata[1])? JSON.parse(localStorage.getItem(devicedata[1]))[2]:false}
+                       onChange={(e) => handleSwitchToggle(devicedata,e.target.checked)}
                       />
                     </div>
                   </div>
@@ -539,7 +568,7 @@ const Navbars = ({
             style={{ border: "none", height: "40px" }}
           >
             <img
-              src={profileImage || farmer}
+              src={profileImage }
               alt="farmer"
               style={{
                 backgroundColor: "white",
@@ -568,15 +597,21 @@ const Navbars = ({
             <div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Name :</p>
-                <p>{}</p>
+                <p>{userdetails[0][2] }</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Mob : </p>
-                <p>{mobileno}</p>
+                <p>{userdetails[0][0]}</p>
+              </div>
+              <div className="d-flex flex-row justify-content-between p-2">
+                <p>E-Mail:</p>
+                <p>{userdetails[0][1]}</p>
+                
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Adhar-No.:</p>
-                <p>{}</p>
+                <p>{userdetails[0][3] }</p>
+                
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p style={{ cursor: "pointer" }} onClick={dpUpload}>
@@ -640,10 +675,10 @@ const Navbars = ({
                           cursor: "pointer",
                         }}
                         onClick={(e) => {
-                          const newDeviceId = data[1];
-                          devicefetch(newDeviceId);
+                          const newAccountid = data[1];
+                          devicefetch(newAccountid);
                           handleClickAccountDetails(data[2], data[3], data[4]);
-                          devicelabelFetch(newDeviceId);
+                          devicelabelFetch(newAccountid);
                           setaccid(data[1]);
                         }}
                       >

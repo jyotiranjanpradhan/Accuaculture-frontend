@@ -83,8 +83,8 @@ const Chartbox = ({ metric, data }) => {
   }));
 
   return (
-    <div>
-      <Chart options={options} series={chartSeries} type="line" height={350} />
+    <div className='col-12 col-md-6 ' >
+      <Chart options={options} series={chartSeries} type="line" height={350}  />
     </div>
   );
 };

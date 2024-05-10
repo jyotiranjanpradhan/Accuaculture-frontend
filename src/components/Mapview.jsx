@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
 
-const GoogleMapComponent = ({ devicesNamesList, devicesStatus, center }) => {
+const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address}) => {
   const [map, setMap] = useState(null);
-  const [centerMarker, setCenterMarker] = useState(null);
 
   useEffect(() => {
-    console.log(typeof center.lat);
     const initMap = () => {
       const mapInstance = new window.google.maps.Map(
         document.getElementById("map"),
         {
-          center: { lat: center.lat, lng: center.lng },
+          center: { lat:parseFloat(latitude) , lng:parseFloat(longitude)},
           zoom: 17,
           mapTypeId: "satellite",
         }
       );
       // Add pin marker at the center
-      console.log(center.lat, center.lng);
+   
       const marker = new window.google.maps.Marker({
-        position: { lat: center.lat, lng: center.lng },
+        position: { lat:parseFloat(latitude), lng: parseFloat(longitude) },
         map: mapInstance,
-        title: center.address,
+        title: address,
       });
-      setCenterMarker(marker);
 
       // Add info window for center marker
       const centerInfoWindow = new window.google.maps.InfoWindow({
         content: `<div>
-                    <p>Location: ${center.address}</p>
+                    <p>Location: ${address}</p>
                   </div>`,
       });
 
@@ -40,7 +37,7 @@ const GoogleMapComponent = ({ devicesNamesList, devicesStatus, center }) => {
     } else {
       initMap();
     }
-  }, [center]);
+  }, [latitude,longitude,address]);
 
   useEffect(() => {
     if (map) {
@@ -87,7 +84,7 @@ const GoogleMapComponent = ({ devicesNamesList, devicesStatus, center }) => {
         });
       });
     }
-  }, [map, devicesNamesList, devicesStatus]);
+  }, [map, devicesNamesList]);
 
   return <div id="map" style={{ width: "100%", height: "400px" }} />;
 };

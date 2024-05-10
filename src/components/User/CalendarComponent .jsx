@@ -13,7 +13,7 @@ const CalendarComponent = () => {
   const [eventtodelete, Seteventtodelete] = useState(false);
   const [eventid, setEventid] = useState("");
   const mobileno = localStorage.getItem("usermob");
-  console.log(mobileno);
+
 
   const allevents = async () => {
     try {

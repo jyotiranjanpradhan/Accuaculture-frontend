@@ -61,7 +61,7 @@
   margin: 10px 0 0 53px;
 }
 .chartcontainer{
-  display: grid;
+  
   margin-left: 90px;
   grid-template-columns: 2fr 2fr;
 }

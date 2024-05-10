@@ -37,7 +37,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
       // mqttClient.subscribe(`${372582595849208}/data`);
       devicesofaUser.forEach((device) => {
         const deviceId = device[1];
-        // console.log(deviceId);
+        console.log(deviceId);
         mqttClient.subscribe(`${deviceId}/data`);
       });
     });
@@ -46,7 +46,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
       const data = JSON.parse(payload.toString());
       console.log(data);
       setChartData(data);
-      // console.log(chartData);
+      console.log(chartData);
     });
 
     return () => {
@@ -55,17 +55,13 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
         console.log("Disconnected from MQTT broker");
       }
     };
-  }, []);
+  }, [devicesofaUser]);
 
-  let center = {
+
+  let centerr = {
     lat: oneaccountdata.latitude,
     lng: oneaccountdata.longitude,
     address: oneaccountdata.Address,
-  };
-
-  const containerStyle = {
-    width: "100%",
-    height: "399px",
   };
 
   useEffect(() => {
@@ -74,6 +70,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&exclude={part}&appid=5de227dcd9d14b80bb39771618ef96d5`
         );
+        console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -84,9 +81,11 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
       }
     };
 
-    weatherData({ lat: center.lat, lng: center.lng });
-  }, [center.lat, center.lng]);
-
+    weatherData({ lat: centerr ?.lat, lng: centerr?.lng });
+  }, [centerr.lat, centerr.lng]);
+useEffect(()=>{
+  console.log("hi");
+},[oneaccountdata]);
   return (
     <>
       <div className="contain p-3">
@@ -94,7 +93,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
           <GoogleMapComponent
             devicesNamesList={devicesofaUser}
-            center={center}
+            latitude={centerr.lat} longitude={centerr.lng} address={centerr ?.address}
           />
         </div>
         <div
@@ -168,7 +167,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
         </div>
       </div>
       <div className="chartcontainer">
-        <div style={{ padding: "8px" }}>
+        <div  style={{ padding: "8px",width:'100%',display:'flex',flexWrap:'wrap'}}>
           {Object.keys(toggleStates).map(
             (metric) =>
               toggleStates[metric] && (

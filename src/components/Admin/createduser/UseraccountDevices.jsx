@@ -537,6 +537,7 @@ const UseraccountDevices = () => {
                       }}
                       zoom={15}
                       onClick={handleMapClick}
+                      mapTypeId="satellite" 
                     >
                       <Marker
                         position={{
