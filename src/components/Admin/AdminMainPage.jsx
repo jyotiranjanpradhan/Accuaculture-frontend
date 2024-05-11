@@ -26,7 +26,7 @@ const AdminMainPage = () => {
       <SideBar />
     
       <Routes>
-        <Route path="/*" element={<Usernotification/>} />
+        <Route path="/usernotification" element={<Usernotification/>} />
         <Route path="/createduser" element={<Createduser/>}/>
         <Route path="/createduser/useraccounts/:mob" element={<UserAccounts/>}/>
         <Route path="/createduser/useraccounts/UseraccountDevices/:accountid" element={<UseraccountDevices/>}/>

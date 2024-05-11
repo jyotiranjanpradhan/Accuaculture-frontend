@@ -143,7 +143,7 @@ const Sidebar = () => {
             {/* 1 */}
             <div className="outer">
               <NavLink
-                to="/admin/"
+                to="/admin/usernotification"
                 className="sidemenu d-flex align-items-center userNotification "
                 
               >
@@ -280,7 +280,7 @@ const Sidebar = () => {
               {/* 1 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/" className="sidemenu"  >
+                <NavLink to="/admin/usernotification" className="sidemenu"  >
                   <i className="bi bi-people" style={{ color: "white" }}></i>
                 </NavLink>
               </div>
