@@ -92,6 +92,41 @@ const Navbars = ({
     };
     setDeviceStates(updatedDeviceStates);
     localStorage.setItem('deviceStates', JSON.stringify(updatedDeviceStates));
+    const mqttClient = mqtt.connect({
+      hostname: "4.240.114.7",
+      port: 9001,
+      protocol: "ws",
+      username: "BarifloLabs",
+      password: "Bfl@123",
+    });
+    const storedDeviceStates = localStorage.getItem('deviceStates');
+    if (storedDeviceStates) {
+      const deviceStates = JSON.parse(storedDeviceStates);
+
+      // Iterate over each key-value pair in deviceStates
+      // Object.entries(deviceStates).forEach(([deviceId, { checked, virtualPin }]) => {
+        // Construct statusSend object
+        const statusSend = {
+          display_id: parseInt(deviceId),
+          virtual_pin: virtualPin,
+          status: isChecked  // Assuming 'on' when checked, 'off' when unchecked
+        };
+
+        // Log or use statusSend object as needed
+        // console.log(statusSend);
+        const topic = deviceId.toString();
+          const message = JSON.stringify(statusSend);
+          const qos = 0; 
+          console.log(message,topic);
+       
+          console.log(topic,message);
+          
+          mqttClient.publish(topic, message)
+          console.log("message sendf ");
+         
+        
+      // });
+    }
   };
  
   const handleSwitchToggle = (devicedata,stst) => {
@@ -107,46 +142,7 @@ const Navbars = ({
     
   };
   useEffect(() => {
-    const mqttClient = mqtt.connect({
-      hostname: "4.240.114.7",
-      port: 9001,
-      protocol: "ws",
-      username: "BarifloLabs",
-      password: "Bfl@123",
-    });
-    const storedDeviceStates = localStorage.getItem('deviceStates');
-    if (storedDeviceStates) {
-      const deviceStates = JSON.parse(storedDeviceStates);
-
-      // Iterate over each key-value pair in deviceStates
-      Object.entries(deviceStates).forEach(([deviceId, { checked, virtualPin }]) => {
-        // Construct statusSend object
-        const statusSend = {
-          display_id: parseInt(deviceId),
-          virtual_pin: virtualPin,
-          status: checked ? true : false, // Assuming 'on' when checked, 'off' when unchecked
-        };
-
-        // Log or use statusSend object as needed
-        // console.log(statusSend);
-        const topic = parseInt(deviceId);
-          const message = JSON.stringify(statusSend);
-          const qos = 0; 
-          // console.log(message,topic);
-        try {
-          mqttClient.publish(topic, message, qos)
-          .subscribe({
-            next: () => console.log('Message published successfully.',message),
-            error: (error) => console.error('Failed to publish message:', error),
-          });
-        }
-        catch (error) {
-          console.error('MQTT connection error:', error);
-          console.error('Cannot publish message. MQTT connection is not established.');
-        }
-        
-      });
-    }
+    
   }, [handleCheckboxChange]);
   
   //user detaikls calkl 
@@ -655,7 +651,7 @@ const Navbars = ({
             style={{ border: "none", height: "40px" }}
           >
             <img
-              src={profileImage }
+              src={profileImage ||farmer }
               alt="farmer"
               style={{
                 backgroundColor: "white",

@@ -13,29 +13,29 @@ const NgxDynamic = () => {
   const [client, setClient] = useState(null);
   const [chartData, setChartData] = useState({});
   const [graphHead, setGraphHead] = useState("");
-const [devicetypedata,setdevicetypedata]=useState([]);
- 
-useEffect(() => {
-  const adminSideDeviceType = localStorage.getItem('adminSideDeviceType');
-  if (adminSideDeviceType) {
-    const [deviceType, version] = adminSideDeviceType.split(',');
-    const apiUrl = `http://${process.env.REACT_APP_App_Ip}/controls_view/${deviceType}/${version}/`;
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(apiUrl);
-        setdevicetypedata(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('API Error:', error);
-      }
-    };
-    fetchData(); 
-  } else {
-    console.log('adminSideDeviceType not found in localStorage or in an unexpected format.');
-  }
-}, []); 
+  const [devicetypedata, setdevicetypedata] = useState([]);
 
- 
+  useEffect(() => {
+    const adminSideDeviceType = localStorage.getItem("adminSideDeviceType");
+    if (adminSideDeviceType) {
+      const [deviceType, version] = adminSideDeviceType.split(",");
+      const apiUrl = `http://${process.env.REACT_APP_App_Ip}/controls_view/${deviceType}/${version}/`;
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(apiUrl);
+          setdevicetypedata(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("API Error:", error);
+        }
+      };
+      fetchData();
+    } else {
+      console.log(
+        "adminSideDeviceType not found in localStorage or in an unexpected format."
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
@@ -90,8 +90,6 @@ useEffect(() => {
       }
     };
   }, []);
-
- 
 
   const options = {
     chart: {
@@ -181,26 +179,63 @@ useEffect(() => {
         </div>
 
         <div className="d-flex flex-wrap ">
-          {Object.entries(chartData).length === 0 ?( 
-             
-             <div style={{ padding: "8px" }}>
-             {Object.values(devicetypedata).map((graph) => {
-              console.log(graph);
-               if (graph.button) return null; // Skip rendering for button type
-               return (
-                 <div  style={{ padding: "8px" }}>
-                   <p style={{ fontSize: 20 }}>{graph.graph.display_name}</p>
-                   <Chart
-                     options={options}
-                     series={[{ name: deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
-                     type="area"
-                     width={750}
-                     height={650}
-                   />
-                 </div>
-               );
-             })}
-           </div>):(  // Render charts based on chartData
+          {Object.entries(chartData).length === 0 ? (
+           
+            <div style={{ padding: "8px" }}>
+              {Object.values(devicetypedata).map((data) => {
+                console.log(data);
+                if (data.button) return null; // Skip rendering for button type
+               else  if (data.graph) {
+
+                
+                  return (
+                    <div style={{ padding: "8px" }}>
+                    <p style={{ fontSize: 20 }}>{data.graph.display_name}</p>
+                    <Chart
+                      options={{
+                        series: [
+                          { name: "Session Duration" },
+                          { name: "Page Views" },
+                          { name: "Total Visits" }
+                        ],
+                        xaxis: {
+                          title: {
+                            text: "Times",
+                          },
+                        },
+                        
+                        yaxis: {
+                          title: {
+                            text: "Value",
+                          },
+                        },
+                        
+                      }}
+                      series={[{ name:deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
+                      type="area"
+                      width={750}
+                      height={650}
+                    />
+                  </div>
+                  )
+                }
+                else  if (data.slider) {
+                  return (
+                    <div style={{ padding: "8px" }}>
+                      <p style={{ fontSize: 20 }}>{data.slider.display_name}</p>
+                      <Chart
+                         options={options}
+                        series={[{ name: deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
+                        type="area"
+                        width={750}
+                        height={650}
+                      />
+                    </div>
+                  )
+                }
+              })}
+            </div> // Render charts based on chartData
+          ) : (
             Object.entries(chartData).map(([paramType, data]) => (
               <div key={paramType} style={{ padding: "8px" }}>
                 <p style={{ fontSize: 30 }}>{paramType}</p>
@@ -212,8 +247,8 @@ useEffect(() => {
                   height={650}
                 />
               </div>
-            )))}
-         
+            ))
+          )}
         </div>
       </div>
     </>

@@ -10,6 +10,7 @@ import { AdminContext } from "../../App";
 import axios from "axios";
 
 const Usernotification = () => {
+
   const admin_id = localStorage.getItem("admin_id");
 
   const [openModel, setOpenModel] = useState(false);

@@ -47,6 +47,8 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
       // console.log(chartData);
     });
 
+    
+
     return () => {
       if (mqttClient) {
         mqttClient.end();

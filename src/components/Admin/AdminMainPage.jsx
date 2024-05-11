@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import SideBar from "./Sidebar/SideBar";
 import Footer from "./footer/Footer";
 import Usernotification from "./Usernotification";
@@ -13,11 +14,16 @@ import Deviceassignctrl from "./devicetype/Deviceassignctrl";
 
 
 const AdminMainPage = () => {
-
+  const navigate = useNavigate();
   const urlParams = new URLSearchParams(window.location.search);
   const mobno = urlParams.get('mono');
-  if(mobno)
-  localStorage.setItem('admin_id', mobno);
+  useEffect(() => {
+    if (mobno) {
+      localStorage.setItem('admin_id', mobno);
+      navigate('/admin/usernotification'); 
+    }
+  }, [mobno, navigate]);
+ 
   return (
 
 
