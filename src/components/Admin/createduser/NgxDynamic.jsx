@@ -5,6 +5,7 @@ import Chart from "react-apexcharts";
 import { AdminContext } from "../../../App";
 import mqtt from "mqtt";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const NgxDynamic = () => {
   const { isSidebarOpen } = useContext(AdminContext);
@@ -12,6 +13,29 @@ const NgxDynamic = () => {
   const [client, setClient] = useState(null);
   const [chartData, setChartData] = useState({});
   const [graphHead, setGraphHead] = useState("");
+const [devicetypedata,setdevicetypedata]=useState([]);
+ 
+useEffect(() => {
+  const adminSideDeviceType = localStorage.getItem('adminSideDeviceType');
+  if (adminSideDeviceType) {
+    const [deviceType, version] = adminSideDeviceType.split(',');
+    const apiUrl = `http://${process.env.REACT_APP_App_Ip}/controls_view/${deviceType}/${version}/`;
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(apiUrl);
+        setdevicetypedata(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('API Error:', error);
+      }
+    };
+    fetchData(); 
+  } else {
+    console.log('adminSideDeviceType not found in localStorage or in an unexpected format.');
+  }
+}, []); 
+
+ 
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
@@ -67,6 +91,8 @@ const NgxDynamic = () => {
     };
   }, []);
 
+ 
+
   const options = {
     chart: {
       id: "realtime",
@@ -97,6 +123,7 @@ const NgxDynamic = () => {
       width: 3, // Adjust the width as needed
     },
   };
+  const defaultLabels = ["current", "voltage", "rpm", "mpu"];
 
   return (
     <>
@@ -154,18 +181,39 @@ const NgxDynamic = () => {
         </div>
 
         <div className="d-flex flex-wrap ">
-          {Object.entries(chartData).map(([paramType, data]) => (
-            <div key={paramType} style={{ padding: "8px" }}>
-              <p style={{ fontSize: 30 }}>Chart for {paramType}</p>
-              <Chart
-                options={options}
-                series={[{ name: deviceId, data }]}
-                type="area"
-                width={750}
-                height={650}
-              />
-            </div>
-          ))}
+          {Object.entries(chartData).length === 0 ?( 
+             
+             <div style={{ padding: "8px" }}>
+             {Object.values(devicetypedata).map((graph) => {
+              console.log(graph);
+               if (graph.button) return null; // Skip rendering for button type
+               return (
+                 <div  style={{ padding: "8px" }}>
+                   <p style={{ fontSize: 20 }}>{graph.graph.display_name}</p>
+                   <Chart
+                     options={options}
+                     series={[{ name: deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
+                     type="area"
+                     width={750}
+                     height={650}
+                   />
+                 </div>
+               );
+             })}
+           </div>):(  // Render charts based on chartData
+            Object.entries(chartData).map(([paramType, data]) => (
+              <div key={paramType} style={{ padding: "8px" }}>
+                <p style={{ fontSize: 30 }}>{paramType}</p>
+                <Chart
+                  options={options}
+                  series={[{ name: deviceId, data }]}
+                  type="area"
+                  width={750}
+                  height={650}
+                />
+              </div>
+            )))}
+         
         </div>
       </div>
     </>

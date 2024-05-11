@@ -79,7 +79,7 @@ const Deviceassignctrl = () => {
   async function buttonEdit(editvalue) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/on_off_control_edit/`,
+        `http://${process.env.REACT_APP_App_Ip}/on_off_control_edit/`,
         editvalue
       );
     } catch (error) {
@@ -107,7 +107,7 @@ const Deviceassignctrl = () => {
     try {
       console.log(editvalue);
       const response = await axios.post(
-        `http://4.188.244.11/slider_control_edit/`,
+        `http://${process.env.REACT_APP_App_Ip}/slider_control_edit/`,
         editvalue
       );
       console.log(response);
@@ -131,7 +131,7 @@ const Deviceassignctrl = () => {
   async function graphedit(editvalue) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/graph_control_edit/`,
+        `http://${process.env.REACT_APP_App_Ip}/graph_control_edit/`,
         editvalue
       );
       console.log(response);
@@ -173,7 +173,7 @@ const Deviceassignctrl = () => {
   async function deletectrl(todelete) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/control_delete/`,
+        `http://${process.env.REACT_APP_App_Ip}/control_delete/`,
         todelete
       );
     } catch (error) {
@@ -232,7 +232,7 @@ const Deviceassignctrl = () => {
   async function addbutton(datatoadd) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/on_off_control/`,
+        `http://${process.env.REACT_APP_App_Ip}/on_off_control/`,
         datatoadd
       );
       console.log(response);
@@ -255,7 +255,7 @@ const Deviceassignctrl = () => {
   async function addslider(datatoadd) {
     try {
       const response = axios.post(
-        `http://4.188.244.11/slider_control/`,
+        `http://${process.env.REACT_APP_App_Ip}/slider_control/`,
         datatoadd
       );
     } catch (error) {
@@ -275,7 +275,7 @@ const Deviceassignctrl = () => {
   async function addgraph(datatoadd) {
     try {
       const response = axios.post(
-        `http://4.188.244.11/graph_control/`,
+        `http://${process.env.REACT_APP_App_Ip}/graph_control/`,
         datatoadd
       );
     } catch (error) {
@@ -306,7 +306,7 @@ const Deviceassignctrl = () => {
   //Main Api for this page START
   async function fetchdata() {
     const response = await axios.get(
-      `http://4.188.244.11/controls_view/${devicename}/${version}/`
+      `http://${process.env.REACT_APP_App_Ip}/controls_view/${devicename}/${version}/`
     );
     setAssignedctrldata(response.data);
     console.log(response.data);

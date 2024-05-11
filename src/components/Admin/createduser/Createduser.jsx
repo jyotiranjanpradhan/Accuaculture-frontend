@@ -67,7 +67,7 @@ const Createduser = () => {
   const createduserfetch = async () => {
     try {
       const response = await axios.get(
-        `http://4.188.244.11/user_view/${admin_id}/`
+        `http://${process.env.REACT_APP_App_Ip}/user_view/${admin_id}/`
       );
       setTotaluserrequested(response.data.items.length);
       setRequesteduser(response.data.items);
@@ -79,7 +79,7 @@ const Createduser = () => {
   const deleteuserfetch = async (mob) => {
     try {
       console.log(mob);
-      const response = await axios.post(`http://4.188.244.11/user_delete/`, {
+      const response = await axios.post(`http://${process.env.REACT_APP_App_Ip}/user_delete/`, {
         mobileno: mob,
       });
       console.log(response);
@@ -140,7 +140,7 @@ const Createduser = () => {
 
     try {
       const res = await axios.post(
-        `http://20.244.51.20:8000/account_create/`,
+        `http://${process.env.REACT_APP_App_Ip}/account_create/`,
         userdata
       );
       console.log(res);
@@ -422,33 +422,23 @@ const Createduser = () => {
                 <div className="d-flex">
                   <input
                     ref={latt}
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Latitude"
                     style={{ width: "200px" }}
-                    required
-                    onInvalid={(e) =>
-                      e.target.setCustomValidity(
-                        "Please Enter Account Longitude"
-                      )
-                    }
+                  
                     onChange={(e) => e.target.setCustomValidity("")}
                   ></input>
 
                   <input
                     ref={lngg}
-                    type="number"
+                    type="text"
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Longitude"
                     style={{ width: "200px", marginLeft: "50px" }}
-                    required
-                    onInvalid={(e) =>
-                      e.target.setCustomValidity(
-                        "Please Enter Account Latitude"
-                      )
-                    }
+                   
                     onChange={(e) => e.target.setCustomValidity("")}
                   ></input>
 

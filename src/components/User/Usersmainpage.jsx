@@ -48,7 +48,7 @@ const Usersmainpage = () => {
   const accountFetch = async () => {
     try {
       const response = await axios.get(
-        `http://4.188.244.11/account_view/${mobno}/`
+        `http://${process.env.REACT_APP_App_Ip}/account_view/${mobno}/`
       );
       console.log(response);
       SetUseraccount(response.data);

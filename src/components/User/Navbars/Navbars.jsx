@@ -152,7 +152,7 @@ const Navbars = ({
   //user detaikls calkl 
   const userdatas=async()=>{
  try {
-   const response=await axios.get(`http://20.244.51.20:8000/userside_user_view/${mobileno}/`);
+   const response=await axios.get(`http://${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`);
    console.log(response);
    setUserdetails(response.data.message);
  } catch (error) {
@@ -205,7 +205,7 @@ const Navbars = ({
 
     try {
       const response = await axios.post(
-        "http://20.244.51.20:8000/user_pic_docs/",
+        `http://${process.env.REACT_APP_App_Ip}/user_pic_docs/`,
         formData,
         {
           headers: {
@@ -232,11 +232,11 @@ const Navbars = ({
     try {
       //add api here by  mobileno
       const response = await axios.get(
-        `http://20.244.51.20:8000/imageview/${mobileno}/`
+        `http://${process.env.REACT_APP_App_Ip}/imageview/${mobileno}/`
       );
       console.log(response);
       if (response.data.image)
-        setProfileImage(`http://20.244.51.20:8000${response.data.image}/`);
+        setProfileImage(`http://${process.env.REACT_APP_App_Ip}${response.data.image}/`);
     } catch (error) {
       console.error("Error fetching profile image:", error);
     }
@@ -247,7 +247,7 @@ const Navbars = ({
     try {
       if (accid) {
         const response = await axios.get(
-          `http://20.244.51.20:8000/userside_devicetype/${accid}/`
+          `http://${process.env.REACT_APP_App_Ip}/userside_devicetype/${accid}/`
         );
 
         setDevicetypes(response.data.message);
@@ -279,7 +279,7 @@ const Navbars = ({
 
     try {
       const response = await axios.post(
-        "http://20.244.51.20:8000/param_delete/",
+        `http://${process.env.REACT_APP_App_Ip}/param_delete/`,
         deletedata
       );
       if (response) {
@@ -307,7 +307,7 @@ const Navbars = ({
 
     try {
       const response = await axios.patch(
-        "http://20.244.51.20:8000/param_update/",
+        `http://${process.env.REACT_APP_App_Ip}/param_update/`,
         newData
       );
       console.log("Response:", response);
@@ -326,7 +326,7 @@ const Navbars = ({
   async function devicefetch(Accid) {
     try {
       const response = await axios.get(
-        `http://20.244.51.20:8000/userside_device_view/${Accid}/`
+        `http://${process.env.REACT_APP_App_Ip}/userside_device_view/${Accid}/`
       );
 
       setdevice(response.data);
@@ -347,7 +347,7 @@ const Navbars = ({
   async function devicelabelFetch(Accid) {
     try {
       const response = await axios.get(
-        `http://20.244.51.20:8000/userside_graph_view/${Accid}/`
+        `http://${process.env.REACT_APP_App_Ip}/userside_graph_view/${Accid}/`
       );
       for (const key in response.data) {
         response.data[key].forEach((value) => uniqueValues.add(value));

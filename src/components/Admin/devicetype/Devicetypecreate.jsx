@@ -19,7 +19,7 @@ const Devicetypecreate = () => {
   async function newdeviceadd(dataofnewdevice) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/devicetype_create/`,
+        `http://${process.env.REACT_APP_App_Ip}/devicetype_create/`,
         dataofnewdevice
       );
     } catch (error) {
@@ -36,7 +36,7 @@ const Devicetypecreate = () => {
   async function editdevice(deviceinfo) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/devicetype_edit/`,
+        `http://${process.env.REACT_APP_App_Ip}/devicetype_edit/`,
         deviceinfo
       );
     } catch (error) {
@@ -51,7 +51,7 @@ const Devicetypecreate = () => {
   async function deletedevicetype(devicedata) {
     try {
       const response = await axios.post(
-        `http://4.188.244.11/devicetype_delete/`,
+        `http://${process.env.REACT_APP_App_Ip}/devicetype_delete/`,
         devicedata
       );
     } catch (error) {
@@ -76,7 +76,7 @@ const Devicetypecreate = () => {
 
   const Devicetype = async () => {
     try {
-      const response = await axios.get("http://4.188.244.11/devicetype_view/");
+      const response = await axios.get(`http://${process.env.REACT_APP_App_Ip}/devicetype_view/`);
       setTotaldevicetype(response.data.results.length);
       setAlldevice(response.data.results);
     } catch (error) {

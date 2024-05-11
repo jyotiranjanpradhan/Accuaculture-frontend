@@ -46,7 +46,7 @@ const UseraccountDevices = () => {
     setDeleteButton(!deletebutton);
   };
   async function userDeviceDelete() {
-    await axios.post("http://4.188.244.11/device_delete/", {
+    await axios.post(`http://${process.env.REACT_APP_App_Ip}/device_delete/`, {
       deviceid: deviceid,
     });
   }
@@ -63,7 +63,10 @@ const UseraccountDevices = () => {
     };
 
     try {
-      await axios.post("http://4.188.244.11/device_edit/", newDeviceData);
+      await axios.post(
+        `http://${process.env.REACT_APP_App_Ip}/device_edit/`,
+        newDeviceData
+      );
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +79,7 @@ const UseraccountDevices = () => {
   async function usersDeviceFetch() {
     try {
       const response = await axios.get(
-        `http://4.188.244.11/device_view/${accountid}/`
+        `http://${process.env.REACT_APP_App_Ip}/device_view/${accountid}/`
       );
       setUserDeviceList(response.data.result);
       console.log(response.data.result);
@@ -96,7 +99,7 @@ const UseraccountDevices = () => {
   async function seedevicetype() {
     try {
       const response = await axios.get(
-        "http://20.244.51.20:8000/devicetype_view/"
+        `http://${process.env.REACT_APP_App_Ip}/devicetype_view/`
       );
       setDevicetypes(response.data.results);
     } catch (error) {
@@ -119,7 +122,7 @@ const UseraccountDevices = () => {
     };
     try {
       const res = await axios.post(
-        `http://4.188.244.11/device_create/`,
+        `http://${process.env.REACT_APP_App_Ip}/device_create/`,
         devicedata
       );
       console.log(res);
@@ -385,7 +388,11 @@ const UseraccountDevices = () => {
                     textAlign: "cenetr",
                     marginLeft: "8px",
                   }}
-                  onClick={() => showStatus(data[2], data[0], accountid)}
+                  onClick={() => {
+                    showStatus(data[2], data[0], accountid);
+                    const datas = [data[2], data[3]];
+                    localStorage.setItem("adminSideDeviceType", datas);
+                  }}
                 >
                   Stats
                 </button>
@@ -537,7 +544,7 @@ const UseraccountDevices = () => {
                       }}
                       zoom={15}
                       onClick={handleMapClick}
-                      mapTypeId="satellite" 
+                      mapTypeId="satellite"
                     >
                       <Marker
                         position={{

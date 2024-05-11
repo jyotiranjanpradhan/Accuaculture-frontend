@@ -18,7 +18,7 @@ const CalendarComponent = () => {
   const allevents = async () => {
     try {
       const response = await axios.get(
-        `http://20.244.51.146:8000/calender_view/${mobileno}/`
+        `http://${process.env.REACT_APP_App_Ip}/calender_view/${mobileno}/`
       );
       console.log(response.data.message);
       if (response) {
@@ -51,7 +51,7 @@ const CalendarComponent = () => {
 
     try {
       const response = await axios.post(
-        "http://20.244.51.146:8000/calender_delete/",
+        `http://${process.env.REACT_APP_App_Ip}/calender_delete/`,
         deleteeventdata
       );
       if (response) {
@@ -78,7 +78,7 @@ const CalendarComponent = () => {
     console.log(newEvent);
     try {
       const response = await axios.post(
-        "http://20.244.51.146:8000/calender_create/",
+        `http://${process.env.REACT_APP_App_Ip}/calender_create/`,
         newEvent
       );
       console.log(response);

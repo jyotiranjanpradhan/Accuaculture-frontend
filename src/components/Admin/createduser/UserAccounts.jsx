@@ -32,7 +32,7 @@ const UserAccounts = () => {
   const userAccountFetch = async () => {
     try {
       const response = await axios.get(
-        `http://4.188.244.11/account_view/${mob}/`
+        `http://${process.env.REACT_APP_App_Ip}/account_view/${mob}/`
       );
       setUseraccount(response.data.items);
     } catch (error) {
@@ -67,7 +67,7 @@ const UserAccounts = () => {
     };
     try {
       const response = await axios.post(
-        `http://4.188.244.11/account_edit/`,
+        `http://${process.env.REACT_APP_App_Ip}/account_edit/`,
         accountbody
       );
       console.log(response);
@@ -83,7 +83,7 @@ const UserAccounts = () => {
     };
     try {
       const response = await axios.post(
-        `http://4.188.244.11/account_delete/`,
+        `http://${process.env.REACT_APP_App_Ip}/account_delete/`,
         accountdata
       );
       console.log(response);
