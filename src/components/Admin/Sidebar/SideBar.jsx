@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {  NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import companylogo from "./companylogo.png";
 import "./SideBar.css";
 import { AdminContext } from "../../../App";
 
 const Sidebar = () => {
   //for showing logout popup on click of user logo on top navbar
-  const [logouttext,setLogouttext]=useState(false);
+  const [logouttext, setLogouttext] = useState(false);
   const [logout, setLogout] = useState(false);
 
   //for on and  off of sidebar if sidebar is open show icon with corresponding name if  close only show icon
@@ -17,11 +17,15 @@ const Sidebar = () => {
   // from context api for expand and collapse of content according to sidebar
   const { isSidebarOpen, setIsSidebarOpen } = useContext(AdminContext);
 
-  const tologout=()=>{
+  const tologout = () => {
     setLogouttext(!logouttext);
-  }
+  };
   const islogout = () => {
     setLogout(!logout);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_id");
   };
 
   const sidebar = () => {
@@ -54,7 +58,7 @@ const Sidebar = () => {
                   marginRight: "45px",
                   borderRadius: "10px",
                   backgroundColor: "#FFFFFF",
-                  zIndex:10,
+                  zIndex: 10,
                 }}
               >
                 <p
@@ -66,7 +70,7 @@ const Sidebar = () => {
                     justifyContent: "center",
                     fontSize: 20,
                     fontWeight: "bold",
-                    cursor:'pointer'
+                    cursor: "pointer",
                   }}
                   onClick={islogout}
                 >
@@ -77,7 +81,6 @@ const Sidebar = () => {
                       marginRight: "5px",
                       fontSize: 30,
                     }}
-                   
                   ></i>
                   Logout
                 </p>
@@ -110,20 +113,21 @@ const Sidebar = () => {
       {sidebartoggle ? (
         <div className="sideBar d-flex flex-column">
           <div className="d-flex justify-content-end">
-            <div style={{
+            <div
+              style={{
                 fontSize: 30,
                 backgroundColor: "white",
                 borderRadius: "50%",
                 margin: "7px 0 5px 5px",
-                height:'30px',
-                cursor:'pointer'
-              
-              }}>
-            <i
-              class="bi bi-arrow-left-short"
-              style={{ fontSize: 30,top:'-7px',position:'relative'}}
-              onClick={sidebar}
-            ></i>
+                height: "30px",
+                cursor: "pointer",
+              }}
+            >
+              <i
+                class="bi bi-arrow-left-short"
+                style={{ fontSize: 30, top: "-7px", position: "relative" }}
+                onClick={sidebar}
+              ></i>
             </div>
           </div>
           <div className="logos ">
@@ -145,7 +149,6 @@ const Sidebar = () => {
               <NavLink
                 to="/admin/usernotification"
                 className="sidemenu d-flex align-items-center userNotification "
-                
               >
                 <i
                   className="bi bi-people"
@@ -153,11 +156,10 @@ const Sidebar = () => {
                 ></i>{" "}
                 <p
                   style={{
-                    margin:'1px 0 0 15px',
+                    margin: "1px 0 0 15px",
                     color: "white",
-                    textAlign:'center',
+                    textAlign: "center",
                     fontSize: 20,
-                  
                   }}
                 >
                   Notification
@@ -175,13 +177,15 @@ const Sidebar = () => {
                 <i
                   className="bi bi-person-check"
                   style={{ color: "white", fontSize: 24 }}
-                >    </i>
+                >
+                  {" "}
+                </i>
 
                 <p
                   style={{
-                    margin:'1px 0 0 15px',
+                    margin: "1px 0 0 15px",
                     color: "white",
-                    textAlign:'center',
+                    textAlign: "center",
                     fontSize: 20,
                   }}
                 >
@@ -203,9 +207,9 @@ const Sidebar = () => {
 
                 <p
                   style={{
-                    margin:'1px 0 0 15px',
+                    margin: "1px 0 0 15px",
                     color: "white",
-                    textAlign:'center',
+                    textAlign: "center",
                     fontSize: 20,
                   }}
                 >
@@ -215,16 +219,19 @@ const Sidebar = () => {
             </div>
             {/* 4 */}
             <div className="outer">
-              <NavLink to="/admin/ocr" className="sidemenu d-flex userNotification">
+              <NavLink
+                to="/admin/ocr"
+                className="sidemenu d-flex userNotification"
+              >
                 <i
                   className="bi bi-search"
                   style={{ color: "white", fontSize: 24 }}
                 ></i>{" "}
                 <p
                   style={{
-                    margin:'1px 0 0 15px',
+                    margin: "1px 0 0 15px",
                     color: "white",
-                    textAlign:'center',
+                    textAlign: "center",
                     fontSize: 20,
                   }}
                 >
@@ -244,9 +251,9 @@ const Sidebar = () => {
                 ></i>{" "}
                 <p
                   style={{
-                    margin:'1px 0 0 15px',
+                    margin: "1px 0 0 15px",
                     color: "white",
-                    textAlign:'center',
+                    textAlign: "center",
                     fontSize: 20,
                   }}
                 >
@@ -258,10 +265,7 @@ const Sidebar = () => {
         </div>
       ) : (
         <>
-          <div
-            className="sideBar d-flex flex-column"
-            style={{ width: "60px" }}
-          >
+          <div className="sideBar d-flex flex-column" style={{ width: "60px" }}>
             <img
               src={companylogo}
               alt="companylogo"
@@ -272,15 +276,23 @@ const Sidebar = () => {
                 padding: "3px",
                 borderRadius: "50px",
                 margin: "5px",
-                cursor:'pointer'
+                cursor: "pointer",
               }}
               onClick={sidebar}
             />
-            <div className="logos" style={{display:'flex',flexDirection:'column',alignItems:'center', fontSize: 30 }}>
+            <div
+              className="logos"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                fontSize: 30,
+              }}
+            >
               {/* 1 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/usernotification" className="sidemenu"  >
+                <NavLink to="/admin/usernotification" className="sidemenu">
                   <i className="bi bi-people" style={{ color: "white" }}></i>
                 </NavLink>
               </div>
@@ -367,16 +379,21 @@ const Sidebar = () => {
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                >
-                  Yes
-                </button>
+              <NavLink to="http://localhost:4200/login">
+      <button
+        type="button"
+        className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+        style={{
+          textAlign: "center",
+          marginRight: "15px",
+        }}
+        onClick={() => {
+          handleLogout();
+        }}
+      >
+        Yes
+      </button>
+    </NavLink>
                 <button
                   type="button"
                   className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -388,6 +405,7 @@ const Sidebar = () => {
                 >
                   No
                 </button>
+               
               </div>
             </div>
           </div>

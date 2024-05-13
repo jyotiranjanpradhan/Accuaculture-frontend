@@ -12,9 +12,10 @@ function App() {
   return (
     <Router>
       <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
-        <LoadScript googleMapsApiKey="AIzaSyC-d-7RR_MQ45QLQXKSzOxviR2l11kN3wk">
+        <LoadScript googleMapsApiKey={process.env.REACT_APP_Google_map_Api}>
           <Routes>
             <Route path="/admin/*" element={<AdminMainPage />} />
+            
             <Route path="/users/*" element={<Usersmainpage />} />
           </Routes>
         </LoadScript>

@@ -15,6 +15,12 @@ const NgxDynamic = () => {
   const [graphHead, setGraphHead] = useState("");
   const [devicetypedata, setdevicetypedata] = useState([]);
 
+  const defaultSeries = [
+    { name: "Session Duration", data: [10, 20, 30, 40, 50] },
+    { name: "Page Views", data: [10, 20, 30, 40, 50] },
+    { name: "Total Visits", data: [10, 20, 30, 40, 50] },
+  ];
+
   useEffect(() => {
     const adminSideDeviceType = localStorage.getItem("adminSideDeviceType");
     if (adminSideDeviceType) {
@@ -56,10 +62,11 @@ const NgxDynamic = () => {
     mqttClient.on("message", (topic, payload) => {
       const data = JSON.parse(payload.toString());
       const { paramType, paramValue, dataPoint } = data;
-      console.log(dataPoint.split(" ")[1]);
+      console.log(data);
 
       // Update chart data based on the received MQTT message
       setChartData((prevData) => {
+        console.log(prevData);
         // Check if the chartData already has a key for the current paramType
         if (prevData[paramType]) {
           // If yes, append the new value to the existing data array
@@ -120,8 +127,11 @@ const NgxDynamic = () => {
     stroke: {
       width: 3, // Adjust the width as needed
     },
+    legend:{
+      show:true
+    }
   };
-  const defaultLabels = ["current", "voltage", "rpm", "mpu"];
+
 
   return (
     <>
@@ -178,10 +188,10 @@ const NgxDynamic = () => {
           </Link>
         </div>
 
-        <div className="d-flex flex-wrap ">
+        <div className="d-flex flex-wrap  ">
           {Object.entries(chartData).length === 0 ? (
            
-            <div style={{ padding: "8px" }}>
+            <div style={{ padding: "8px", display:'flex', flexWrap:'wrap',gap:'50px' }}>
               {Object.values(devicetypedata).map((data) => {
                 console.log(data);
                 if (data.button) return null; // Skip rendering for button type
@@ -193,25 +203,21 @@ const NgxDynamic = () => {
                     <p style={{ fontSize: 20 }}>{data.graph.display_name}</p>
                     <Chart
                       options={{
-                        series: [
-                          { name: "Session Duration" },
-                          { name: "Page Views" },
-                          { name: "Total Visits" }
-                        ],
+                        series: [defaultSeries],
                         xaxis: {
                           title: {
-                            text: "Times",
+                            text: data.graph.x,
                           },
                         },
                         
                         yaxis: {
                           title: {
-                            text: "Value",
+                            text: data.graph.y,
                           },
                         },
                         
                       }}
-                      series={[{ name:deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
+                      series={defaultSeries}
                       type="area"
                       width={750}
                       height={650}
@@ -224,7 +230,23 @@ const NgxDynamic = () => {
                     <div style={{ padding: "8px" }}>
                       <p style={{ fontSize: 20 }}>{data.slider.display_name}</p>
                       <Chart
-                         options={options}
+                        options={{
+                          series: [defaultSeries],
+                          xaxis: {
+                            title: {
+                              text: data.graph.x,
+                            },
+                          },
+                          
+                          yaxis: {
+                            title: {
+                              text: data.graph.y,
+                            },
+                          },
+                          legend:{
+                            show:true
+                          }
+                        }}  
                         series={[{ name: deviceId, data: [{ x: 0, y: 0 }] }]} // Default data
                         type="area"
                         width={750}
@@ -236,18 +258,58 @@ const NgxDynamic = () => {
               })}
             </div> // Render charts based on chartData
           ) : (
-            Object.entries(chartData).map(([paramType, data]) => (
+            Object.entries(chartData).map(([paramType, data]) =>{
+              console.log(paramType);
+              console.log(data);
+
+           return  (
+            
               <div key={paramType} style={{ padding: "8px" }}>
                 <p style={{ fontSize: 30 }}>{paramType}</p>
                 <Chart
-                  options={options}
-                  series={[{ name: deviceId, data }]}
+                   options={{
+                    chart: {
+                      id: "realtime",
+                    },
+                    xaxis: {
+                      title: {
+                        text: "time",
+                      },
+                    },
+                    yaxis: {
+                      title: {
+                        text: "Value",
+                      },
+                    },
+                    dataLabels: {
+                      enabled: false,
+                    },
+                    tooltip: {
+                      x: {
+                        format: "dd/MM/yy HH:mm",
+                      },
+                    },
+                    grid: {
+                      show: false,
+                    },
+                    stroke: {
+                      width: 3, 
+                    },
+                    legend:{
+                      show:true
+                    }
+                  }}
+                  series={[
+                    { name: paramType,data },
+                    
+                  ]}
+                  
                   type="area"
                   width={750}
                   height={650}
                 />
               </div>
-            ))
+            )})
           )}
         </div>
       </div>

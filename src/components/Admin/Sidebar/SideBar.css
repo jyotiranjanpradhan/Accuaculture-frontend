@@ -63,3 +63,7 @@ border-radius: 30px;
     text-decoration: none;
     
 }
+.nav-link {
+    color: inherit; /* Keeps the default text color */
+    text-decoration: none; /* Removes underline */
+  }

@@ -14,7 +14,7 @@ import deletesuccess from "../usersimage/deleteanimation.gif";
 import CalendarComponent from "../CalendarComponent ";
 import loadingprofile from "../usersimage/loading.gif";
 import mqtt from "mqtt";
-
+import { NavLink } from "react-router-dom";
 
 const Navbars = ({
   handleToggle,
@@ -29,7 +29,7 @@ const Navbars = ({
   //Variable visible and hide of account button of sidenavbar
   const [accountvisible, setaccountvisible] = useState(false);
   //all details of user
-  const[userdetails,setUserdetails]=useState([""]);
+  const [userdetails, setUserdetails] = useState([""]);
   // variable for visible and hide of analatic button of sidenavbar
   const [analyticvisible, setAnalyticVisible] = useState(false);
   // variable for  input field open and close of topnavbar
@@ -52,31 +52,36 @@ const Navbars = ({
   //total device type
   const [devicetypes, setDevicetypes] = useState([]);
   const [deviceStates, setDeviceStates] = useState(() => {
-    const storedDeviceStates = localStorage.getItem('deviceStates');
+    const storedDeviceStates = localStorage.getItem("deviceStates");
     return storedDeviceStates ? JSON.parse(storedDeviceStates) : {};
-  })
+  });
+
+  //logout
+  const handleLogout = () => {
+    localStorage.removeItem("usermob");
+  };
 
   // Function to initialize device states
   const initializeDeviceStates = () => {
     // Check if deviceStates is already initialized
     if (Object.keys(deviceStates).length === 0) {
       const updatedDeviceStates = {};
-      devicedetails.forEach(devicedata => {
+      devicedetails.forEach((devicedata) => {
         const deviceId = devicedata[1];
         if (deviceStates[deviceId] === undefined) {
           updatedDeviceStates[deviceId] = {
             checked: false,
-            virtualPin: devicedata[2]
+            virtualPin: devicedata[2],
           };
         } else {
           updatedDeviceStates[deviceId] = {
             ...deviceStates[deviceId],
-            virtualPin: devicedata[2]
+            virtualPin: devicedata[2],
           };
         }
       });
       setDeviceStates(updatedDeviceStates);
-      localStorage.setItem('deviceStates', JSON.stringify(updatedDeviceStates));
+      localStorage.setItem("deviceStates", JSON.stringify(updatedDeviceStates));
     }
   };
 
@@ -84,14 +89,13 @@ const Navbars = ({
   useEffect(() => {
     initializeDeviceStates();
   }, []);
-
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
       ...deviceStates,
-      [deviceId]: { checked: isChecked, virtualPin }
+      [deviceId]: { checked: isChecked, virtualPin },
     };
     setDeviceStates(updatedDeviceStates);
-    localStorage.setItem('deviceStates', JSON.stringify(updatedDeviceStates));
+    localStorage.setItem("deviceStates", JSON.stringify(updatedDeviceStates));
     const mqttClient = mqtt.connect({
       hostname: "4.240.114.7",
       port: 9001,
@@ -99,62 +103,56 @@ const Navbars = ({
       username: "BarifloLabs",
       password: "Bfl@123",
     });
-    const storedDeviceStates = localStorage.getItem('deviceStates');
+    const storedDeviceStates = localStorage.getItem("deviceStates");
     if (storedDeviceStates) {
       const deviceStates = JSON.parse(storedDeviceStates);
 
       // Iterate over each key-value pair in deviceStates
       // Object.entries(deviceStates).forEach(([deviceId, { checked, virtualPin }]) => {
-        // Construct statusSend object
-        const statusSend = {
-          display_id: parseInt(deviceId),
-          virtual_pin: virtualPin,
-          status: isChecked  // Assuming 'on' when checked, 'off' when unchecked
-        };
+      // Construct statusSend object
+      const statusSend = {
+        display_id: parseInt(deviceId),
+        virtual_pin: virtualPin,
+        status: isChecked, // Assuming 'on' when checked, 'off' when unchecked
+      };
 
-        // Log or use statusSend object as needed
-        // console.log(statusSend);
-        const topic = deviceId.toString();
-          const message = JSON.stringify(statusSend);
-          const qos = 0; 
-          console.log(message,topic);
-       
-          console.log(topic,message);
-          
-          mqttClient.publish(topic, message)
-          console.log("message sendf ");
-         
-        
+      // Log or use statusSend object as needed
+      // console.log(statusSend);
+      const topic = deviceId.toString();
+      const message = JSON.stringify(statusSend);
+      const qos = 0;
+      console.log(message, topic);
+
+      console.log(topic, message);
+
+      mqttClient.publish(topic, message);
+      console.log("message sendf ");
+
       // });
     }
   };
- 
-  const handleSwitchToggle = (devicedata,stst) => {
-    console.log(JSON.parse(localStorage.getItem(devicedata[1]))[2]);
-  
-   const ondevicedata=([
-      devicedata[1],
-      devicedata[3],
-     stst 
-    ]);
 
-    localStorage.setItem(devicedata[1],JSON.stringify(ondevicedata));
-    
+  const handleSwitchToggle = (devicedata, stst) => {
+    console.log(JSON.parse(localStorage.getItem(devicedata[1]))[2]);
+
+    const ondevicedata = [devicedata[1], devicedata[3], stst];
+
+    localStorage.setItem(devicedata[1], JSON.stringify(ondevicedata));
   };
-  useEffect(() => {
-    
-  }, [handleCheckboxChange]);
-  
-  //user detaikls calkl 
-  const userdatas=async()=>{
- try {
-   const response=await axios.get(`http://${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`);
-   console.log(response);
-   setUserdetails(response.data.message);
- } catch (error) {
-  console.log(error);
- }
-}
+  useEffect(() => {}, [handleCheckboxChange]);
+
+  //user detaikls calkl
+  const userdatas = async () => {
+    try {
+      const response = await axios.get(
+        `http://${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`
+      );
+      console.log(response);
+      setUserdetails(response.data.message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // temporary labelname
   const [templabel, setTemplebel] = useState("");
   //show calender variable
@@ -232,7 +230,9 @@ const Navbars = ({
       );
       console.log(response);
       if (response.data.image)
-        setProfileImage(`http://${process.env.REACT_APP_App_Ip}${response.data.image}/`);
+        setProfileImage(
+          `http://${process.env.REACT_APP_App_Ip}${response.data.image}/`
+        );
     } catch (error) {
       console.error("Error fetching profile image:", error);
     }
@@ -278,6 +278,7 @@ const Navbars = ({
         `http://${process.env.REACT_APP_App_Ip}/param_delete/`,
         deletedata
       );
+      console.log(response);
       if (response) {
         setDeleteAnimation(!deleteanimation);
         setTimeout(() => {
@@ -336,7 +337,6 @@ const Navbars = ({
   // BY THIS FUNCTION CORDEINATE AND ADDRESS UPDATE ON USERMAIN PAGE  AND USERMAIN PAGE PASS THAT TO CONTENT TO SHOW ON MAP
   const handleClickAccountDetails = (latitude, longitude, address) => {
     updateCoordinates(latitude, longitude, address);
-  
   };
 
   // HOW MANY LABELS PRESENT IN A DEVICE
@@ -580,7 +580,6 @@ const Navbars = ({
             >
               {devicedetails.map((devicedata) => (
                 <>
-               
                   <div className="d-flex justify-content-between p-2">
                     <div>
                       <p className="mb-0">
@@ -597,13 +596,23 @@ const Navbars = ({
                       className=" form-check form-switch"
                       style={{ fontSize: "x-large" }}
                     >
-                       <input
-                className="form-check-input"
-                type="checkbox"
-                role="switch"
-                checked={deviceStates[devicedata[1]] ? deviceStates[devicedata[1]].checked : false}
-               onChange={(e)=>{handleCheckboxChange(devicedata[1],e.target.checked,devicedata[3])}}
-              />
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        checked={
+                          deviceStates[devicedata[1]]
+                            ? deviceStates[devicedata[1]].checked
+                            : false
+                        }
+                        onChange={(e) => {
+                          handleCheckboxChange(
+                            devicedata[1],
+                            e.target.checked,
+                            devicedata[3]
+                          );
+                        }}
+                      />
                     </div>
                   </div>
                   <hr className="my-0 text-secondary" />
@@ -651,7 +660,7 @@ const Navbars = ({
             style={{ border: "none", height: "40px" }}
           >
             <img
-              src={profileImage ||farmer }
+              src={profileImage || farmer}
               alt="farmer"
               style={{
                 backgroundColor: "white",
@@ -680,7 +689,7 @@ const Navbars = ({
             <div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Name :</p>
-                <p>{userdetails[0][2] }</p>
+                <p>{userdetails[0][2]}</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Mob : </p>
@@ -689,12 +698,10 @@ const Navbars = ({
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>E-Mail:</p>
                 <p>{userdetails[0][1]}</p>
-                
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p>Adhar-No.:</p>
-                <p>{userdetails[0][3] }</p>
-                
+                <p>{userdetails[0][3]}</p>
               </div>
               <div className="d-flex flex-row justify-content-between p-2">
                 <p style={{ cursor: "pointer" }} onClick={dpUpload}>
@@ -938,16 +945,21 @@ const Navbars = ({
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-                <button
-                  type="button"
-                  className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                >
-                  Yes
-                </button>
+                <NavLink to="http://localhost:4200/login">
+                  <button
+                    type="button"
+                    className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "center",
+                      marginRight: "15px",
+                    }}
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                  >
+                    Yes
+                  </button>
+                </NavLink>
                 <button
                   type="button"
                   className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
