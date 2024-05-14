@@ -99,19 +99,28 @@ const NgxDynamic = () => {
       console.error('Invalid MQTT data:', mqttData);
       return;
     }
-
     const { paramType, paramValue, dataPoint } = mqttData;
+    const formattedParamValue = parseFloat(paramValue).toFixed(2); // Format paramValue to fixed two decimal places
+    const lastPortionDataPoint = dataPoint.split(' ').pop();
+
+
     setChartData(prevChartData => {
       return prevChartData.map(chart => {
         if (chart.seriesName.includes(paramType)) {
           const seriesIndex = chart.seriesName.indexOf(paramType);
-          const existingIndex = chart.xCategories.indexOf(dataPoint);
+          const existingIndex = chart.xCategories.indexOf(lastPortionDataPoint);
 
+          // Update data if point exists, otherwise add new data
           if (existingIndex !== -1) {
-            chart.seriesData[seriesIndex][existingIndex] = { x: dataPoint, y: paramValue };
+            chart.seriesData[seriesIndex][existingIndex] = { x: lastPortionDataPoint, y: formattedParamValue };
           } else {
-            chart.seriesData[seriesIndex].push({ x: dataPoint, y: paramValue });
-            chart.xCategories.push(dataPoint);
+            // Remove oldest data if limit reached
+            if (chart.seriesData[seriesIndex].length >= 15) {
+              chart.seriesData[seriesIndex].shift(); // Remove oldest data point
+              chart.xCategories.shift(); // Remove corresponding x-axis label
+            }
+            chart.seriesData[seriesIndex].push({ x: lastPortionDataPoint, y: formattedParamValue });
+            chart.xCategories.push(lastPortionDataPoint);
           }
         }
         return chart;
@@ -148,36 +157,61 @@ const NgxDynamic = () => {
           </Link>
         </div>
         <div className="d-flex flex-wrap">
-          {chartData.map(({ key, x, y, seriesName, seriesData, xCategories }) => (
-            <div key={key} className="col-6">
-              <h2>{key}</h2>
-              <Chart
-                options={{
-                  chart: {
-                    type: 'line',
-                    zoom: {
-                      enabled: true,
-                      type: 'xy'
+          {chartData.map(({ key, x, y, seriesName, seriesData, xCategories }) => {
+            const timeCategories = xCategories.map(dateString => {
+              const date = new Date(dateString);
+              const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              return time;
+            });
+
+            return (
+              <div key={key} className="col-6">
+                <h2>{key}</h2>
+                <Chart
+                  options={{
+                    chart: {
+                      id: 'realtime',
+                      type: 'area',
+                      stroke: {
+                        curve: 'smooth'
+                      },
+                      zoom: {
+                        enabled: true,
+                        type: 'xy'
+                      }
+                    },
+                    xaxis: {
+                      title: { text: x },
+                      categories: timeCategories
+                    },
+                    dataLabels:{
+                      enabled:false
+                    },
+                    yaxis: {
+                      title: { text: y },
+                      labels: {
+                        formatter: function (value) {
+                          return parseFloat(value).toFixed(2); // Format y-axis labels to two decimal places
+                        }
+                      }
+                    },
+                    fill: {
+                      type: 'gradient',
+                      gradient:{
+                        opacityFrom:0.4,
+                        opacityTo:0.9
+                      }
                     }
-                  },
-                  xaxis: {
-                    title: { text: x },
-                    categories: xCategories
-                  },
-                  yaxis: {
-                    title: { text: y },
-                    // No explicit maximum value, auto-scaled based on data
-                  }
-                }}
-                series={seriesName.map((name, index) => ({
-                  name,
-                  data: seriesData[index].length > 0 ? seriesData[index] : [{ x: 'No Data', y: 0 }]
-                }))}
-                type="line"
-                width="500"
-              />
-            </div>
-          ))}
+                  }}
+                  series={seriesName.map((name, index) => ({
+                    name,
+                    data: seriesData[index].length > 0 ? seriesData[index] : [{ x: 'No Data', y: 0 }]
+                  }))}
+                  type="area"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

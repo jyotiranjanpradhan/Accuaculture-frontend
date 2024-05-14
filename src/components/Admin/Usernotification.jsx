@@ -19,6 +19,7 @@ const Usernotification = () => {
   const [deviceadd, setDeviceAdd] = useState(false);
   const [showmap, setShowmap] = useState(false);
   const [completedeviceadd, setCompliteDeviceAdd] = useState(false);
+  
   //context
   const { isSidebarOpen } = useContext(AdminContext);
   const [totaluser, setTotalUser] = useState(0);
@@ -128,6 +129,11 @@ const Usernotification = () => {
         setTimeout(() => {
           setCompliteDeviceAdd(false);
         }, 1000);
+        const res = await axios.get(
+          `http://${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
+          
+        );
+        console.log(res);
       }
     } catch (error) {
       console.log(error);
@@ -910,8 +916,10 @@ const Usernotification = () => {
                       mapContainerStyle={containerStylefordeviceadd}
                       center={{ lat: latitudesdevice, lng: longitudesdevice }}
                       zoom={10}
+                        mapTypeId="satellite" 
                       onClick={handleMapClick}
                     >
+                     
                       <Marker
                         position={{
                           lat: parseFloat(latitudesdevice),
@@ -948,6 +956,10 @@ const Usernotification = () => {
         </div>
       ) : null}
       {/*device complete add Modal End */}
+
+
+
+     
     </>
   );
 };

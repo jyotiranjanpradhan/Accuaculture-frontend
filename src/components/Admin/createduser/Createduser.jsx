@@ -11,7 +11,7 @@ import {
 } from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
-
+import success from './success.gif'
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
     <GoogleMap
@@ -33,7 +33,7 @@ const Createduser = () => {
   const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
   const [usermobno, setUSermobno] = useState("");
   const [address, setAddress] = useState("");
-
+const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
   //Here Content can take lat and lng props from backend
   const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
   const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
@@ -143,7 +143,12 @@ const Createduser = () => {
         `http://${process.env.REACT_APP_App_Ip}/account_create/`,
         userdata
       );
-      console.log(res);
+      if(res){
+        setcompletlyaccountadd(true);
+        setTimeout(()=>{
+          setcompletlyaccountadd(false);
+        },2500);
+      }
       console.log(userdata);
     } catch (error) {
       console.log(error);
@@ -577,6 +582,21 @@ const Createduser = () => {
         </div>
       ) : null}
       {/* DeleteButton Modal End */}
+
+      {completlyaccountadd ?( <div className="check-model ">
+          <div
+            className="model"
+            style={{ fontSize: "23px", width: "600px", height: "300px" }}
+          >
+            <img
+              src={success}
+              alt="successful"
+              style={{ width: "200px", marginLeft: "30%" }}
+            />
+            <p style={{ marginLeft: "25%" }}>Account Added Successfully</p>
+          </div>
+        </div>):null}
+
     </>
   );
 };
