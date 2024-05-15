@@ -26,6 +26,12 @@ const Usersmainpage = () => {
     }));
   };
 
+  const[localupdate,setLocalupdate]=useState(false);
+  const update=()=>{
+    setLocalupdate(!localupdate);
+    console.log("hiitsclick");
+  }
+
   //update lat lng  and for user accounts
   const [oneaccountdetails, setOneAccountDetails] = useState({
     latitude: "",
@@ -85,6 +91,7 @@ const Usersmainpage = () => {
     }
   }, [devicesofaUser]);
 
+ 
   return (
     <>
       <Navbars
@@ -92,11 +99,13 @@ const Usersmainpage = () => {
         useraccount={useraccount}
         updateCoordinates={updateCoordinates}
         setdevice={setdevice}
+        update={update}
       />
       <Content
         toggleStates={toggleStates}
         oneaccountdata={oneaccountdetails}
         devicesofaUser={devicesofaUser}
+        localupdate={localupdate}
       />
     </>
   );

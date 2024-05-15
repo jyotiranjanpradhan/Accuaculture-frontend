@@ -10,7 +10,7 @@ import Chartbox from "../Chartbox";
 import mqtt from "mqtt";
 import GoogleMapComponent from "../../Mapview";
 
-const Content = ({ toggleStates, oneaccountdata, devicesofaUser }) => {
+const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) => {
   const [wdata, setWdata] = useState(null);
 
   const [chartData, setChartData] = useState([]);
@@ -94,6 +94,7 @@ useEffect(()=>{
           <GoogleMapComponent
             devicesNamesList={devicesofaUser}
             latitude={centerr.lat} longitude={centerr.lng} address={centerr ?.address}
+            localupdate={localupdate}
           />
         </div>
         <div

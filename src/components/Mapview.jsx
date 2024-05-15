@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address}) => {
+const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,localupdate}) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -41,8 +41,18 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address}) =>
 
   useEffect(() => {
     if (map) {
-      console.log(devicesNamesList);
+      const deviceStates = JSON.parse(localStorage.getItem("deviceStates"));
+      
       devicesNamesList.forEach((item) => {
+        const deviceId = item[1]; // Assuming item[1] contains the device ID
+        const deviceData = deviceStates[deviceId];
+
+        let markerColor = "red"; 
+  
+        if (deviceData && deviceData.checked) {
+          markerColor = "green"; 
+        }
+  
         const markerPosition = new window.google.maps.LatLng(
           item[2][0],
           item[2][1]
@@ -51,14 +61,14 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address}) =>
           position: markerPosition,
           icon: {
             path: window.google.maps.SymbolPath.CIRCLE,
-            fillColor: "red", // Set marker color
+            fillColor: markerColor, // Set marker color
             fillOpacity: 1,
             strokeWeight: 0,
             scale: 8, // Adjust the size as needed
           },
           map,
         });
-
+  
         // Add info window with custom content
         const infoWindow = new window.google.maps.InfoWindow({
           content: `<div>
@@ -67,26 +77,30 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address}) =>
                     <p>Longitude: ${item[2][0]}</p>
                  </div>`,
         });
-
+  
         // Show infoWindow on marker click
         mapMarker.addListener("click", () => {
           infoWindow.open(map, mapMarker);
         });
-
+  
         // Show infoWindow on marker hover
         mapMarker.addListener("mouseover", () => {
           infoWindow.open(map, mapMarker);
         });
-
+  
         // Close infoWindow on mouseout
         mapMarker.addListener("mouseout", () => {
           infoWindow.close();
         });
       });
     }
-  }, [map, devicesNamesList]);
+  }, [map, devicesNamesList,localupdate]);
+  
 
   return <div id="map" style={{ width: "100%", height: "400px" }} />;
 };
 
 export default GoogleMapComponent;
+
+
+

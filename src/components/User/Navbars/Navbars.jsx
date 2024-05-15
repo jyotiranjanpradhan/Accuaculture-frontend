@@ -21,6 +21,7 @@ const Navbars = ({
   useraccount,
   updateCoordinates,
   setdevice,
+  update
 }) => {
   const mobileno = localStorage.getItem("usermob");
   console.log(mobileno);
@@ -611,6 +612,7 @@ const Navbars = ({
                             e.target.checked,
                             devicedata[3]
                           );
+                          update();
                         }}
                       />
                     </div>
