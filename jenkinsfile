@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    environment {
+        // Define environment variables if needed
+        NODEJS_HOME = tool 'NodeJS'
+        PATH = "${env.NODEJS_HOME}/bin:${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the frontend code from GitHub
+                git url: 'https://github.com/jyotiranjanpradhan/Accuaculture-frontend.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                // Use Node.js tool to install dependencies
+                sh 'npm install'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Build the frontend application
+                sh 'npm run build'
+            }
+        }
+
+        // Add more stages for testing, linting, or deploying as needed
+    }
+
+    post {
+        success {
+            echo 'Frontend build completed successfully!'
+            // Optionally trigger deployment here
+            // sh 'npm run deploy'
+        }
+        failure {
+            echo 'Frontend build failed!'
+        }
+    }
+}
