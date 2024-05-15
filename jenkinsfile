@@ -1,19 +1,16 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS' // Use the configured NodeJS tool named 'NodeJS'
-    }
-
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/jyotiranjanpradhan/Accuaculture-frontend.git'
+                git branch: 'main', url: 'https://github.com/jyotiranjanpradhan/Accuaculture-frontend.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
+                tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
                 sh 'npm install'
             }
         }
