@@ -15,9 +15,10 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Lint and Build') {
             steps {
-                sh 'npm run build'
+                sh 'npm run lint' // Run ESLint (if configured)
+                sh 'npm run build' // Build your frontend application
             }
         }
     }
