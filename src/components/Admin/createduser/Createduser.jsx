@@ -3,23 +3,25 @@ import "../Adminpage.css";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-import {
-  GoogleMap,
-  LoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { GoogleMap,Marker } from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
-import success from './success.gif'
+import success from "./success.gif";
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
       zoom={15}
-      mapTypeId="satellite" 
-    ></GoogleMap>
+      mapTypeId="satellite"
+    >
+      <Marker
+        position={{
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
+        }}
+      />
+    </GoogleMap>
   );
 };
 
@@ -33,7 +35,7 @@ const Createduser = () => {
   const [currentusermobilenumber, setCurrentusermobilenumber] = useState("");
   const [usermobno, setUSermobno] = useState("");
   const [address, setAddress] = useState("");
-const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
+  const [completlyaccountadd, setcompletlyaccountadd] = useState(false);
   //Here Content can take lat and lng props from backend
   const [latitudes, setLatitude] = useState(20.2961); // Initial latitude
   const [longitudes, setLongitude] = useState(85.8245); // Initial longitude
@@ -79,9 +81,12 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
   const deleteuserfetch = async (mob) => {
     try {
       console.log(mob);
-      const response = await axios.post(`http://${process.env.REACT_APP_App_Ip}/user_delete/`, {
-        mobileno: mob,
-      });
+      const response = await axios.post(
+        `http://${process.env.REACT_APP_App_Ip}/user_delete/`,
+        {
+          mobileno: mob,
+        }
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -143,11 +148,11 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
         `http://${process.env.REACT_APP_App_Ip}/account_create/`,
         userdata
       );
-      if(res){
+      if (res) {
         setcompletlyaccountadd(true);
-        setTimeout(()=>{
+        setTimeout(() => {
           setcompletlyaccountadd(false);
-        },2500);
+        }, 2500);
       }
       console.log(userdata);
     } catch (error) {
@@ -432,7 +437,6 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
                     id="formGroupExampleInput"
                     placeholder="Enter Latitude"
                     style={{ width: "200px" }}
-                  
                     onChange={(e) => e.target.setCustomValidity("")}
                   ></input>
 
@@ -443,7 +447,6 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
                     id="formGroupExampleInput"
                     placeholder="Enter Longitude"
                     style={{ width: "200px", marginLeft: "50px" }}
-                   
                     onChange={(e) => e.target.setCustomValidity("")}
                   ></input>
 
@@ -583,7 +586,8 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
       ) : null}
       {/* DeleteButton Modal End */}
 
-      {completlyaccountadd ?( <div className="check-model ">
+      {completlyaccountadd ? (
+        <div className="check-model ">
           <div
             className="model"
             style={{ fontSize: "23px", width: "600px", height: "300px" }}
@@ -595,8 +599,8 @@ const [completlyaccountadd,setcompletlyaccountadd]=useState(false);
             />
             <p style={{ marginLeft: "25%" }}>Account Added Successfully</p>
           </div>
-        </div>):null}
-
+        </div>
+      ) : null}
     </>
   );
 };

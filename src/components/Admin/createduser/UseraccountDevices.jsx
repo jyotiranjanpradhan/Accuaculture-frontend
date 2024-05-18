@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "../Adminpage.css";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Link, useParams } from "react-router-dom";
-import Chart from "react-apexcharts";
+import {  useParams } from "react-router-dom";
+
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import success from "./success.gif";
 import { AdminContext } from "../../../App";
@@ -163,13 +163,7 @@ const UseraccountDevices = () => {
     setdevicecordinate(coordinates);
   };
 
-  //write api here for add device
-
-  //Here Content can take lat and lng props from backend
-  const center = {
-    lat: 10.5937,
-    lng: 50.9629,
-  };
+  
 
   //Height and Width for Google Map
   const containerStyle = {

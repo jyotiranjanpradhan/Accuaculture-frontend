@@ -2,7 +2,7 @@ import AdminMainPage from "./components/Admin/AdminMainPage";
 import Usersmainpage from "./components/User/Usersmainpage";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import {  LoadScript} from "@react-google-maps/api";
 
 export const AdminContext = createContext();
 

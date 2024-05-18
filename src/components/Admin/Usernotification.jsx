@@ -5,12 +5,12 @@ import latitude from "./Constant img/latitude.png";
 import longitude from "./Constant img/longitude.png";
 import "./Adminpage.css";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+
 import success from "./Constant img/success.gif";
 import { AdminContext } from "../../App";
 import axios from "axios";
 
 const Usernotification = () => {
-
   const admin_id = localStorage.getItem("admin_id");
 
   const [openModel, setOpenModel] = useState(false);
@@ -19,7 +19,7 @@ const Usernotification = () => {
   const [deviceadd, setDeviceAdd] = useState(false);
   const [showmap, setShowmap] = useState(false);
   const [completedeviceadd, setCompliteDeviceAdd] = useState(false);
-  
+
   //context
   const { isSidebarOpen } = useContext(AdminContext);
   const [totaluser, setTotalUser] = useState(0);
@@ -35,6 +35,26 @@ const Usernotification = () => {
   // variable for next and previous button
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
+
+
+  const GoogleMapdata = ({ containerStyle, latis, lngis }) => {
+    return (
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(latis), lng: parseFloat(lngis) }}
+        zoom={15}
+        mapTypeId="satellite"
+        onLoad={(map) => {
+          new window.google.maps.Marker({
+            position: { lat: parseFloat(latis), lng: parseFloat(lngis) },
+            map: map,
+            
+          });
+        }}
+      />
+    );
+    
+  };
 
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -131,7 +151,6 @@ const Usernotification = () => {
         }, 1000);
         const res = await axios.get(
           `http://${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
-          
         );
         console.log(res);
       }
@@ -195,10 +214,14 @@ const Usernotification = () => {
 
   function searchlatlng(lats, lngs) {
     setLatitude(
-      lats === null || lats === undefined || lats === "" ? "20.2961" : lats
+      lats === null || lats === undefined || lats === ""
+        ? parseFloat(20.2961)
+        : lats
     );
     setLongitude(
-      lngs === null || lngs === undefined || lngs === "" ? "85.8245" : lngs
+      lngs === null || lngs === undefined || lngs === ""
+        ? parseFloat(85.8245)
+        : lngs
     );
   }
 
@@ -596,7 +619,6 @@ const Usernotification = () => {
                     id="formGroupExampleInput"
                     placeholder="Enter Latitude"
                     style={{ width: "200px" }}
-                   
                   ></input>
 
                   <input
@@ -606,7 +628,6 @@ const Usernotification = () => {
                     id="formGroupExampleInput"
                     placeholder="Enter Longitude"
                     style={{ width: "200px", marginLeft: "50px" }}
-                   
                   ></input>
 
                   <input
@@ -643,8 +664,8 @@ const Usernotification = () => {
               <div style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
                   containerStyle={containerStyleforaccontadd}
-                  lat={latitudes}
-                  lng={longitudes}
+                  latis={latitudes}
+                  lngis={longitudes}
                 />
               </div>
 
@@ -663,7 +684,6 @@ const Usernotification = () => {
                     latlngaccentered();
 
                     latlngaccentered();
-                   
 
                     opennextmodel();
                     opendevicetypemodel();
@@ -916,10 +936,9 @@ const Usernotification = () => {
                       mapContainerStyle={containerStylefordeviceadd}
                       center={{ lat: latitudesdevice, lng: longitudesdevice }}
                       zoom={10}
-                        mapTypeId="satellite" 
+                      mapTypeId="satellite"
                       onClick={handleMapClick}
                     >
-                     
                       <Marker
                         position={{
                           lat: parseFloat(latitudesdevice),
@@ -956,25 +975,10 @@ const Usernotification = () => {
         </div>
       ) : null}
       {/*device complete add Modal End */}
-
-
-
-     
     </>
   );
 };
 
 export default Usernotification;
 
-const GoogleMapdata = ({ containerStyle, lat, lng }) => {
-  return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
-      zoom={15}
-      mapTypeId="satellite"
-    >
-      <Marker position={{ lat: parseFloat(lat), lng: parseFloat(lng) }} />
-    </GoogleMap>
-  );
-};
+

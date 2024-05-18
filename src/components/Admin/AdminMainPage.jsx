@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route,useNavigate } from "react-router-dom";
+import { Routes, Route,useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import SideBar from "./Sidebar/SideBar";
 import Footer from "./footer/Footer";

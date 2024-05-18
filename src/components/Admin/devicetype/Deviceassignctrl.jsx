@@ -82,6 +82,7 @@ const Deviceassignctrl = () => {
         `http://${process.env.REACT_APP_App_Ip}/on_off_control_edit/`,
         editvalue
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -176,6 +177,7 @@ const Deviceassignctrl = () => {
         `http://${process.env.REACT_APP_App_Ip}/control_delete/`,
         todelete
       );
+     console.log(response);
     } catch (error) {
       console.log(error, "Api issue");
     }
@@ -258,6 +260,7 @@ const Deviceassignctrl = () => {
         `http://${process.env.REACT_APP_App_Ip}/slider_control/`,
         datatoadd
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -278,6 +281,7 @@ const Deviceassignctrl = () => {
         `http://${process.env.REACT_APP_App_Ip}/graph_control/`,
         datatoadd
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

@@ -106,11 +106,7 @@ const Navbars = ({
     });
     const storedDeviceStates = localStorage.getItem("deviceStates");
     if (storedDeviceStates) {
-      const deviceStates = JSON.parse(storedDeviceStates);
-
-      // Iterate over each key-value pair in deviceStates
-      // Object.entries(deviceStates).forEach(([deviceId, { checked, virtualPin }]) => {
-      // Construct statusSend object
+    
       const statusSend = {
         display_id: parseInt(deviceId),
         virtual_pin: virtualPin,
@@ -121,7 +117,6 @@ const Navbars = ({
       // console.log(statusSend);
       const topic = deviceId.toString();
       const message = JSON.stringify(statusSend);
-      const qos = 0;
       console.log(message, topic);
 
       console.log(topic, message);
@@ -133,13 +128,7 @@ const Navbars = ({
     }
   };
 
-  const handleSwitchToggle = (devicedata, stst) => {
-    console.log(JSON.parse(localStorage.getItem(devicedata[1]))[2]);
-
-    const ondevicedata = [devicedata[1], devicedata[3], stst];
-
-    localStorage.setItem(devicedata[1], JSON.stringify(ondevicedata));
-  };
+ 
   useEffect(() => {}, [handleCheckboxChange]);
 
   //user detaikls calkl
@@ -574,7 +563,6 @@ const Navbars = ({
               style={{
                 borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                marginTop: "-5px",
                 width: "270px",
                 marginTop: "10px",
               }}
@@ -662,11 +650,10 @@ const Navbars = ({
             style={{ border: "none", height: "40px" }}
           >
             <img
-              src={profileImage || farmer}
+              src={profileImage}
               alt="farmer"
               style={{
                 backgroundColor: "white",
-                height: "38px",
                 width: "39px",
                 marginTop: 20,
                 borderRadius: "50%",

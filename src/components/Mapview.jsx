@@ -15,14 +15,14 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,loca
       );
       // Add pin marker at the center
    
-      const marker = new window.google.maps.Marker({
+      new window.google.maps.Marker({
         position: { lat:parseFloat(latitude), lng: parseFloat(longitude) },
         map: mapInstance,
         title: address,
       });
 
       // Add info window for center marker
-      const centerInfoWindow = new window.google.maps.InfoWindow({
+     new window.google.maps.InfoWindow({
         content: `<div>
                     <p>Location: ${address}</p>
                   </div>`,
