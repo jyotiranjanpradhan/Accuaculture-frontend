@@ -53,14 +53,14 @@ const Deviceassignctrl = () => {
   const asignctrlEditmodalbutton = (inde) => {
     setIndex(inde);
     console.log(assignedctrldata);
-    if (Object.keys(assignedctrldata[inde]) == "button") {
+    if (Object.keys(assignedctrldata[inde]) === "button") {
       setAsignctrlEditmodalforButton(!asignctrlEditmodalforButton);
-    } else if (Object.keys(assignedctrldata[inde]) == "slider") {
+    } else if (Object.keys(assignedctrldata[inde]) === "slider") {
       setAsignctrlEditmodalforSlider(!asignctrlEditmodalforSlider);
-    } else if (Object.keys(assignedctrldata[inde]) == "graph") {
+    } else if (Object.keys(assignedctrldata[inde]) === "graph") {
       setAsignctrlEditmodalforLinegrapg(!asignctrlEditmodalforLinegrapg);
       setFields(assignedctrldata[inde]?.graph.params);
-    } else if (inde == 0) {
+    } else if (inde === 0) {
       setAsignctrlEditmodalforButton(false);
       setAsignctrlEditmodalforLinegrapg(false);
       setAsignctrlEditmodalforSlider(false);

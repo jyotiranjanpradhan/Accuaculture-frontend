@@ -81,7 +81,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
       }
     };
 
-    weatherData({ lat: centerr ?.lat, lng: centerr?.lng });
+    weatherData({lat: centerr ?.lat, lng: centerr?.lng });
   }, [centerr.lat, centerr.lng]);
 useEffect(()=>{
   console.log("hi");
@@ -91,8 +91,7 @@ useEffect(()=>{
       <div className="contain p-3">
         <div className="mapbox shadow">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
-          <GoogleMapComponent
-            devicesNamesList={devicesofaUser}
+          <GoogleMapComponent devicesNamesList={devicesofaUser}
             latitude={centerr.lat} longitude={centerr.lng} address={centerr ?.address}
             localupdate={localupdate}
           />

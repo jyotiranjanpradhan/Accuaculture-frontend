@@ -89,7 +89,8 @@ const Navbars = ({
   // Initialize device states when component mounts
   useEffect(() => {
     initializeDeviceStates();
-  }, []);
+//eslint-disable-next-line
+  },[]);
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
       ...deviceStates,
@@ -247,6 +248,7 @@ const Navbars = ({
     if (!showInput) {
       seedevicetype();
     }
+    // eslint-disable-next-line
   }, [showInput]);
 
   const islogout = () => {
@@ -354,6 +356,7 @@ const Navbars = ({
       fetchProfilepicture();
       userdatas();
     }
+    // eslint-disable-next-line
   }, [useraccount]);
 
   return (

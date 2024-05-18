@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../Adminpage.css";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-import { logDOM } from "@testing-library/react";
+
 
 const Devicetypecreate = () => {
   const [openModel, setOpenModel] = useState(false);
@@ -11,7 +11,7 @@ const Devicetypecreate = () => {
   const [devicetoadd, setDeviceToAdd] = useState(false);
   const [totaldevicetype, setTotaldevicetype] = useState(0);
   const [alldevice, setAlldevice] = useState([]);
-  const [devicetypeerror, setDevicetypeerror] = useState("");
+
 
   //START creatye device type
   const devicename = useRef(null);
@@ -22,6 +22,7 @@ const Devicetypecreate = () => {
         `http://${process.env.REACT_APP_App_Ip}/devicetype_create/`,
         dataofnewdevice
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -39,6 +40,7 @@ const Devicetypecreate = () => {
         `http://${process.env.REACT_APP_App_Ip}/devicetype_edit/`,
         deviceinfo
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -54,6 +56,7 @@ const Devicetypecreate = () => {
         `http://${process.env.REACT_APP_App_Ip}/devicetype_delete/`,
         devicedata
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +83,7 @@ const Devicetypecreate = () => {
       setTotaldevicetype(response.data.results.length);
       setAlldevice(response.data.results);
     } catch (error) {
-      setDevicetypeerror(error);
+      console.log(error);
     }
   };
 
