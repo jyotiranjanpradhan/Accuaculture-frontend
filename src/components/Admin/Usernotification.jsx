@@ -167,7 +167,6 @@ const Usernotification = () => {
       );
       setTotalUser(responce.data.items.length);
       setRegestereduser(responce.data.items);
-
       console.log(responce.data.items);
     } catch (error) {
       console.log(error);
@@ -388,7 +387,7 @@ const Usernotification = () => {
                   alignItems: "center",
                 }}
               >
-                Some Error Occured , Please Stay Tuned !
+               {`Some Error Occured , Please Stay Tuned ! ${usernotificationerror}`} 
               </p>
             </div>
           </>

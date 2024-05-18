@@ -223,7 +223,7 @@ const Devicetypecreate = () => {
                     </button>
 
                     <Link
-                      to={`/admin/devicetypecreate/deviceassignctrls/${data[0]}/${data[1]}`}
+                      to={`/adminside/devicetypecreate/deviceassignctrls/${data[0]}/${data[1]}`}
                     >
                       <button
                         type="button"

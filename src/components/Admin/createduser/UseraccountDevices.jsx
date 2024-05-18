@@ -173,7 +173,7 @@ const UseraccountDevices = () => {
 
   const showStatus = (deviceType, deviceId, accountid) => {
     navigate(
-      `/admin/createduser/useraccounts/UseraccountDevices/ngxdynamics/${accountid}/${deviceType}/${deviceId}`
+      `/adminside/createduser/useraccounts/UseraccountDevices/ngxdynamics/${accountid}/${deviceType}/${deviceId}`
     );
   };
 

@@ -271,7 +271,7 @@ const Createduser = () => {
                     >
                       Add Account
                     </button>
-                    <Link to={`/admin/createduser/useraccounts/${data[1]}`}>
+                    <Link to={`/adminside/createduser/useraccounts/${data[1]}`}>
                       <button
                         type="button"
                         className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"

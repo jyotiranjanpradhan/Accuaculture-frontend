@@ -20,7 +20,7 @@ const AdminMainPage = () => {
   useEffect(() => {
     if (mobno) {
       localStorage.setItem('admin_id', mobno);
-      navigate('/admin/usernotification'); 
+      navigate('/adminside/usernotification'); 
     }
   }, [mobno, navigate]);
  

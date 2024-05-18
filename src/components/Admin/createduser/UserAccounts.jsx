@@ -197,7 +197,7 @@ const UserAccounts = () => {
                       Edit
                     </button>
                     <Link
-                      to={`/admin/createduser/useraccounts/UseraccountDevices/${data[1]}`}
+                      to={`/adminside/createduser/useraccounts/UseraccountDevices/${data[1]}`}
                     >
                       <button
                         type="button"

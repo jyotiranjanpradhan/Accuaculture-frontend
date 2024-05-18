@@ -147,7 +147,7 @@ const Sidebar = () => {
             {/* 1 */}
             <div className="outer">
               <NavLink
-                to="/admin/usernotification"
+                to="/adminside/usernotification"
                 className="sidemenu d-flex align-items-center userNotification "
               >
                 <i
@@ -171,7 +171,7 @@ const Sidebar = () => {
 
             <div className="outer">
               <NavLink
-                to="/admin/createduser"
+                to="/adminside/createduser"
                 className="sidemenu d-flex align-items-center userNotification"
               >
                 <i
@@ -197,7 +197,7 @@ const Sidebar = () => {
             {/* 3 */}
             <div className="outer">
               <NavLink
-                to="/admin/devicetypecreate"
+                to="/adminside/devicetypecreate"
                 className="sidemenu d-flex userNotification"
               >
                 <i
@@ -220,7 +220,7 @@ const Sidebar = () => {
             {/* 4 */}
             <div className="outer">
               <NavLink
-                to="/admin/ocr"
+                to="/adminside/ocr"
                 className="sidemenu d-flex userNotification"
               >
                 <i
@@ -242,7 +242,7 @@ const Sidebar = () => {
             {/* 5 */}
             <div className="outer">
               <NavLink
-                to="/admin/thermal"
+                to="/adminside/thermal"
                 className="sidemenu d-flex userNotification"
               >
                 <i
@@ -292,7 +292,7 @@ const Sidebar = () => {
               {/* 1 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/usernotification" className="sidemenu">
+                <NavLink to="/adminside/usernotification" className="sidemenu">
                   <i className="bi bi-people" style={{ color: "white" }}></i>
                 </NavLink>
               </div>
@@ -300,7 +300,7 @@ const Sidebar = () => {
               {/* 2 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/createduser" className="sidemenu">
+                <NavLink to="/adminside/createduser" className="sidemenu">
                   <i
                     className="bi bi-person-check"
                     style={{ color: "white" }}
@@ -311,7 +311,7 @@ const Sidebar = () => {
               {/* 3 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/devicetypecreate" className="sidemenu">
+                <NavLink to="/adminside/devicetypecreate" className="sidemenu">
                   <i
                     className=" bi bi-diagram-3-fill"
                     style={{ color: "white" }}
@@ -322,7 +322,7 @@ const Sidebar = () => {
               {/* 4 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/ocr" className="sidemenu">
+                <NavLink to="/adminside/ocr" className="sidemenu">
                   <i className="bi bi-search" style={{ color: "white" }}></i>
                 </NavLink>
               </div>
@@ -330,7 +330,7 @@ const Sidebar = () => {
               {/* 5 */}
 
               <div style={{ marginTop: "8px" }}>
-                <NavLink to="/admin/thermal" className="sidemenu">
+                <NavLink to="/adminside/thermal" className="sidemenu">
                   <i className="bi bi-inbox" style={{ color: "white" }}></i>
                 </NavLink>
               </div>

@@ -14,7 +14,7 @@ function App() {
       <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
         <LoadScript googleMapsApiKey={process.env.REACT_APP_Google_map_Api}>
           <Routes>
-            <Route path="/admin/*" element={<AdminMainPage />} />
+            <Route path="/adminside/*" element={<AdminMainPage />} />
             
             <Route path="/users/*" element={<Usersmainpage />} />
           </Routes>

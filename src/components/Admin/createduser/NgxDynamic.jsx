@@ -150,7 +150,7 @@ const NgxDynamic = () => {
               <Dropdown.Item>Day- 7</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Link to={`/admin/createduser/useraccounts/UseraccountDevices/${accountid}`}>
+          <Link to={`/adminside/createduser/useraccounts/UseraccountDevices/${accountid}`}>
             <button type="button" className="btn btn-danger" style={{ marginLeft: "10px", borderRadius: "13px", fontWeight: "bold" }}>
               Back
             </button>
