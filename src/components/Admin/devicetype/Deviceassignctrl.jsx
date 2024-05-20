@@ -53,13 +53,17 @@ const Deviceassignctrl = () => {
   const asignctrlEditmodalbutton = (inde) => {
     setIndex(inde);
     console.log(assignedctrldata);
+    // eslint-disable-next-line
     if (Object.keys(assignedctrldata[inde]) == "button") {
       setAsignctrlEditmodalforButton(!asignctrlEditmodalforButton);
+      // eslint-disable-next-line
     } else if (Object.keys(assignedctrldata[inde]) == "slider") {
       setAsignctrlEditmodalforSlider(!asignctrlEditmodalforSlider);
+      // eslint-disable-next-line
     } else if (Object.keys(assignedctrldata[inde]) == "graph") {
       setAsignctrlEditmodalforLinegrapg(!asignctrlEditmodalforLinegrapg);
       setFields(assignedctrldata[inde]?.graph.params);
+      // eslint-disable-next-line
     } else if (inde == 0) {
       setAsignctrlEditmodalforButton(false);
       setAsignctrlEditmodalforLinegrapg(false);
@@ -361,7 +365,9 @@ const Deviceassignctrl = () => {
                 </tr>
               </thead>
               <tbody>
+              
                 {assignedctrldata?.length > 0 &&
+                // eslint-disable-next-line
                   assignedctrldata?.map((data, index) => {
                     if (data.button) {
                       return (

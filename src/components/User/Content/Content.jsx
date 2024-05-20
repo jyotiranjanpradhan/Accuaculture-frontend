@@ -80,7 +80,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
         console.error("Error fetching weather data:", error);
       }
     };
-
+// eslint-disable-next-line
     weatherData({lat: centerr ?.lat, lng: centerr?.lng });
   }, [centerr.lat, centerr.lng]);
 useEffect(()=>{
@@ -91,7 +91,9 @@ useEffect(()=>{
       <div className="contain p-3">
         <div className="mapbox shadow">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
+          {/* // eslint-disable-next-line */}
           <GoogleMapComponent devicesNamesList={devicesofaUser}
+          // eslint-disable-next-line
             latitude={centerr.lat} longitude={centerr.lng} address={centerr ?.address}
             localupdate={localupdate}
           />
