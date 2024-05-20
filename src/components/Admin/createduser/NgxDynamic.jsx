@@ -8,8 +8,7 @@ import axios from "axios";
 
 const NgxDynamic = () => {
   const { isSidebarOpen } = useContext(AdminContext);
-  const { deviceType, deviceId, accountid } = useParams();
-  const [client, setClient] = useState(null);
+  const {  deviceId, accountid } = useParams();
   const [chartData, setChartData] = useState([]);
   const [devicetypedata, setdevicetypedata] = useState([]);
 
@@ -52,7 +51,7 @@ const NgxDynamic = () => {
       password: "Bfl@123",
     });
 
-    setClient(mqttClient);
+   
 
     mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker");
@@ -71,6 +70,7 @@ const NgxDynamic = () => {
         console.log("Disconnected from MQTT broker");
       }
     };
+// eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -128,9 +128,7 @@ const NgxDynamic = () => {
     });
   };
 
-  const extractTime = (dataPoint) => {
-    return dataPoint ? dataPoint.split(' ')[1] : '';
-  };
+ 
 
   return (
     <>

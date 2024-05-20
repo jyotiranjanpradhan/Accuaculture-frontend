@@ -91,6 +91,7 @@ const CalendarComponent = () => {
   };
   useEffect(() => {
     allevents();
+    // eslint-disable-next-line
   }, []);
 
   return (

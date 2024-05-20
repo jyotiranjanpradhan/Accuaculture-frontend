@@ -90,6 +90,7 @@ const UseraccountDevices = () => {
   useEffect(() => {
     usersDeviceFetch();
     seedevicetype();
+    // eslint-disable-next-line
   }, []);
 
   //variabvle for add device

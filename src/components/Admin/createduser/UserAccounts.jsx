@@ -42,6 +42,7 @@ const UserAccounts = () => {
 
   useEffect(() => {
     userAccountFetch();
+    // eslint-disable-next-line
   }, []);
 
   // variable for next and previous button

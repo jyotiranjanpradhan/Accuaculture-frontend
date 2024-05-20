@@ -64,6 +64,7 @@ const Usersmainpage = () => {
   };
   useEffect(() => {
     accountFetch();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {

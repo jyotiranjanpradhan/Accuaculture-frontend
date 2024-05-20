@@ -153,6 +153,7 @@ const Usernotification = () => {
           `http://${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
         );
         console.log(res);
+        userNotificationfetch();
       }
     } catch (error) {
       console.log(error);
@@ -176,6 +177,7 @@ const Usernotification = () => {
 
   useEffect(() => {
     userNotificationfetch();
+// eslint-disable-next-line
   }, []);
 
   const openModels = () => {
@@ -742,28 +744,23 @@ const Usernotification = () => {
               }}
             >
               <table className="table table-hover table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">Device Type</th>
-                    <th scope="col">No. of Device</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {regestereduser[userindex][3].devicesList &&
-                      regestereduser[userindex][3].devicesList[0] && (
-                        <>
-                          <td>
-                            {regestereduser[userindex][3].devicesList[0].value}
-                          </td>
-                          <td>
-                            {regestereduser[userindex][3].devicesList[0].count}
-                          </td>
-                        </>
-                      )}
-                  </tr>
-                </tbody>
-              </table>
+  <thead>
+    <tr>
+      <th scope="col">Device Type</th>
+      <th scope="col">No. of Device</th>
+    </tr>
+  </thead>
+  <tbody>
+    {regestereduser[userindex][3].devicesList &&
+      regestereduser[userindex][3].devicesList.map((data, index) => (
+        <tr key={index}>
+          <td>{data.value}</td>
+          <td>{data.count}</td>
+        </tr>
+      ))}
+  </tbody>
+</table>
+
               <button
                 type="button"
                 className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
