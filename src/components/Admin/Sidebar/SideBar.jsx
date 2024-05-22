@@ -379,7 +379,7 @@ const Sidebar = () => {
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-              <NavLink to="http://20.244.37.91/login">
+              <NavLink to="http://aqua.bariflorobotics.com/login">
       <button
         type="button"
         className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"

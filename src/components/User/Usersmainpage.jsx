@@ -3,11 +3,17 @@ import Navbars from "./Navbars/Navbars";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Usersmainpage = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const mobno = urlParams.get("mobno");
   localStorage.setItem("usermob", mobno);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('usermob')) {
+      navigate('/users/?'); 
+    }
+  }, [mobno, navigate]);
 
   const [toggleStates, setToggleStates] = useState({
     Current: false,
