@@ -135,6 +135,10 @@ const Chartbox = ({ metric, data }) => {
     title: {
       text: ` ${metric}`,
       align: 'left',
+      style: {
+        fontSize: '30px',
+        fontWeight: 'bold',
+      },
     },
     markers: {
       size: 0,
@@ -146,6 +150,9 @@ const Chartbox = ({ metric, data }) => {
     legend: {
       show: true,
     },
+    grid:{
+      show:false
+    }
   });
 
   useEffect(() => {

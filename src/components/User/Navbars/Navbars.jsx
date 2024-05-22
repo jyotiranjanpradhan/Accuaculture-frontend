@@ -566,7 +566,7 @@ const Navbars = ({
               style={{
                 borderRadius: "10px",
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                width: "270px",
+                width: "max-width",
                 marginTop: "10px",
               }}
             >
@@ -673,29 +673,30 @@ const Navbars = ({
             style={{
               fontSize: "15px",
               fontWeight: "500",
-              width: "200px",
+              width: "max-width",
 
               marginTop: "10px",
+              marginLeft: "10px",
             }}
           >
-            <div>
-              <div className="d-flex flex-row justify-content-between p-2">
+            <div className="ml-2 p-2" style={{width:"max-width"}}>
+              <div className="d-flex flex-row justify-content-between">
                 <p>Name :</p>
                 <p>{userdetails[0][2]}</p>
               </div>
-              <div className="d-flex flex-row justify-content-between p-2">
+              <div className="d-flex flex-row justify-content-between">
                 <p>Mob : </p>
                 <p>{userdetails[0][0]}</p>
               </div>
-              <div className="d-flex flex-row justify-content-between p-2">
-                <p>E-Mail:</p>
+              <div className="d-flex flex-row justify-content-between">
+                <p className="d-flex" style={{width:"55px"}}>E-Mail:</p>
                 <p>{userdetails[0][1]}</p>
               </div>
-              <div className="d-flex flex-row justify-content-between p-2">
-                <p>Adhar-No.:</p>
+              <div className="d-flex flex-row justify-content-between">
+                <p>Aadhar-No.:</p>
                 <p>{userdetails[0][3]}</p>
               </div>
-              <div className="d-flex flex-row justify-content-between p-2">
+              <div className="d-flex flex-row justify-content-between">
                 <p style={{ cursor: "pointer" }} onClick={dpUpload}>
                   Update Your Profile Photo HERE!{" "}
                 </p>
@@ -753,8 +754,9 @@ const Navbars = ({
                         style={{
                           fontSize: "15px",
                           fontWeight: "500",
-                          width: "200px",
+                          width: "350px",
                           cursor: "pointer",
+                          margin:"0px 0px 0px 10px"
                         }}
                         onClick={(e) => {
                           const newAccountid = data[1];
@@ -765,23 +767,23 @@ const Navbars = ({
                         }}
                       >
                         <div>
-                          <div className="d-flex flex-row justify-content-between p-2">
+                          <div className="d-flex flex-row justify-content-between px-2">
                             <p>ID :</p>
                             <p>{data[1]}</p>
                           </div>
-                          <div className="d-flex flex-row justify-content-between p-2">
+                          <div className="d-flex flex-row justify-content-between px-2">
                             <p>Name :</p>
                             <p>{data[0]}</p>
                           </div>
-                          <div className="d-flex flex-row justify-content-between p-2">
-                            <p>Address :</p>
-                            <p>{data[4]}</p>
+                          <div className="d-flex flex-row justify-content-between px-2">
+                            <p style={{width:"50px"}}>Address :</p>
+                            <p style={{width:"300px"}}>{data[4]}</p>
                           </div>
-                          <div className="d-flex flex-row justify-content-between p-2 ">
+                          <div className="d-flex flex-row justify-content-between px-2 ">
                             <p>No Of Devices :</p>
                             <p>{data[5]}</p>
                           </div>
-                          <div className="d-flex flex-row justify-content-between p-2">
+                          <div className="d-flex flex-row justify-content-between px-2">
                             <p>Opex :</p>
                             <p>{data.opex}</p>
                           </div>

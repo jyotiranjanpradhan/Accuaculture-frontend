@@ -164,7 +164,7 @@ const NgxDynamic = () => {
 
             return (
               <div key={key} className="col-6">
-                <h2>{key}</h2>
+                <h2 style={{fontSize:"26px"}}>{key}</h2>
                 <Chart
                   options={{
                     chart: {
@@ -184,6 +184,9 @@ const NgxDynamic = () => {
                     },
                     dataLabels:{
                       enabled:false
+                    },
+                    grid: {
+                      show: false,
                     },
                     yaxis: {
                       title: { text: y },
