@@ -375,11 +375,11 @@ const Sidebar = () => {
             {/* Modal Content */}
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div style={{ marginLeft: "25px" }}>
-                <p> Are you sure About Logout !</p>
+                <p> Are you sure !</p>
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-              <NavLink to="http://localhost:4200/login">
+              <NavLink to="http://20.244.37.91/login">
       <button
         type="button"
         className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
