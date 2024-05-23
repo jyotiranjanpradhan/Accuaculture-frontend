@@ -1105,6 +1105,7 @@ const Deviceassignctrl = () => {
                 fontSize: "20px",
                 verticalAlign: "cenetr",
                 marginLeft: "20px",
+                marginBottom:'5px'
               }}
               onClick={() => {
                 handleSubmitdata();

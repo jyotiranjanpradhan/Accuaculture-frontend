@@ -275,7 +275,7 @@ const Usernotification = () => {
                 fontSize: "25px",
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
-                backgroundColor: "#7DE0AE",
+                backgroundColor: "#E9EEF6",
                 borderRadius: "20px",
               }}
             >
@@ -302,13 +302,13 @@ const Usernotification = () => {
 
         <div className="parent-div-of-table">
           <table className="table table-bordered table-striped table-hover table-design">
-            <thead style={{ backgroundColor: "#7DE1AF" }}>
+            <thead style={{ backgroundColor: "#E9EEF6" }}>
               <tr>
                 <th
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopLeftRadius: "7px",
                   }}
                 >
@@ -317,21 +317,21 @@ const Usernotification = () => {
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Name
                 </th>
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Mobile No
                 </th>
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   E-mail Id
                 </th>
@@ -339,7 +339,7 @@ const Usernotification = () => {
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopRightRadius: "7px",
                   }}
                 >

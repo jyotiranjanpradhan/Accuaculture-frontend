@@ -22,7 +22,7 @@ const Navbars = ({
   updateCoordinates,
   setdevice,
   update,
- toggleStates
+  toggleStates,
 }) => {
   const mobileno = localStorage.getItem("usermob");
   console.log(mobileno);
@@ -90,8 +90,8 @@ const Navbars = ({
   // Initialize device states when component mounts
   useEffect(() => {
     initializeDeviceStates();
-//eslint-disable-next-line
-  },[]);
+    //eslint-disable-next-line
+  }, []);
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
       ...deviceStates,
@@ -108,7 +108,6 @@ const Navbars = ({
     });
     const storedDeviceStates = localStorage.getItem("deviceStates");
     if (storedDeviceStates) {
-    
       const statusSend = {
         display_id: parseInt(deviceId),
         virtual_pin: virtualPin,
@@ -130,7 +129,6 @@ const Navbars = ({
     }
   };
 
- 
   useEffect(() => {}, [handleCheckboxChange]);
 
   //user detaikls calkl
@@ -359,9 +357,10 @@ const Navbars = ({
     }
     // eslint-disable-next-line
   }, [useraccount]);
-  const userMetricsData = localStorage.getItem('userMetrics');
-  const userMetrics = JSON.parse(userMetricsData);
-  const deviceMetrics = userMetrics[mobileno];
+  const userMetricsData = localStorage.getItem("userMetrics");
+  const userMetrics = userMetricsData && JSON.parse(userMetricsData);
+  const deviceMetrics = userMetrics && userMetrics[mobileno];
+
   return (
     <>
       {/* Top Navbar start */}
@@ -514,45 +513,53 @@ const Navbars = ({
 
                 <div className="d-flex flex-column justify-content-between p-2 py-0 pt-1">
                   {/* Toggle switches for metrics */}
-                  {devicelabels.map((metric) => (
-                    <div
-                      key={metric}
-                      className="d-flex justify-content-between p-2 py-0 pt-1"
-                      style={{ height: "39px" }}
-                    >
-                      {/* Wrap the elements in data div */}
-                      <p style={{ fontSize: "18px", fontWeight: "500" }}>
-                        {metric}
-                      </p>
-                      {deleteoption ? (
-                        <i
-                          class="bi bi-trash"
-                          style={{
-                            fontSize: "20px",
-                            color: "red",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setTemplebel(metric);
-                            Setlabeltodelete(!labeltodelete);
-                          }}
-                        ></i>
-                      ) : (
-                        <div className="form-check form-switch">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            role="switch"
-                            style={{ fontSize: "20px" }}
-                            checked={deviceMetrics[metric] || false}
-                            onChange={(e) =>
-                              handleToggle(metric, e.target.checked)
-                            }
-                          />
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                  {devicelabels.map((metric) => {
+                    const isChecked =
+                      deviceMetrics &&
+                      deviceMetrics[metric] !== undefined &&
+                      deviceMetrics[metric] !== null
+                        ? deviceMetrics[metric]
+                        : false;
+                    return (
+                      <div
+                        key={metric}
+                        className="d-flex justify-content-between p-2 py-0 pt-1"
+                        style={{ height: "39px" }}
+                      >
+                        {/* Wrap the elements in data div */}
+                        <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                          {metric}
+                        </p>
+                        {deleteoption ? (
+                          <i
+                            className="bi bi-trash"
+                            style={{
+                              fontSize: "20px",
+                              color: "red",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              setTemplebel(metric);
+                              Setlabeltodelete(!labeltodelete);
+                            }}
+                          ></i>
+                        ) : (
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              role="switch"
+                              style={{ fontSize: "20px" }}
+                              checked={isChecked}
+                              onChange={(e) =>
+                                handleToggle(metric, e.target.checked)
+                              }
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </>
             </Dropdown.Menu>
@@ -576,8 +583,11 @@ const Navbars = ({
             >
               {devicedetails.map((devicedata) => (
                 <>
-                  <div className="d-flex justify-content-between p-2 " style={{gap:'60px'}}>
-                    <div style={{width:'max-content'}}>
+                  <div
+                    className="d-flex justify-content-between p-2 "
+                    style={{ gap: "60px" }}
+                  >
+                    <div style={{ width: "max-content" }}>
                       <p className="mb-0">
                         <span style={{ fontWeight: 500 }}>ID:</span>{" "}
                         {devicedata[1]}
@@ -682,7 +692,7 @@ const Navbars = ({
               marginLeft: "10px",
             }}
           >
-            <div className="ml-2 p-2" style={{width:"max-width"}}>
+            <div className="ml-2 p-2" style={{ width: "max-width" }}>
               <div className="d-flex flex-row justify-content-between">
                 <p>Name :</p>
                 <p>{userdetails[0][2]}</p>
@@ -692,7 +702,9 @@ const Navbars = ({
                 <p>{userdetails[0][0]}</p>
               </div>
               <div className="d-flex flex-row justify-content-between">
-                <p className="d-flex" style={{width:"55px"}}>E-Mail:</p>
+                <p className="d-flex" style={{ width: "55px" }}>
+                  E-Mail:
+                </p>
                 <p>{userdetails[0][1]}</p>
               </div>
               <div className="d-flex flex-row justify-content-between">
@@ -759,7 +771,7 @@ const Navbars = ({
                           fontWeight: "500",
                           width: "370px",
                           cursor: "pointer",
-                          margin:"0px 0px 0px 10px"
+                          margin: "0px 0px 0px 10px",
                         }}
                         onClick={(e) => {
                           const newAccountid = data[1];
@@ -779,8 +791,8 @@ const Navbars = ({
                             <p>{data[0]}</p>
                           </div>
                           <div className="d-flex flex-row justify-content-between px-2">
-                            <p style={{width:"71px"}}>Address :</p>
-                            <p style={{width:"300px"}}>{data[4]}</p>
+                            <p style={{ width: "71px" }}>Address :</p>
+                            <p style={{ width: "300px" }}>{data[4]}</p>
                           </div>
                           <div className="d-flex flex-row justify-content-between px-2 ">
                             <p>No Of Devices :</p>

@@ -110,7 +110,7 @@ const Devicetypecreate = () => {
                 fontSize: "25px",
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
-                backgroundColor: "#7DE0AE",
+                backgroundColor: "#E9EEF6",
                 borderRadius: "20px",
               }}
             >
@@ -159,7 +159,7 @@ const Devicetypecreate = () => {
                   className=""
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopLeftRadius: "7px",
                     textAlign: "center",
                   }}
@@ -168,26 +168,26 @@ const Devicetypecreate = () => {
                 </th>
                 <th
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD", textAlign: "center" }}
+                  style={{ backgroundColor: "#E9EEF6", textAlign: "center" }}
                 >
                   Name
                 </th>
                 <th
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD", textAlign: "center" }}
+                  style={{ backgroundColor: "#E9EEF6", textAlign: "center" }}
                 >
                   Version
                 </th>
                 <th
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD", textAlign: "center" }}
+                  style={{ backgroundColor: "#E9EEF6", textAlign: "center" }}
                 >
                   Status
                 </th>
                 <th
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopRightRadius: "7px",
                     textAlign: "center",
                   }}

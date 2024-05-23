@@ -144,7 +144,7 @@ const UserAccounts = () => {
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopLeftRadius: "7px",
                   }}
                 >
@@ -153,14 +153,14 @@ const UserAccounts = () => {
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Account ID
                 </th>
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Account Name
                 </th>
@@ -169,7 +169,7 @@ const UserAccounts = () => {
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopRightRadius: "7px",
                   }}
                 >

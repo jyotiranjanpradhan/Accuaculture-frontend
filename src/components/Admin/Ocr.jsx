@@ -18,25 +18,25 @@ const Ocr = () => {
                className="text-center"
                 scope="col"
                 style={{
-                  backgroundColor: "#7CDFAD",
+                  backgroundColor: "#E9EEF6",
                   borderTopLeftRadius: "7px",
                 }}
               >
                 Sl.No
               </th>
-              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#E9EEF6" }}>
                 Name
               </th>
-              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#E9EEF6" }}>
                 Mobile No
               </th>
-              <th  className="text-center" scope="col" style={{ backgroundColor: "#7CDFAD" }}>
+              <th  className="text-center" scope="col" style={{ backgroundColor: "#E9EEF6" }}>
                 Image Name
               </th>
               <th  className="text-center"
                 scope="col"
                 style={{
-                  backgroundColor: "#7CDFAD",
+                  backgroundColor: "#E9EEF6",
                   borderTopRightRadius: "7px",
                 }}
               >

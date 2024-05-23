@@ -179,7 +179,7 @@ const Createduser = () => {
                 fontSize: "25px",
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
-                backgroundColor: "#7DE0AE",
+                backgroundColor: "#E9EEF6",
                 borderRadius: "20px",
               }}
             >
@@ -212,7 +212,7 @@ const Createduser = () => {
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopLeftRadius: "7px",
                   }}
                 >
@@ -221,21 +221,21 @@ const Createduser = () => {
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Name
                 </th>
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   Mobile No
                 </th>
                 <th
                   className="text-center"
                   scope="col"
-                  style={{ backgroundColor: "#7CDFAD" }}
+                  style={{ backgroundColor: "#E9EEF6" }}
                 >
                   E-mail Id
                 </th>
@@ -243,7 +243,7 @@ const Createduser = () => {
                   className="text-center"
                   scope="col"
                   style={{
-                    backgroundColor: "#7CDFAD",
+                    backgroundColor: "#E9EEF6",
                     borderTopRightRadius: "7px",
                   }}
                 >

@@ -199,8 +199,8 @@ const NgxDynamic = () => {
                     fill: {
                       type: 'gradient',
                       gradient:{
-                        opacityFrom:0.4,
-                        opacityTo:0.9
+                        opacityFrom:0.2,
+                        opacityTo:0.4
                       }
                     }
                   }}

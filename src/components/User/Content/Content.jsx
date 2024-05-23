@@ -16,7 +16,7 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
   const [chartData, setChartData] = useState([]);
   const userMetricsData = localStorage.getItem('userMetrics');
   const userMetrics = JSON.parse(userMetricsData);
-  const deviceMetrics = userMetrics[mobileno];
+  const deviceMetrics = userMetrics && userMetrics[mobileno];
   useEffect(() => {
     const mqttClient = mqtt.connect({
       hostname: "4.240.114.7",

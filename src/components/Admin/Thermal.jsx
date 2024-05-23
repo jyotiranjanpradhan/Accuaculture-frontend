@@ -15,9 +15,9 @@ const Thermal = () => {
       <div className="option" style={{ marginTop:'7px' , display:'flex' }}>
 
       <Dropdown >
-        <Dropdown.Toggle  style={{backgroundColor:'#7EE2B0',borderRadius:'13px' , color:'black', fontWeight:'bold'}}>Time period</Dropdown.Toggle>
+        <Dropdown.Toggle  style={{backgroundColor:'#E9EEF6',borderRadius:'13px' , color:'black', fontWeight:'bold'}}>Time period</Dropdown.Toggle>
 
-        <Dropdown.Menu style={{width:'20px' ,backgroundColor:'#7EE2B0', fontSize:'17px'}}>
+        <Dropdown.Menu style={{width:'20px' ,backgroundColor:'#E9EEF6', fontSize:'17px'}}>
           <Dropdown.Item>Day- 1 </Dropdown.Item>
           <Dropdown.Item>Day- 2</Dropdown.Item>
           <Dropdown.Item>Day- 3</Dropdown.Item>
@@ -42,7 +42,7 @@ const Thermal = () => {
                 className="text-center"
                 scope="col"
                 style={{
-                  backgroundColor: "#7CDFAD",
+                  backgroundColor: "#E9EEF6",
                   borderTopLeftRadius: "7px",
                 }}
               >
@@ -53,7 +53,7 @@ const Thermal = () => {
               className="text-center"
                 scope="col"
                 style={{
-                  backgroundColor: "#7CDFAD",
+                  backgroundColor: "#E9EEF6",
                   borderTopRightRadius: "7px",
                 }}
               >

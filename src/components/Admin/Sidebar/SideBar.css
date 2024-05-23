@@ -16,18 +16,19 @@
     margin-top: 30px;
     height: 47px;
     margin-right: 4px;
-    background-color: #7ee2b0;
-    border-radius: 50px 20px;
+    background-color: #e6e8e9;
+    border-radius: 50px ;
     padding-right: 30px;
   }
+  
   
   .headingText {
     font-weight: 700;
     font-size: 34px;
     font-style: oblique;
-    color: #ffffff;
+    color: #060b26;
   
-    text-shadow: 2px 2px 1px black;
+   
   }
   
   /* Heading Bar End */
