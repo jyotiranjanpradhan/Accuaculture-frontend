@@ -77,7 +77,7 @@ const NgxDynamic = () => {
     const graphInfoJSON = localStorage.getItem('graphinfo');
     const graphInfo = JSON.parse(graphInfoJSON);
 
-    const chartsDataArray = Object.entries(graphInfo).map(([key, value]) => {
+    const chartsDataArray =graphInfo && Object.entries(graphInfo)?.map(([key, value]) => {
       const xAxisData = [];
       const seriesData = value.labels.map(() => []);
 
@@ -155,7 +155,7 @@ const NgxDynamic = () => {
           </Link>
         </div>
         <div className="d-flex flex-wrap">
-          {chartData.map(({ key, x, y, seriesName, seriesData, xCategories }) => {
+          {chartData?.map(({ key, x, y, seriesName, seriesData, xCategories }) => {
             const timeCategories = xCategories.map(dateString => {
               const date = new Date(dateString);
               const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
