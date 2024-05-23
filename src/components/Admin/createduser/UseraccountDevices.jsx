@@ -477,6 +477,11 @@ const UseraccountDevices = () => {
                     className="form-control"
                     placeholder="Device...."
                     style={{ width: "200px", marginLeft: "50px" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity("Please  select Your Device LAT,LNG")
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
                   ></input>
                 </div>
 

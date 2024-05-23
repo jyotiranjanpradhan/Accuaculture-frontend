@@ -11,12 +11,12 @@ import mqtt from "mqtt";
 import GoogleMapComponent from "../../Mapview";
 
 const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) => {
+  const mobileno = localStorage.getItem("usermob");
   const [wdata, setWdata] = useState(null);
-
   const [chartData, setChartData] = useState([]);
-
- 
-
+  const userMetricsData = localStorage.getItem('userMetrics');
+  const userMetrics = JSON.parse(userMetricsData);
+  const deviceMetrics = userMetrics[mobileno];
   useEffect(() => {
     const mqttClient = mqtt.connect({
       hostname: "4.240.114.7",
@@ -100,7 +100,7 @@ useEffect(()=>{
         </div>
         <div
           className="weatherbox shadow"
-          style={{ padding: "5px", width: "350px" }}
+          style={{ padding: "5px", width: "95%" }}
         >
           {wdata ? (
             <div className="weatherdata">
@@ -169,14 +169,17 @@ useEffect(()=>{
         </div>
       </div>
       <div className="chartcontainer">
-        <div  style={{ padding: "8px",width:'100%',display:'flex',flexWrap:'wrap'}}>
-          {Object.keys(toggleStates).map(
-            (metric) =>
-              toggleStates[metric] && (
-                <Chartbox key={metric} metric={metric} data={chartData} />
-              )
-          )}
-        </div>
+      <div style={{ padding: '8px', width: '100%', display: 'flex', flexWrap: 'wrap' }}>
+  {deviceMetrics && Object.keys(deviceMetrics).map(metric => {
+    // Check if the metric is true in deviceMetrics and if the toggle state is true
+    if (deviceMetrics[metric]) {
+      return <Chartbox key={metric} metric={metric} data={chartData} />;
+    } else {
+      return null; // Don't render anything if the metric is false or toggle state is false
+    }
+  })}
+</div>
+
       </div>
     </>
   );

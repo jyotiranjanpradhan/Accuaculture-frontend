@@ -21,7 +21,8 @@ const Navbars = ({
   useraccount,
   updateCoordinates,
   setdevice,
-  update
+  update,
+ toggleStates
 }) => {
   const mobileno = localStorage.getItem("usermob");
   console.log(mobileno);
@@ -358,7 +359,9 @@ const Navbars = ({
     }
     // eslint-disable-next-line
   }, [useraccount]);
-
+  const userMetricsData = localStorage.getItem('userMetrics');
+  const userMetrics = JSON.parse(userMetricsData);
+  const deviceMetrics = userMetrics[mobileno];
   return (
     <>
       {/* Top Navbar start */}
@@ -541,6 +544,7 @@ const Navbars = ({
                             type="checkbox"
                             role="switch"
                             style={{ fontSize: "20px" }}
+                            checked={deviceMetrics[metric] || false}
                             onChange={(e) =>
                               handleToggle(metric, e.target.checked)
                             }
@@ -572,8 +576,8 @@ const Navbars = ({
             >
               {devicedetails.map((devicedata) => (
                 <>
-                  <div className="d-flex justify-content-between p-2">
-                    <div>
+                  <div className="d-flex justify-content-between p-2 " style={{gap:'60px'}}>
+                    <div style={{width:'max-content'}}>
                       <p className="mb-0">
                         <span style={{ fontWeight: 500 }}>ID:</span>{" "}
                         {devicedata[1]}
@@ -674,7 +678,6 @@ const Navbars = ({
               fontSize: "15px",
               fontWeight: "500",
               width: "max-width",
-
               marginTop: "10px",
               marginLeft: "10px",
             }}
@@ -754,7 +757,7 @@ const Navbars = ({
                         style={{
                           fontSize: "15px",
                           fontWeight: "500",
-                          width: "350px",
+                          width: "370px",
                           cursor: "pointer",
                           margin:"0px 0px 0px 10px"
                         }}
@@ -776,7 +779,7 @@ const Navbars = ({
                             <p>{data[0]}</p>
                           </div>
                           <div className="d-flex flex-row justify-content-between px-2">
-                            <p style={{width:"50px"}}>Address :</p>
+                            <p style={{width:"71px"}}>Address :</p>
                             <p style={{width:"300px"}}>{data[4]}</p>
                           </div>
                           <div className="d-flex flex-row justify-content-between px-2 ">

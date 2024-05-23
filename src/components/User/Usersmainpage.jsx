@@ -3,33 +3,35 @@ import Navbars from "./Navbars/Navbars";
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 const Usersmainpage = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const mobno = urlParams.get("mobno");
-  localStorage.setItem("usermob", mobno);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (localStorage.getItem('usermob')) {
-      navigate('/users/?'); 
-    }
-  }, [mobno, navigate]);
+  const mobno =localStorage.getItem('usermob')
+  const [toggleStates, setToggleStates] = useState({});
 
-  const [toggleStates, setToggleStates] = useState({
-    Current: false,
-    Voltage: false,
-    pH: false,
-    ORP: false,
-    DO: false,
-    TDS: false,
-    // Add more metrics as needed
-  });
+  const handleToggle = (metric, checked) => {
+    setToggleStates((prevState) => {
+      const newState = {
+        ...prevState,
+        [metric]: checked,
+      };
 
-  const handleToggle = (metric) => {
-    setToggleStates((prevState) => ({
-      ...prevState,
-      [metric]: !prevState[metric],
-    }));
+      // Retrieve existing user metrics from localStorage or initialize an empty object
+      const existingUserMetrics = JSON.parse(localStorage.getItem('userMetrics')) || {};
+
+      // Update the user's metrics with the new state
+      const updatedUserMetrics = {
+        ...existingUserMetrics,
+        [mobno]: {
+          ...existingUserMetrics[mobno],
+          [metric]: checked,
+        },
+      };
+
+      // Save the updated user metrics to localStorage
+      localStorage.setItem('userMetrics', JSON.stringify(updatedUserMetrics));
+
+      return newState;
+    });
   };
 
   const[localupdate,setLocalupdate]=useState(false);
@@ -107,6 +109,7 @@ const Usersmainpage = () => {
         updateCoordinates={updateCoordinates}
         setdevice={setdevice}
         update={update}
+        toggleStates={toggleStates}
       />
       <Content
         toggleStates={toggleStates}
