@@ -11,7 +11,7 @@
   grid-template-columns: 3fr 1fr;
  margin-left: 110px;
  margin-top: 95px;
-
+ margin-right: 63px;
  
 }
 
@@ -64,4 +64,5 @@
   
   margin-left: 90px;
   grid-template-columns: 2fr 2fr;
+  margin-right: 63px;
 }

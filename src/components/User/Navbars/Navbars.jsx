@@ -130,7 +130,7 @@ const Navbars = ({
   };
 
   useEffect(() => {}, [handleCheckboxChange]);
-
+  
   //user detaikls calkl
   const userdatas = async () => {
     try {
@@ -150,6 +150,29 @@ const Navbars = ({
   const showcalender = () => {
     setCalendershow(!calendershow);
   };
+
+  const calendarRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        showcalender();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (calendershow) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showcalender]);
+
 
   //variable for profile picture upload
   const [selectedImage, setSelectedImage] = useState("");
@@ -172,6 +195,27 @@ const Navbars = ({
     setProfilepicaddmodal(!profilepicaddmodal);
   };
 
+  const dpRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (dpRef.current && !dpRef.current.contains(event.target)) {
+        dpUpload();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (profilepicaddmodal) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dpUpload]);
   const [profilepicaddanimation, setProfilepicaddanimation] = useState(false);
 
   const photo = useRef(null);
@@ -253,6 +297,27 @@ const Navbars = ({
   const islogout = () => {
     setLogout(!logout);
   };
+  const logoutRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (logoutRef.current && !logoutRef.current.contains(event.target)) {
+        islogout();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (logout) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [islogout]);
 
   //  delete  labels
   const deletedevicetype = useRef(null);
@@ -920,6 +985,7 @@ const Navbars = ({
         <div className="check-model ">
           <div
             className="model"
+            ref={logoutRef}
             style={{
               fontSize: "23px",
               width: "600px",
@@ -939,11 +1005,11 @@ const Navbars = ({
                   color: "white",
                 }}
               >
-                Log OUT
+                Logout
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={islogout}
               ></i>
             </div>
@@ -1111,15 +1177,17 @@ const Navbars = ({
 
       {/* START calender Modal  */}
       {calendershow ? (
-        <div className="check-model ">
+        <div className="check-model " >
           <div
             className="model"
+            ref={calendarRef}
             style={{
               width: "850px",
               top: "10px",
               padding: "10px",
               marginTop: "20px",
             }}
+           
           >
             {/* Modal Heading */}
             <div
@@ -1157,6 +1225,7 @@ const Navbars = ({
       {profilepicaddmodal ? (
         <div className="check-model ">
           <div
+          ref={dpRef}
             className="model"
             style={{
               fontSize: "23px",

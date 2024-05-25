@@ -321,7 +321,7 @@ const Devicetypecreate = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={openModels}
               ></i>
             </div>
@@ -432,7 +432,7 @@ const Devicetypecreate = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={deviceadd}
               ></i>
             </div>
@@ -541,7 +541,7 @@ const Devicetypecreate = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={openDeleteModels}
               ></i>
             </div>

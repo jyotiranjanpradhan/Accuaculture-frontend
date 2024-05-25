@@ -416,7 +416,7 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={adddevice}
               ></i>
             </div>
@@ -596,7 +596,7 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Edit Device</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={editdevice}
               ></i>
             </div>
@@ -693,7 +693,7 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={openDeleteModels}
               ></i>
             </div>
@@ -754,7 +754,7 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={devicecontrol}
               ></i>
             </div>

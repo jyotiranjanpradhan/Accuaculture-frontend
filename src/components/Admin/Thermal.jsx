@@ -17,7 +17,7 @@ const Thermal = () => {
       <Dropdown >
         <Dropdown.Toggle  style={{backgroundColor:'#E9EEF6',borderRadius:'13px' , color:'black', fontWeight:'bold'}}>Time period</Dropdown.Toggle>
 
-        <Dropdown.Menu style={{width:'20px' ,backgroundColor:'#E9EEF6', fontSize:'17px'}}>
+        <Dropdown.Menu style={{width:'20px' ,backgroundColor:'#c7d6ff', fontSize:'17px'}}>
           <Dropdown.Item>Day- 1 </Dropdown.Item>
           <Dropdown.Item>Day- 2</Dropdown.Item>
           <Dropdown.Item>Day- 3</Dropdown.Item>

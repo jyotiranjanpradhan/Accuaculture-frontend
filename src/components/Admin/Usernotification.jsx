@@ -468,7 +468,7 @@ const Usernotification = () => {
                 </p>
                 <i
                   className="bi bi-x-octagon cancel-button-modal "
-                  style={{ fontSize: 30 }}
+                  style={{ fontSize: 30 ,color:'#df010d'}}
                   onClick={openModels}
                 ></i>
               </div>
@@ -566,7 +566,7 @@ const Usernotification = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d',color:'#df010d' }}
                 onClick={opennextmodel}
               ></i>
             </div>
@@ -731,7 +731,7 @@ const Usernotification = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={opendevicetypemodel}
               ></i>
             </div>
@@ -817,7 +817,7 @@ const Usernotification = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={adddevice}
               ></i>
             </div>

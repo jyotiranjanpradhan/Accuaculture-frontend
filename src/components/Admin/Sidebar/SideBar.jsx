@@ -354,21 +354,21 @@ const Sidebar = () => {
             {/* Modal Heading */}
             <div
               className="heading d-flex justify-content-between  "
-              style={{ backgroundColor: "#00216e" }}
+              style={{ backgroundColor: "#e6e8e9" }}
             >
               <p
                 style={{
                   marginTop: "8px",
                   marginLeft: "30px",
                   fontSize: 25,
-                  color: "white",
+                  
                 }}
               >
-                Log OUT
+                Logout
               </p>
               <i
                 class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={islogout}
               ></i>
             </div>

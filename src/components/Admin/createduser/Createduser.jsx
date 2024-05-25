@@ -43,6 +43,28 @@ const Createduser = () => {
   const openModels = () => {
     setOpenModel(!openModel);
   };
+  const openmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (openmodalRef.current && !openmodalRef.current.contains(event.target)) {
+        openModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (openModel) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openModels]);
+
   const openDeleteModels = () => {
     setDeleteButton(!deletebutton);
   };
@@ -376,6 +398,7 @@ const Createduser = () => {
       {openModel ? (
         <div className="check-model ">
           <div
+          ref={openmodalRef}
             className="model"
             style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
@@ -387,7 +410,7 @@ const Createduser = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={openModels}
               ></i>
             </div>
@@ -540,7 +563,7 @@ const Createduser = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={openDeleteModels}
               ></i>
             </div>

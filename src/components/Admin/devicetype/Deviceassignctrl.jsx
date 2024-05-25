@@ -535,7 +535,7 @@ const Deviceassignctrl = () => {
                   </p>
                   <i
                     className="bi bi-x-octagon cancel-button-modal "
-                    style={{ fontSize: 30 }}
+                    style={{ fontSize: 30 ,color:'#df010d'}}
                     onClick={openDeleteModels}
                   ></i>
                 </div>
@@ -679,7 +679,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>On Off Button</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' ,color:'#df010d'}}
                 onClick={editmodal}
               ></i>
             </div>
@@ -791,7 +791,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Slider Input</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={sliderinputaddmodal}
               ></i>
             </div>
@@ -960,7 +960,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Line Graph</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={linegraphaddmodal}
               ></i>
             </div>
@@ -1148,7 +1148,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>On Off Button</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={() =>
                   setAsignctrlEditmodalforButton(!asignctrlEditmodalforButton)
                 }
@@ -1254,7 +1254,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Slider Input</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={() =>
                   setAsignctrlEditmodalforSlider(!asignctrlEditmodalforSlider)
                 }
@@ -1401,7 +1401,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Line Graph</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={() =>
                   setAsignctrlEditmodalforLinegrapg(
                     !asignctrlEditmodalforLinegrapg
