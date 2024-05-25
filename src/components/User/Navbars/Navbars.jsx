@@ -57,7 +57,7 @@ const Navbars = ({
     const storedDeviceStates = localStorage.getItem("deviceStates");
     return storedDeviceStates ? JSON.parse(storedDeviceStates) : {};
   });
-
+ const [showDropdown,setShowDropdown] = useState(false);
   //logout
   const handleLogout = () => {
     localStorage.removeItem("usermob");
@@ -430,7 +430,7 @@ const Navbars = ({
     <>
       {/* Top Navbar start */}
 
-      <div className=" shadow-lg topnavbar h-auto  ">
+      <div className=" shadow-lg topnavbar h-auto d-none d-md-block ">
         <div className=" d-flex  justify-content-end align-items-center bg-white ">
           <Dropdown>
             <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
@@ -719,6 +719,299 @@ const Navbars = ({
             onClick={islogout}
           ></i>
         </div>
+      </div>
+      <div className="d-flex flex-column position-absolute top-0 end-0 justify-content-end p-4 ">
+      <span className="text-light p-2 px-4 fs-2 rounded cursor-pointer" style={{backgroundColor:"#00216E"}} onClick={()=>setShowDropdown(!showDropdown)}><i class="fa-solid fa-bars"></i></span>
+      {
+        showDropdown && (<div className=" d-flex flex-column align-items-center bg-white shadow pt-2" style={{zIndex:2}}>
+        <Dropdown>
+          <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
+            <i
+              className=" img1 fa-solid fa-chart-line fs-3"
+              style={{ fontSize: 30 }}
+            ></i>
+          </Dropdown.Toggle>
+          <Dropdown.Menu
+            style={{
+              borderRadius: "10px",
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+              width: "270px",
+              marginTop: "20px",
+            }}
+          >
+            <>
+              {/* START Logic  for adding input by buttotn click field  */}
+              <div className="d-flex gap-1 px-1 ">
+                <button
+                  style={{
+                    width: "70%",
+                    borderRadius: "5px",
+                    backgroundColor: "#7ee2b0",
+                    fontSize: "15px",
+                  }}
+                  onClick={() => {
+                    setShowInput(!showInput);
+                    setDeleteoption(false);
+                    seedevicetype();
+                    setShowdelete(false);
+                  }}
+                >
+                  Add Labels
+                </button>
+                <button
+                  style={{
+                    width: "30%",
+                    borderRadius: "5px",
+                    padding: "5px 8px",
+                    backgroundColor: "#FF0000",
+                    fontSize: "15px",
+                  }}
+                  onClick={() => {
+                    seedevicetype();
+                    setDeleteoption(!deleteoption);
+                    setShowdelete(!showdelete);
+                    setShowInput(false);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+
+              {showdelete && (
+                <Form.Select
+                  style={{
+                    marginTop: "8px",
+                    marginLeft: "8px",
+                    width: "93%",
+                    height: "34px",
+                  }}
+                  ref={deletedevicetype}
+                >
+                  <option>Select Your device .....</option>
+                  {devicetypes.map((device, index) => (
+                    <option key={index} value={device}>
+                      {device}
+                    </option>
+                  ))}
+                </Form.Select>
+              )}
+              {showInput && (
+                <div style={{ zIndex: "10" }}>
+                  <Form.Select
+                    style={{
+                      marginTop: "8px",
+                      marginLeft: "8px",
+                      width: "93%",
+                      height: "34px",
+                    }}
+                    ref={devicetype}
+                  >
+                    <option>Select Your device .....</option>
+                    {devicetypes.map((device, index) => (
+                      <option key={index} value={device}>
+                        {device}
+                      </option>
+                    ))}
+                  </Form.Select>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      labeladd();
+                      setShowInput(false);
+                      setTimeout(() => {
+                        devicelabelFetch(accid);
+                      }, 1000);
+                    }}
+                  >
+                    <div className="p-2 d-flex justify-content-between">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="inlineFormInput"
+                        placeholder="Add Your Labels....."
+                        style={{
+                          width: "80%",
+                          height: "34px",
+                        }}
+                        ref={labelname}
+                        required
+                        onInvalid={(e) =>
+                          e.target.setCustomValidity(
+                            "Please Enter Your Label Name"
+                          )
+                        }
+                        onChange={(e) => e.target.setCustomValidity("")}
+                      />
+
+                      <button
+                        type="submit"
+                        className="btn btn-success px-0 py-0 text-center"
+                        style={{
+                          textAlign: "center",
+                          height: "34px",
+                          width: "45px",
+                        }}
+                      >
+                        <i
+                          className="bi bi-plus fw-bold"
+                          style={{
+                            fontSize: "25px",
+                            cursor: "pointer",
+                            display: "contents",
+                          }}
+                        ></i>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+              {/* END Logic  for adding input field  */}
+
+              <div className="d-flex flex-column justify-content-between p-2 py-0 pt-1">
+                {/* Toggle switches for metrics */}
+                {devicelabels.map((metric) => {
+                  const isChecked =
+                    deviceMetrics &&
+                    deviceMetrics[metric] !== undefined &&
+                    deviceMetrics[metric] !== null
+                      ? deviceMetrics[metric]
+                      : false;
+                  return (
+                    <div
+                      key={metric}
+                      className="d-flex justify-content-between p-2 py-0 pt-1"
+                      style={{ height: "39px" }}
+                    >
+                      {/* Wrap the elements in data div */}
+                      <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                        {metric}
+                      </p>
+                      {deleteoption ? (
+                        <i
+                          className="bi bi-trash"
+                          style={{
+                            fontSize: "20px",
+                            color: "red",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            setTemplebel(metric);
+                            Setlabeltodelete(!labeltodelete);
+                          }}
+                        ></i>
+                      ) : (
+                        <div className="form-check form-switch">
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            style={{ fontSize: "20px" }}
+                            checked={isChecked}
+                            onChange={(e) =>
+                              handleToggle(metric, e.target.checked)
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <Dropdown>
+          <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
+            <i
+              className="img1 bi bi-diagram-3-fill "
+              style={{ fontSize: 30 }}
+            ></i>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu
+            style={{
+              borderRadius: "10px",
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+              width: "max-width",
+              marginTop: "10px",
+            }}
+          >
+            {devicedetails.map((devicedata) => (
+              <>
+                <div
+                  className="d-flex justify-content-between p-2 "
+                  style={{ gap: "60px" }}
+                >
+                  <div style={{ width: "max-content" }}>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>ID:</span>{" "}
+                      {devicedata[1]}
+                    </p>
+                    <p className="mb-0">
+                      <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
+                      {devicedata[0]}
+                    </p>
+                  </div>
+
+                  <div
+                    className=" form-check form-switch"
+                    style={{ fontSize: "x-large" }}
+                  >
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      role="switch"
+                      checked={
+                        deviceStates[devicedata[1]]
+                          ? deviceStates[devicedata[1]].checked
+                          : false
+                      }
+                      onChange={(e) => {
+                        handleCheckboxChange(
+                          devicedata[1],
+                          e.target.checked,
+                          devicedata[3]
+                        );
+                        update();
+                      }}
+                    />
+                  </div>
+                </div>
+                <hr className="my-0 text-secondary" />
+              </>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+
+        <i
+          className="img1 bi bi-brightness-high-fill m-3"
+          style={{ fontSize: 30 }}
+        ></i>
+
+        <i
+          className="img2 bi bi-calendar-week m-3"
+          style={{ fontSize: 30 }}
+          onClick={() => {
+            showcalender();
+          }}
+        ></i>
+
+        <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
+
+        <i
+          className="img4 bi bi-question-circle m-3 "
+          style={{ fontSize: 30 }}
+        ></i>
+
+        <i
+          className="img5 bi bi-box-arrow-right m-3 "
+          style={{ fontSize: 30 }}
+          onClick={islogout}
+        ></i>
+      </div>)
+      }
       </div>
 
       {/* TopNavbar End */}
