@@ -7,7 +7,7 @@ import { GoogleMap,Marker } from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
 import success from "./success.gif";
-
+import './Createduser.css'
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   const [map, setMap] = useState(null);
 
@@ -217,11 +217,8 @@ const Createduser = () => {
   return (
     <>
       {/* Page Start */}
-      <div
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-          marginTop: "7px",
-        }}
+      <div className={`createdusercontent  ${isSidebarOpen ? 'open' : 'closed'}`}
+        
       >
         {/* Total User Count Start */}
         <div className="userCount shadow">

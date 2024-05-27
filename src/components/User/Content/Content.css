@@ -72,9 +72,9 @@
 
 @media only screen and (max-width: 768px) {
   .contain {
-    display: grid;
-    grid-auto-flow: column;
-    /* grid-template-columns: 3fr 1fr; */
+    display: flex;
+    flex-direction: column;
+ 
    margin-left: 70px;
    margin-top: 95px;
    margin-right: 20px;
@@ -82,6 +82,7 @@
   }
   .weatherbox {
     margin-left:5px;
+    margin-top: 10px;
   }
   .chartcontainer{
     margin-left: 70px;

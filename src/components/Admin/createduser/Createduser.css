@@ -1,0 +1,21 @@
+.createdusercontent {
+  margin-top: 7px;
+  
+}
+
+.createdusercontent.closed {
+  margin-left: 110px;
+}
+
+.createdusercontent.open {
+  margin-left: 280px;
+}
+
+@media (max-width: 768px) {
+  .createdusercontent  {
+    margin-left: 66px !important;
+    margin-bottom: 44px;
+  }
+
+  
+}

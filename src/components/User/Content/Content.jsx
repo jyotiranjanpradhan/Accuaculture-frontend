@@ -88,7 +88,7 @@ useEffect(()=>{
 },[oneaccountdata]);
   return (
     <>
-      <div className="contain p-0 p-md-3 d-flex flex-column flex-md-row gap-3">
+      <div className="contain ">
         <div className="mapbox shadow d-flex w-100">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
           {/* // eslint-disable-next-line */}

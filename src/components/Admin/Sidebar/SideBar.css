@@ -67,3 +67,15 @@ border-radius: 30px;
     color: inherit; /* Keeps the default text color */
     text-decoration: none; /* Removes underline */
   }
+  
+  @media (max-width: 768px) {
+    .baronoff {
+      margin-left: 66px !important;
+    }
+    .userlogo{
+     margin: 06px 26px 0 0 !important ;
+    }
+    .logoutpop{
+      margin: 7px 10px 0 0 !important;
+    }
+  }

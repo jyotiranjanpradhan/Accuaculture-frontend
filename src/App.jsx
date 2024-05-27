@@ -17,10 +17,11 @@ function App() {
         <LoadScript googleMapsApiKey={process.env.REACT_APP_Google_map_Api}>
           <Routes>
             <Route path="/adminside/*" element={<AdminMainPage />} />
-            
+
             <Route path="/users/*" element={<User />} />
             <Route path="/users/userpage" element={<Usersmainpage />} />
           </Routes>
+   
         </LoadScript>
       </AdminContext.Provider>
     </Router>

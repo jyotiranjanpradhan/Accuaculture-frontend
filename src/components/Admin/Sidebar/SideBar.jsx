@@ -52,7 +52,7 @@ const Sidebar = () => {
         <div className="d-flex justify-content-end ">
           {logouttext && (
             <>
-              <div
+              <div className="logoutpop"
                 style={{
                   marginTop: "07px",
                   marginRight: "45px",
@@ -93,10 +93,11 @@ const Sidebar = () => {
 
       {/* Top heading start  */}
 
-      <div
+      <div className="baronoff"
         style={{
           marginLeft: isSidebarOpen ? "280px" : "110px",
           marginTop: "7px",
+          
         }}
       >
         <div className="heading">
@@ -347,8 +348,8 @@ const Sidebar = () => {
             className="model"
             style={{
               fontSize: "23px",
-              width: "600px",
-              height: "200px",
+              width: "328",
+              height: "192px",
             }}
           >
             {/* Modal Heading */}
