@@ -720,7 +720,7 @@ const Navbars = ({
           ></i>
         </div>
       </div>
-      <div className="d-flex flex-column position-absolute top-0 end-0 justify-content-end p-4 ">
+      <div className="d-flex d-md-none flex-column position-absolute top-0 end-0 justify-content-end p-4 ">
       <span className="text-light p-2 px-4 fs-2 rounded cursor-pointer" style={{backgroundColor:"#00216E"}} onClick={()=>setShowDropdown(!showDropdown)}><i class="fa-solid fa-bars"></i></span>
       {
         showDropdown && (<div className=" d-flex flex-column align-items-center bg-white shadow pt-2" style={{zIndex:2}}>
@@ -1018,7 +1018,7 @@ const Navbars = ({
 
       {/* SideNavbar Start */}
 
-      <div className="side d-flex  flex-column  ">
+      <div className="side d-flex  flex-column">
         <Dropdown drop="end">
           <Dropdown.Toggle
             variant="transparent"
@@ -1275,74 +1275,67 @@ const Navbars = ({
       {/* Logout Modal Start */}
 
       {logout ? (
-        <div className="check-model ">
-          <div
-            className="model"
-            ref={logoutRef}
-            style={{
-              fontSize: "23px",
-              width: "600px",
-              height: "200px",
-            }}
-          >
-            {/* Modal Heading */}
-            <div
-              className="heading d-flex justify-content-between  "
-              style={{ backgroundColor: "#00216e" }}
-            >
-              <p
-                style={{
-                  marginTop: "8px",
-                  marginLeft: "30px",
-                  fontSize: 25,
-                  color: "white",
-                }}
+        <div className="check-model d-flex justify-content-center align-items-center" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 1050,
+      }}>
+          <div className="model logout-modal bg-white p-4 rounded" ref={logoutRef} style={{
+              width: '400px',
+              boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)',
+          }}>
+              {/* Modal Heading */}
+              <div
+                  className="heading d-flex justify-content-between align-items-center"
+                  style={{ backgroundColor: "#00216e", padding: '10px 20px', borderTopLeftRadius: '5px', borderTopRightRadius: '5px',margin:'-24px',width: '114%',}}
               >
-                Logout
-              </p>
-              <i
-                class="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
-                onClick={islogout}
-              ></i>
-            </div>
-            {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-              <div style={{ marginLeft: "25px" }}>
-                <p> Are you sure !</p>
-              </div>
-
-              <div className="d-flex justify-content-end mt-3">
-                <NavLink to="http://aqua.bariflorobotics.com/login">
-                  <button
-                    type="button"
-                    className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                    style={{
-                      textAlign: "center",
-                      marginRight: "15px",
-                    }}
-                    onClick={() => {
-                      handleLogout();
-                    }}
+                  <p
+                      style={{
+                          margin: 0,
+                          fontSize: '1.25rem',
+                          color: "white",
+                      }}
                   >
-                    Yes
-                  </button>
-                </NavLink>
-                <button
-                  type="button"
-                  className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-                  style={{
-                    textAlign: "cenetr",
-                    marginRight: "15px",
-                  }}
-                  onClick={islogout}
-                >
-                  No
-                </button>
+                      Logout
+                  </p>
+                  <i
+                      className="bi bi-x-octagon cancel-button-modal"
+                      style={{ fontSize: '1.5rem', color: '#df010d', cursor: 'pointer' }}
+                      onClick={islogout}
+                  ></i>
               </div>
-            </div>
+              {/* Modal Content */}
+              <div style={{ marginTop:'50px' }}>
+                  <p>Are you sure you want to logout?</p>
+
+                  <div className="d-flex justify-content-end mt-3">
+                      <NavLink to="/login">
+                          <button
+                              type="button"
+                              className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                              style={{ marginRight: '10px' }}
+                              onClick={() => {
+                                  handleLogout();
+                              }}
+                          >
+                              Yes
+                          </button>
+                      </NavLink>
+                      <button
+                          type="button"
+                          className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                          onClick={islogout}
+                      >
+                          No
+                      </button>
+                  </div>
+              </div>
           </div>
-        </div>
+      </div>
       ) : null}
       {/* Logout Modal End */}
 
