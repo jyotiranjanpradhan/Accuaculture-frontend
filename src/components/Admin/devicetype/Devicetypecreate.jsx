@@ -70,13 +70,79 @@ const Devicetypecreate = () => {
   const openModels = () => {
     setOpenModel(!openModel);
   };
+  const openmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (openmodalRef.current && !openmodalRef.current.contains(event.target)) {
+        openModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (openModel) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openModels]);
+
   const deviceadd = () => {
     setDeviceToAdd(!devicetoadd);
   };
+  const divcreateref = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (divcreateref.current && !divcreateref.current.contains(event.target)) {
+        deviceadd();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (devicetoadd) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [deviceadd]);
+
   const openDeleteModels = () => {
     setDeleteButton(!deletebutton);
   };
 
+ const delref = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (delref.current && !delref.current.contains(event.target)) {
+        openDeleteModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (deletebutton) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDeleteModels]);
+  
   const Devicetype = async () => {
     try {
       const response = await axios.get(`http://${process.env.REACT_APP_App_Ip}/devicetype_view/`);
@@ -312,6 +378,7 @@ const Devicetypecreate = () => {
         <div className="check-model ">
           <div
             className="model"
+            ref={openmodalRef}
             style={{ fontSize: "23px", width: "600px", height: "370px" }}
           >
             {/* Modal Heading */}
@@ -422,6 +489,7 @@ const Devicetypecreate = () => {
       {devicetoadd ? (
         <div className="check-model ">
           <div
+          ref={divcreateref}
             className="model"
             style={{ fontSize: "23px", width: "600px", height: "370px" }}
           >
@@ -531,6 +599,7 @@ const Devicetypecreate = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
+          ref={delref}
             className="model"
             style={{ fontSize: "23px", width: "600px", height: "200px" }}
           >
