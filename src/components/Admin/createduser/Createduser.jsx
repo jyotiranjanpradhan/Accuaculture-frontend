@@ -7,23 +7,32 @@ import { GoogleMap,Marker } from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
 import success from "./success.gif";
+
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+  const [map, setMap] = useState(null);
+
+  const handleMapLoad = (mapInstance) => {
+    setMap(mapInstance);
+  };
+
   return (
     <GoogleMap
+      onLoad={handleMapLoad}
       mapContainerStyle={containerStyle}
       center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
       zoom={15}
       mapTypeId="satellite"
     >
-      <Marker
-        position={{
-          lat: parseFloat(lat),
-          lng: parseFloat(lng),
-        }}
-      />
+      {map && (
+        <Marker
+          position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+          map={map}
+        />
+      )}
     </GoogleMap>
   );
 };
+
 
 const Createduser = () => {
   const admin_id = localStorage.getItem("admin_id");
@@ -505,6 +514,7 @@ const Createduser = () => {
                     placeholder="Enter AccountName"
                     style={{ width: "200px", marginLeft: "50px" }}
                     required
+                    // eslint-disable-next-line
                     onInvalid={(e) =>
                       e.target.setCustomValidity("Please Enter Account Name")
                     }

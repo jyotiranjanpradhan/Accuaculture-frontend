@@ -264,6 +264,31 @@ const UseraccountDevices = () => {
     );
   };
 
+  const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+    const [map, setMap] = useState(null);
+  
+    const handleMapLoad = (mapInstance) => {
+      setMap(mapInstance);
+    };
+  
+    return (
+      <GoogleMap
+        onLoad={handleMapLoad}
+        mapContainerStyle={containerStyle}
+        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+        zoom={15}
+        mapTypeId="satellite"
+      >
+        {map && (
+          <Marker
+            position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+            map={map}
+          />
+        )}
+      </GoogleMap>
+    );
+  };
+
   return (
     <>
       {/* Page Start */}
@@ -623,23 +648,8 @@ const UseraccountDevices = () => {
                       width: "200px",
                     }}
                   >
-                    <GoogleMap
-                      mapContainerStyle={containerStyle}
-                      center={{
-                        lat: parseFloat(latitudesdevice),
-                        lng: parseFloat(longitudesdevice),
-                      }}
-                      zoom={15}
-                      onClick={handleMapClick}
-                      mapTypeId="satellite"
-                    >
-                      <Marker
-                        position={{
-                          lat: parseFloat(latitudesdevice),
-                          lng: parseFloat(longitudesdevice),
-                        }}
-                      />
-                    </GoogleMap>
+                    <GoogleMapdata containerStyle={containerStyle} lat ={latitudesdevice} lng={longitudesdevice}/> 
+                    
                   </div>
                 </>
               ) : null}

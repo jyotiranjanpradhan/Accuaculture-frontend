@@ -37,23 +37,29 @@ const Usernotification = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
 
-  const GoogleMapdata = ({ containerStyle, latis, lngis }) => {
+  const GoogleMapdata = ({ containerStyle, lat, lng }) => {
+    const [map, setMap] = useState(null);
+  
+    const handleMapLoad = (mapInstance) => {
+      setMap(mapInstance);
+    };
+  
     return (
       <GoogleMap
+        onLoad={handleMapLoad}
         mapContainerStyle={containerStyle}
-        center={{ lat: parseFloat(latis), lng: parseFloat(lngis) }}
+        center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
         mapTypeId="satellite"
-        onLoad={(map) => {
-          new window.google.maps.Marker({
-            position: { lat: parseFloat(latis), lng: parseFloat(lngis) },
-            map: map,
-            
-          });
-        }}
-      />
+      >
+        {map && (
+          <Marker
+            position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
+            map={map}
+          />
+        )}
+      </GoogleMap>
     );
-    
   };
 
   const handleNextPage = () => {
@@ -928,20 +934,8 @@ const Usernotification = () => {
                       width: "200px",
                     }}
                   >
-                    <GoogleMap
-                      mapContainerStyle={containerStylefordeviceadd}
-                      center={{ lat: latitudesdevice, lng: longitudesdevice }}
-                      zoom={10}
-                      mapTypeId="satellite"
-                      onClick={handleMapClick}
-                    >
-                      <Marker
-                        position={{
-                          lat: parseFloat(latitudesdevice),
-                          lng: parseFloat(longitudesdevice),
-                        }}
-                      />
-                    </GoogleMap>
+                    <GoogleMapdata containerStyle={containerStylefordeviceadd}  lat={latitudesdevice} lng={longitudesdevice}/>
+                    
                   </div>
                 </>
               ) : null}
