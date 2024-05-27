@@ -88,8 +88,8 @@ useEffect(()=>{
 },[oneaccountdata]);
   return (
     <>
-      <div className="contain p-3">
-        <div className="mapbox shadow">
+      <div className="contain p-0 p-md-3 d-flex flex-column d-md-row gap-3">
+        <div className="mapbox shadow d-flex w-100">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
           {/* // eslint-disable-next-line */}
           <GoogleMapComponent devicesNamesList={devicesofaUser}
@@ -99,7 +99,7 @@ useEffect(()=>{
           />
         </div>
         <div
-          className="weatherbox shadow"
+          className="weatherbox shadow w-100"
           style={{ padding: "5px", width: "95%" }}
         >
           {wdata ? (
