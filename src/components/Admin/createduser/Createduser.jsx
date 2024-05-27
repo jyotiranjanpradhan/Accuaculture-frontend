@@ -258,7 +258,7 @@ const Createduser = () => {
 
         {/* Table start */}
 
-        <div className="parent-div-of-table">
+        <div className="parent-div-of-table overflow-scroll">
           <table className="table table-bordered table-striped table-hover table-design">
             <thead style={{ backgroundColor: "#7DE1AF" }}>
               <tr>
@@ -312,12 +312,13 @@ const Createduser = () => {
                   <td className="text-center">{data[0]}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">{data[2]}</td>
-                  <td className="text-center">
+                  <td className="text-center d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                       style={{
                         textAlign: "cenetr",
+                        width:'max-content'
                       }}
                       onClick={() => {
                         openModels();
