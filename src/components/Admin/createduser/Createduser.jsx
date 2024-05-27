@@ -69,6 +69,29 @@ const Createduser = () => {
     setDeleteButton(!deletebutton);
   };
 
+  const accdelRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (accdelRef.current && !accdelRef.current.contains(event.target)) {
+        openDeleteModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (deletebutton) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDeleteModels]);
+
+
   // variable for next and previous button
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -543,6 +566,7 @@ const Createduser = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
+          ref={accdelRef}
             className="model"
             style={{
               fontSize: "23px",

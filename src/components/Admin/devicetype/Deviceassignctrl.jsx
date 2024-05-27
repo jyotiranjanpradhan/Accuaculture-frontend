@@ -297,6 +297,28 @@ const Deviceassignctrl = () => {
   const editmodal = () => {
     setTobeEdit(!tobeedit);
   };
+  const editmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (editmodalRef.current && !editmodalRef.current.contains(event.target)) {
+        editmodal();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (tobeedit) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [editmodal]);
+
 
   const sliderinputaddmodal = () => {
     setsliderinputmodal(!sliderinputmodal);

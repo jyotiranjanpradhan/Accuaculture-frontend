@@ -25,9 +25,52 @@ const UserAccounts = () => {
   const openModels = () => {
     setOpenModel(!openModel);
   };
+  const openmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (openmodalRef.current && !openmodalRef.current.contains(event.target)) {
+        openModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (openModel) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openModels]);
+
   const openDeleteModels = () => {
     setDeleteButton(!deletebutton);
   };
+  const delRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (delRef.current && !delRef.current.contains(event.target)) {
+        openDeleteModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (deletebutton) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDeleteModels]);
 
   const userAccountFetch = async () => {
     try {
@@ -313,6 +356,7 @@ const UserAccounts = () => {
             }}
           >
             <div
+            ref={openmodalRef}
               className="model"
               style={{ fontSize: "23px", width: "600px", height: "270px" }}
             >
@@ -375,6 +419,7 @@ const UserAccounts = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
+          ref={delRef}
             className="model"
             style={{ fontSize: "23px", width: "600px", height: "200px" }}
           >

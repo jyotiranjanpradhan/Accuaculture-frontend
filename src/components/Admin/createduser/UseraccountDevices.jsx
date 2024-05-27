@@ -32,6 +32,26 @@ const UseraccountDevices = () => {
   const adddevice = () => {
     setDevicetobeadd(!devicetobeadd);
   };
+  const devaddref = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (devaddref.current && !devaddref.current.contains(event.target)) {
+        adddevice();
+      }
+    };
+    // Add event listener when calendar is shown
+    if (devicetobeadd) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [adddevice]);
   const completlyadddevice = () => {
     setCompliteDeviceAdd(!completedeviceadd);
     setTimeout(() => {
@@ -45,6 +65,28 @@ const UseraccountDevices = () => {
   const openDeleteModels = () => {
     setDeleteButton(!deletebutton);
   };
+  const delref = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (delref.current && !delref.current.contains(event.target)) {
+        openDeleteModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (deletebutton) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDeleteModels]);
+
   async function userDeviceDelete() {
     await axios.post(`http://${process.env.REACT_APP_App_Ip}/device_delete/`, {
       deviceid: deviceid,
@@ -54,6 +96,28 @@ const UseraccountDevices = () => {
   const editdevice = () => {
     setDeviceToBeedit(!devicetobeedit);
   };
+  const editRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (editRef.current && !editRef.current.contains(event.target)) {
+        editdevice();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (devicetobeedit) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [editdevice]);
+
 
   async function userDeviceEdit() {
     const newDeviceData = {
@@ -75,6 +139,28 @@ const UseraccountDevices = () => {
   const devicecontrol = () => {
     setdevicetobecontrol(!devicetobecontrol);
   };
+
+  const ctrlref = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (ctrlref.current && !ctrlref.current.contains(event.target)) {
+        devicecontrol();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (devicetobecontrol) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [devicecontrol]);
 
   async function usersDeviceFetch() {
     try {
@@ -403,6 +489,7 @@ const UseraccountDevices = () => {
       {devicetobeadd ? (
         <div className="check-model ">
           <div
+          ref={devaddref}
             className="model"
             style={{
               fontSize: "20px",
@@ -589,6 +676,7 @@ const UseraccountDevices = () => {
         <div className="check-model ">
           <div
             className="model"
+            ref={editRef}
             style={{ fontSize: "20px", width: "650px", height: "auto" }}
           >
             {/* Modal Heading */}
@@ -683,6 +771,7 @@ const UseraccountDevices = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
+          ref={delref}
             className="model"
             style={{ fontSize: "23px", width: "600px", height: "200px" }}
           >
@@ -744,6 +833,7 @@ const UseraccountDevices = () => {
       {devicetobecontrol ? (
         <div className="check-model ">
           <div
+          ref={ctrlref}
             className="model"
             style={{ fontSize: "23px", width: "300px", height: "250px" }}
           >
