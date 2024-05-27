@@ -217,7 +217,7 @@ const Devicetypecreate = () => {
 
         {/* Table start */}
 
-        <div className="parent-div-of-table ">
+        <div className="parent-div-of-table overflow-scroll">
           <table className="table table-bordered table-striped table-hover table-design">
             <thead style={{ backgroundColor: "#7DE1AF" }}>
               <tr>

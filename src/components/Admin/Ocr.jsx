@@ -6,11 +6,13 @@ const Ocr = () => {
   const {isSidebarOpen}=useContext(AdminContext);
   return (
     <>
-    <div style={{ marginLeft: isSidebarOpen ? "280px":'110px' , marginTop:'7px'}}>
+    <div style={{ marginLeft: isSidebarOpen ? "280px":'110px' , marginTop:'7px'
+  
+  }}>
 
       {/* Table start */}
 
-      <div className="parent-div-of-table">
+      <div className="parent-div-of-table overflow-scroll">
         <table className="table table-bordered table-striped table-hover table-design">
           <thead style={{ backgroundColor: "#7DE1AF" }}>
             <tr>
