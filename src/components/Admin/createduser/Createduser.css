@@ -16,6 +16,19 @@
     margin-left: 66px !important;
     margin-bottom: 44px;
   }
+  .model.newaccount{
+font-size: 15px !important;
 
+width: 98%;
+  }
+  .searchbutton{
+    margin-top: 20px;
+  }
+  .mapaddacc{
+    height:300px !important;
+  }
+  .addaccmodaldiv{
+    margin-left: 10px !important;
+  }
   
 }

@@ -3,11 +3,11 @@ import "../Adminpage.css";
 import { Link } from "react-router-dom";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-import { GoogleMap,Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import latitude from "../Constant img/latitude.png";
 import longitude from "../Constant img/longitude.png";
 import success from "./success.gif";
-import './Createduser.css'
+import "./Createduser.css";
 const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   const [map, setMap] = useState(null);
 
@@ -33,7 +33,6 @@ const GoogleMapdata = ({ containerStyle, lat, lng }) => {
   );
 };
 
-
 const Createduser = () => {
   const admin_id = localStorage.getItem("admin_id");
   const [openModel, setOpenModel] = useState(false);
@@ -56,21 +55,24 @@ const Createduser = () => {
   useEffect(() => {
     // Handler to call onClick outside of calendar component
     const handleClickOutside = (event) => {
-      if (openmodalRef.current && !openmodalRef.current.contains(event.target)) {
+      if (
+        openmodalRef.current &&
+        !openmodalRef.current.contains(event.target)
+      ) {
         openModels();
       }
     };
 
     // Add event listener when calendar is shown
     if (openModel) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openModels]);
 
@@ -89,17 +91,16 @@ const Createduser = () => {
 
     // Add event listener when calendar is shown
     if (deletebutton) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openDeleteModels]);
-
 
   // variable for next and previous button
   const itemsPerPage = 5;
@@ -166,7 +167,7 @@ const Createduser = () => {
         setAddress("Geocoder failed due to: " + status);
       }
     });
-// eslint-disable-next-line
+    // eslint-disable-next-line
   }, [latitudes, longitudes]);
 
   function searchlatlng(lats, lngs) {
@@ -180,7 +181,7 @@ const Createduser = () => {
 
   //Height and Width for Google Map
   const containerStyle = {
-    width: "900px",
+    width: "97%",
     height: "100%",
   };
 
@@ -217,8 +218,8 @@ const Createduser = () => {
   return (
     <>
       {/* Page Start */}
-      <div className={`createdusercontent  ${isSidebarOpen ? 'open' : 'closed'}`}
-        
+      <div
+        className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
       >
         {/* Total User Count Start */}
         <div className="userCount shadow">
@@ -315,7 +316,7 @@ const Createduser = () => {
                       className="btn  btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                       style={{
                         textAlign: "cenetr",
-                        width:'max-content'
+                        width: "max-content",
                       }}
                       onClick={() => {
                         openModels();
@@ -428,8 +429,8 @@ const Createduser = () => {
       {openModel ? (
         <div className="check-model ">
           <div
-          ref={openmodalRef}
-            className="model"
+            ref={openmodalRef}
+            className="model newaccount"
             style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
             <div className="heading d-flex justify-content-between ">
@@ -440,85 +441,88 @@ const Createduser = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 ,color:'#df010d'}}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={openModels}
               ></i>
             </div>
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div className="addaccmodaldiv" style={{ marginLeft: "20px", marginTop: "30px" }}>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
                   searchlatlng(latt.current.value, lngg.current.value);
                 }}
               >
-                <div className="d-flex" style={{ height: "49px" }}>
-                  <label style={{ width: "250px" }}>
-                    {" "}
-                    <img
-                      src={latitude}
-                      style={{ width: "20px", marginBottom: "5px" }}
-                      alt="Latitude logo"
-                    ></img>{" "}
-                    Latitude
-                  </label>
-                  <label style={{ width: "250px" }}>
-                    <img
-                      src={longitude}
-                      style={{
-                        width: "20px",
-                        marginBottom: "5px",
-                        marginRight: "2px",
-                      }}
-                      alt="Longitude logo"
-                    ></img>
-                    Longitude
-                  </label>
+                <div className="d-flex" style={{ height: "49px", width:'95%'}}>
+                  <div>
+                    <label>
+                      {" "}
+                      <img
+                        src={latitude}
+                        style={{ width: "20px", marginBottom: "5px" }}
+                        alt="Latitude logo"
+                      ></img>{" "}
+                      Latitude
+                    </label>
 
-                  <label style={{ width: "250px" }}>
-                    <i
-                      className="bi bi-person-vcard"
-                      style={{ fontSize: "20px", marginRight: "2px" }}
-                    ></i>
-                    Account Name
-                  </label>
+                    <input
+                      ref={latt}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter Latitude"
+                  
+                      onChange={(e) => e.target.setCustomValidity("")}
+                    ></input>
+                  </div>
+                  <div>
+                    <label>
+                      <img
+                        src={longitude}
+                        style={{
+                          width: "20px",
+                          marginBottom: "5px",
+                          marginRight: "2px",
+                        }}
+                        alt="Longitude logo"
+                      ></img>
+                      Longitude
+                    </label>
+                    <input
+                      ref={lngg}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter Longitude"
+                      style={{ marginLeft: "3%" }}
+                      onChange={(e) => e.target.setCustomValidity("")}
+                    ></input>
+                  </div>
+                  <div>
+                    <label >
+                      <i
+                        className="bi bi-person-vcard"
+                        style={{ fontSize: 17, marginRight: "2px" }}
+                      ></i>
+                      Account
+                    </label>
+                    <input
+                      ref={accname}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter AccountName"
+                      style={{  marginLeft: "5%" }}
+                      required
+                      // eslint-disable-next-line
+                      onInvalid={(e) =>
+                        e.target.setCustomValidity("Please Enter Account Name")
+                      }
+                      onChange={(e) => e.target.setCustomValidity("")}
+                    ></input>
+                  </div>
                 </div>
 
-                <div className="d-flex">
-                  <input
-                    ref={latt}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter Latitude"
-                    style={{ width: "200px" }}
-                    onChange={(e) => e.target.setCustomValidity("")}
-                  ></input>
-
-                  <input
-                    ref={lngg}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter Longitude"
-                    style={{ width: "200px", marginLeft: "50px" }}
-                    onChange={(e) => e.target.setCustomValidity("")}
-                  ></input>
-
-                  <input
-                    ref={accname}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter AccountName"
-                    style={{ width: "200px", marginLeft: "50px" }}
-                    required
-                    // eslint-disable-next-line
-                    onInvalid={(e) =>
-                      e.target.setCustomValidity("Please Enter Account Name")
-                    }
-                    onChange={(e) => e.target.setCustomValidity("")}
-                  ></input>
-
+                <div className=" searchbutton d-flex justify-content-end "style={{marginRight:'5%'}}>
                   <button
                     type="submit"
                     className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -536,7 +540,7 @@ const Createduser = () => {
                 </div>
               </form>
 
-              <div style={{ marginTop: "20px", height: "400px" }}>
+              <div className="mapaddacc" style={{ marginTop: "20px", height: "400px" }}>
                 <GoogleMapdata
                   containerStyle={containerStyle}
                   lat={latitudes}
@@ -574,7 +578,7 @@ const Createduser = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
-          ref={accdelRef}
+            ref={accdelRef}
             className="model"
             style={{
               fontSize: "23px",
@@ -595,7 +599,7 @@ const Createduser = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 ,color:'#df010d'}}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={openDeleteModels}
               ></i>
             </div>

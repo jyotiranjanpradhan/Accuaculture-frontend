@@ -661,6 +661,7 @@ const Navbars = ({
                         <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
                         {devicedata[0]}
                       </p>
+                      <p style={{margin:0}}>Pulse <i class="bi bi-heart " style={{fontSize:12}}></i></p>
                     </div>
 
                     <div

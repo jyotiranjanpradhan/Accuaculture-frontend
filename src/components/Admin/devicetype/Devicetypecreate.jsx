@@ -160,7 +160,7 @@ const Devicetypecreate = () => {
   return (
     <>
       {/* Page Start */}
-      <div
+      <div className="createdusercontent"
         style={{
           marginLeft: isSidebarOpen ? "280px" : "110px",
           marginTop: "7px",
@@ -269,7 +269,7 @@ const Devicetypecreate = () => {
                   <td className="text-center">{data[0]}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">enabled</td>
-                  <td className="text-center">
+                  <td className="text-center d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn btn-warning"
@@ -337,7 +337,7 @@ const Devicetypecreate = () => {
         {/* Table End */}
 
         {/* Redirect Start */}
-        <div className="redirects">
+        <div className="redirects" style={{marginTop:'10px'}}>
           <button
             type="button"
             className="btn "
