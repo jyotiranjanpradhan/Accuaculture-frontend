@@ -1,103 +1,34 @@
-// import React, { useState, useEffect } from 'react';
-// import Chart from 'react-apexcharts';
-
-// const Chartbox = ({ metric, data }) => {
-//   const [seriesData, setSeriesData] = useState({});
-//   const [options] = useState({
-//     chart: {
-//       id: 'realtime',
-//       height: 350,
-//       type: 'line',
-//       animations: {
-//         enabled: true,
-//         easing: 'linear',
-//         dynamicAnimation: {
-//           speed: 1000,
-//         },
-//       },
-//       toolbar: {
-//         show: true,
-//       },
-//       zoom: {
-//         enabled: true,
-//       },
-//     },
-//     dataLabels: {
-//       enabled: false,
-//     },
-//     stroke: {
-//       curve: 'smooth',
-//       width: 2,
-//       fill: {
-//         type: 'gradient',
-//         gradient: {
-//           shadeIntensity: 4,
-//           opacityFrom: 0.7,
-//           opacityTo: 0.3,
-//           stops: [0, 90, 100],
-//         }
-//       }
-//     },
-//     title: {
-//       text: ` ${metric}`,
-//       align: 'left',
-//     },
-//     markers: {
-//       size: 0,
-//     },
-//     xaxis: {
-//       type: 'category',
-//       categories: [],
-//     },
-//     // yaxis: {
-//     //   max: 100,
-//     // },
-//     legend: {
-//       show: true,
-//     },
-//   });
-
-//   useEffect(() => {
-//     console.log(data);
-//     if (data.paramType === metric) {
-//       setSeriesData(prevSeriesData => {
-//         const newData = {
-//           x: data.dataPoint.split(' ')[1], // Extract time portion
-//           y: parseFloat(data.paramValue).toFixed(2), // Format paramValue to two decimal places
-//         };
-
-//         const deviceId = data.deviceId;
-//         const existingSeries = prevSeriesData[deviceId] || [];
-
-//         // Maintain only the last 20 data points for each deviceId
-//         const newSeries = [...existingSeries.slice(-19), newData];
-
-//         return { ...prevSeriesData, [deviceId]: newSeries };
-//       });
-//     }
-//   }, [data, metric]);
-
-//   const chartSeries = Object.keys(seriesData).map(deviceId => ({
-//     name: `Device ${deviceId}`,
-//     data: seriesData[deviceId]
-//   }));
-
-//   return (
-//     <div className='col-12 col-md-6 ' >
-//       <Chart options={options} series={chartSeries} type="line" height={350}  />
-//     </div>
-//   );
-// };
-
-// export default Chartbox;
 
 
 import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 
+
+const ExportDropdown = ({ onExport }) => {
+  const handleExport = (event) => {
+    const exportRange = event.target.value;
+    if (exportRange) {
+      onExport(exportRange);
+    }
+  };
+
+  return (
+    <select id="exportDropdown" onChange={handleExport} style={{ fontSize: '12px', padding: '2px 6px', margin: '10px',position: "absolute",
+    top: "-8px",
+    right: "136px" }}>
+      <option value="">Export</option>
+      <option value="1">1 Day</option>
+      <option value="7">7 Days</option>
+      <option value="15">15 Days</option>
+      <option value="30">30 Days</option>
+    </select>
+  );
+};
+
+
 const Chartbox = ({ metric, data }) => {
   const [seriesData, setSeriesData] = useState({});
-  const [options] = useState({
+  const [options, setOptions] = useState({
     chart: {
       id: 'realtime',
       height: 350,
@@ -111,6 +42,9 @@ const Chartbox = ({ metric, data }) => {
       },
       toolbar: {
         show: true,
+        tools: {
+          customIcons: []
+        }
       },
       zoom: {
         enabled: true,
@@ -150,9 +84,9 @@ const Chartbox = ({ metric, data }) => {
     legend: {
       show: true,
     },
-    grid:{
-      show:false
-    }
+    grid: {
+      show: false,
+    },
   });
 
   useEffect(() => {
@@ -188,20 +122,32 @@ const Chartbox = ({ metric, data }) => {
     { x: '0', y: 40 },
   ];
 
-  if (Object.keys(chartSeries).length === 0) {
-    return (
-      <div className='col-12 col-md-6 mt-4 mt-md-0'>
-        <div className="dummy-chart">
-          
-          <Chart options={options} series={[{ data: dummyChartData }]} type="line" height={350} />
-        </div>
-      </div>
-    );
-  }
+  const exportChartData = (days) => {
+    const exportData = {}; // Initialize an empty object to hold the export data
+    // Filter and prepare the export data based on the selected range (days)
+    Object.keys(seriesData).forEach(deviceId => {
+      exportData[deviceId] = seriesData[deviceId].slice(-days);
+    });
+    // Convert exportData to CSV or the desired format and trigger download
+    const csvContent = "data:text/csv;charset=utf-8," + Object.entries(exportData).map(([deviceId, dataPoints]) => {
+      const rows = dataPoints.map(point => `${deviceId},${point.x},${point.y}`).join("\n");
+      return `Device ${deviceId}\n${rows}`;
+    }).join("\n\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${metric}_data_${days}_days.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className='col-12 col-md-6'>
-      <Chart options={options} series={chartSeries} type="line" height={350} />
+      <div className="chart-container" style={{position: "relative"}}>
+        <Chart options={options} series={Object.keys(chartSeries).length ? chartSeries : [{ data: dummyChartData }]} type="line" height={350} />
+        <ExportDropdown onExport={exportChartData}/>
+      </div>
     </div>
   );
 };
