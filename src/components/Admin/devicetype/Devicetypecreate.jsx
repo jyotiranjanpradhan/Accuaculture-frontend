@@ -160,11 +160,7 @@ const Devicetypecreate = () => {
   return (
     <>
       {/* Page Start */}
-      <div className="createdusercontent"
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-          marginTop: "7px",
-        }}
+      <div className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
       >
         {/* Total User Count Start */}
         <div className="userCount shadow">
@@ -377,7 +373,7 @@ const Devicetypecreate = () => {
       {openModel ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             ref={openmodalRef}
             style={{ fontSize: "23px", width: "600px", height: "370px" }}
           >
@@ -411,7 +407,7 @@ const Devicetypecreate = () => {
                 }, 500);
               }}
             >
-              <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+              <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "30px" }}>
                 <div style={{ marginLeft: "25px" }}>
                   <label htmlFor="formGroupExampleInput">Name</label>
                   <input
@@ -420,7 +416,7 @@ const Devicetypecreate = () => {
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Account Name"
-                    style={{ width: "400px" }}
+                    style={{ width: "90%" }}
                     required
                     onInvalid={(e) =>
                       e.target.setCustomValidity(
@@ -437,7 +433,7 @@ const Devicetypecreate = () => {
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Account Name"
-                    style={{ width: "400px" }}
+                    style={{ width: "90%" }}
                     required
                     onInvalid={(e) =>
                       e.target.setCustomValidity("Please Enter Version")

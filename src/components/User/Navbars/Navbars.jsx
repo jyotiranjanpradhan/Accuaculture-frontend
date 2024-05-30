@@ -454,7 +454,7 @@ const Navbars = ({
                     style={{
                       width: "70%",
                       borderRadius: "5px",
-                      backgroundColor: "#7ee2b0",
+                      backgroundColor: "#E9EEF6",
                       fontSize: "15px",
                     }}
                     onClick={() => {
@@ -747,7 +747,7 @@ const Navbars = ({
                   style={{
                     width: "70%",
                     borderRadius: "5px",
-                    backgroundColor: "#7ee2b0",
+                    backgroundColor: "#E9EEF6",
                     fontSize: "15px",
                   }}
                   onClick={() => {

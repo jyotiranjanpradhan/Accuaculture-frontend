@@ -1,0 +1,73 @@
+@media(max-width:768px){
+    .cards{
+        padding: 7px;
+    }
+    
+}
+@media(max-width:671px){
+    .card{
+        width:360px !important;
+        
+    }
+    .cards{
+        justify-content: center ;
+    }
+    .deviceaddmap{
+        width: 520px !important;
+        height: 300px !important;
+    }
+}
+
+@media(max-width:360px){
+    .control-btn-container{
+        display: flex;
+        margin-top: 0px !important;
+    }
+    .control-btn{
+        padding: 0px !important;
+        height: max-content;
+        font-weight: 400 !important;
+    }
+    .card{
+        font-size: 17px !important;
+        padding-bottom: 5px !important;
+    }
+}
+
+
+
+
+/* Start for map responsive */
+
+@media(max-width:577px){
+    .searchbar{
+        width: 300px !important;
+    }
+}
+
+@media(max-width:558px){
+    .deviceaddmap{
+        width: 420px !important;
+        height: 300px !important;
+    }
+   
+}
+@media(max-width:484px){
+    .deviceaddmap{
+        width: 410px !important;
+        height: 300px !important;
+    }
+}
+@media(max-width:448px){
+    .deviceaddmap{
+        width: 380px !important;
+        height: 300px !important;
+    }
+}
+@media(max-width:408px){
+    .deviceaddmap{
+        width: 320px !important;
+        height: 300px !important;
+    }
+}
+/* End for map responsive */

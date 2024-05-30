@@ -5,7 +5,7 @@ import Chart from "react-apexcharts";
 import { AdminContext } from "../../../App";
 import mqtt from "mqtt";
 import axios from "axios";
-
+import './NgxDynamic.css'
 const NgxDynamic = () => {
   const { isSidebarOpen } = useContext(AdminContext);
   const {  deviceId, accountid } = useParams();
@@ -95,7 +95,7 @@ const NgxDynamic = () => {
   }, [devicetypedata]);
 
   const updateChartData = (mqttData) => {
-    if (!mqttData || !mqttData.paramType || !mqttData.paramValue || !mqttData.dataPoint) {
+    if (!mqttData ) {
       console.error('Invalid MQTT data:', mqttData);
       return;
     }
@@ -132,13 +132,13 @@ const NgxDynamic = () => {
 
   return (
     <>
-      <div style={{ marginLeft: isSidebarOpen ? "280px" : "110px", marginTop: "7px" }}>
+      <div className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}> 
         <div className="option" style={{ marginTop: "7px", display: "flex" }}>
           <Dropdown>
-            <Dropdown.Toggle style={{ backgroundColor: "#7EE2B0", borderRadius: "13px", color: "black", fontWeight: "bold" }}>
+            <Dropdown.Toggle style={{ backgroundColor: "#E9EEF6", borderRadius: "13px", color: "black", fontWeight: "bold" }}>
               Time period
             </Dropdown.Toggle>
-            <Dropdown.Menu style={{ width: "20px", backgroundColor: "#7EE2B0", fontSize: "17px" }}>
+            <Dropdown.Menu style={{ width: "20px", backgroundColor: "#C7D6FF", fontSize: "17px" }}>
               <Dropdown.Item>Day- 1 </Dropdown.Item>
               <Dropdown.Item>Day- 2</Dropdown.Item>
               <Dropdown.Item>Day- 3</Dropdown.Item>
@@ -154,7 +154,7 @@ const NgxDynamic = () => {
             </button>
           </Link>
         </div>
-        <div className="d-flex flex-wrap">
+        <div className=" d-flex flex-wrap">
           {chartData?.map(({ key, x, y, seriesName, seriesData, xCategories }) => {
             const timeCategories = xCategories.map(dateString => {
               const date = new Date(dateString);
@@ -163,7 +163,7 @@ const NgxDynamic = () => {
             });
 
             return (
-              <div key={key} className="col-6">
+              <div key={key} className="adminsidechart col-6">
                 <h2 style={{fontSize:"26px"}}>{key}</h2>
                 <Chart
                   options={{

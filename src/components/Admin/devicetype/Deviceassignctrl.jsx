@@ -3,7 +3,7 @@ import "../Adminpage.css";
 import { AdminContext } from "../../../App";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-
+import './Deviceassignctrls.css'
 const Deviceassignctrl = () => {
   const { devicename, version } = useParams();
 
@@ -351,15 +351,11 @@ const Deviceassignctrl = () => {
   return (
     <>
       <div
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-
-          marginTop: "7px",
-        }}
+        className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
       >
         {/* Table  start */}
 
-        <div className="d-flex justify-content-around">
+        <div className=" tables d-flex justify-content-around">
           <div
             className="table1"
             style={{
@@ -397,7 +393,7 @@ const Deviceassignctrl = () => {
                           <td className="text-center">
                             {data.button.display_name}
                           </td>
-                          <td className="text-center">
+                          <td className="text-center d-flex justify-content-center">
                             <button
                               type="button"
                               className="btn btn-warning"
@@ -541,7 +537,7 @@ const Deviceassignctrl = () => {
           {deletebutton ? (
             <div className="check-model ">
               <div
-                className="model"
+                className="model accedit"
                 style={{ fontSize: "23px", width: "600px", height: "200px" }}
               >
                 {/* Modal Heading */}
@@ -562,12 +558,12 @@ const Deviceassignctrl = () => {
                   ></i>
                 </div>
                 {/* Modal Content */}
-                <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+                <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "5%" }}>
                   <div style={{ marginLeft: "25px" }}>
                     <p>Are you sure to Delete this deivce-type Permanently ?</p>
                   </div>
 
-                  <div className="d-flex justify-content-end mt-3">
+                  <div className="d-flex justify-content-end">
                     <button
                       type="button"
                       className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -693,8 +689,8 @@ const Deviceassignctrl = () => {
       {tobeedit ? (
         <div className="check-model ">
           <div
-            className="model"
-            style={{ fontSize: "20px", width: "650px", height: "300px" }}
+            className="model accedit"
+            style={{ fontSize: "20px", width: "650px",  }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -770,7 +766,7 @@ const Deviceassignctrl = () => {
                     <label
                       className="form-check-label"
                       htmlFor="gridCheck1"
-                      style={{ marginLeft: "10px", padding: "0px" }}
+                      style={{ marginLeft: "10px", padding: "0px",width:'103%' }}
                     >
                       Allow User Access
                     </label>
@@ -784,7 +780,7 @@ const Deviceassignctrl = () => {
                   borderRadius: "16px",
                   fontSize: "20px",
                   verticalAlign: "cenetr",
-                  marginLeft: "20px",
+                  margin: "0 0 5% 20px",
                 }}
               >
                 Add
@@ -800,11 +796,11 @@ const Deviceassignctrl = () => {
       {sliderinputmodal ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "20px",
               width: "650px",
-              height: "460px",
+            
               marginTop: "70px",
             }}
           >
@@ -937,7 +933,7 @@ const Deviceassignctrl = () => {
                       <label
                         className="form-check-label"
                         htmlfor="gridCheck1"
-                        style={{ marginLeft: "10px", padding: "0px" }}
+                        style={{ marginLeft: "10px", padding: "0px",width:'103%'}}
                       >
                         Allow User Access
                       </label>
@@ -953,7 +949,7 @@ const Deviceassignctrl = () => {
                   borderRadius: "16px",
                   fontSize: "20px",
                   verticalAlign: "cenetr",
-                  marginLeft: "20px",
+                  margin: "0 0 5% 20px",
                 }}
               >
                 Submit
@@ -969,7 +965,7 @@ const Deviceassignctrl = () => {
       {linegraphmodal ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "20px",
               width: "650px",
@@ -1048,7 +1044,6 @@ const Deviceassignctrl = () => {
                             e.target.value
                           )
                         }
-                        style={{ width: "240px" }}
                       />
                     </td>
                     <td className="d-flex flex-row justify-content-between">
@@ -1064,7 +1059,7 @@ const Deviceassignctrl = () => {
                             e.target.value
                           )
                         }
-                        style={{ width: "240px" }}
+                       
                       />
 
                       <i
@@ -1092,7 +1087,7 @@ const Deviceassignctrl = () => {
                     <label
                       className="form-check-label"
                       htmlFor="gridCheck1"
-                      style={{ marginLeft: "10px", padding: "0px" }}
+                      style={{ marginLeft: "10px", padding: "0px" ,width:'103%'}}
                     >
                       Allow User Access
                     </label>
@@ -1162,8 +1157,8 @@ const Deviceassignctrl = () => {
       {asignctrlEditmodalforButton && (
         <div className="check-model ">
           <div
-            className="model"
-            style={{ fontSize: "20px", width: "650px", height: "300px" }}
+            className="model accedit"
+            style={{ fontSize: "20px", width: "650px"}}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -1177,7 +1172,7 @@ const Deviceassignctrl = () => {
               ></i>
             </div>
             {/* Modal Heading End */}
-            <table className="table">
+            <table className=" table">
               <tbody style={{ marginLeft: "20px" }}>
                 <tr>
                   <td>Display Name:- </td>
@@ -1215,7 +1210,7 @@ const Deviceassignctrl = () => {
                   <label
                     className="form-check-label"
                     htmlFor="gridCheck1"
-                    style={{ marginLeft: "10px", padding: "0px" }}
+                    style={{ marginLeft: "10px", padding: "0px",width:'100%' }}
                   >
                     Example checkbox
                   </label>
@@ -1228,8 +1223,8 @@ const Deviceassignctrl = () => {
               style={{
                 borderRadius: "16px",
                 fontSize: "20px",
-                verticalAlign: "center", // Corrected spelling
-                marginLeft: "20px",
+                verticalAlign: "center", 
+                margin: "0 0 5px 20px",
               }}
               onClick={() => {
                 const btndata = {
@@ -1263,7 +1258,7 @@ const Deviceassignctrl = () => {
       {asignctrlEditmodalforSlider && (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "20px",
               width: "650px",
@@ -1410,7 +1405,7 @@ const Deviceassignctrl = () => {
       {asignctrlEditmodalforLinegrapg && (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "20px",
               width: "650px",

@@ -1,10 +1,10 @@
 /* this styling apply for all modal -responsive of admin page  */
 @media(max-width:768px){  
      .model.accedit{
-        width: 90% !important;
+        width: 95% !important;
         
     }
     .accounteditmodaldv{
-        margin-left: 0 !important;
+        margin-left: 5px !important;
     }
 }

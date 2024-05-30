@@ -131,7 +131,7 @@ const Sidebar = () => {
               ></i>
             </div>
           </div>
-          <div className="logos ">
+          <div className="logoss ">
             <img
               src={companylogo}
               alt="companylogo"
@@ -345,10 +345,10 @@ const Sidebar = () => {
       {logout ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "23px",
-              width: "328",
+              width: "754px",
               height: "192px",
             }}
           >
@@ -374,7 +374,7 @@ const Sidebar = () => {
               ></i>
             </div>
             {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div style={{ marginLeft: "25px" }}>
                 <p> Are you sure !</p>
               </div>

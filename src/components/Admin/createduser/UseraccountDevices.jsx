@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "../Adminpage.css";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {  useParams } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import "./UseraccountDevices.css";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import success from "./success.gif";
 import { AdminContext } from "../../../App";
@@ -42,14 +42,14 @@ const UseraccountDevices = () => {
     };
     // Add event listener when calendar is shown
     if (devicetobeadd) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [adddevice]);
   const completlyadddevice = () => {
@@ -76,14 +76,14 @@ const UseraccountDevices = () => {
 
     // Add event listener when calendar is shown
     if (deletebutton) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openDeleteModels]);
 
@@ -107,17 +107,16 @@ const UseraccountDevices = () => {
 
     // Add event listener when calendar is shown
     if (devicetobeedit) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [editdevice]);
-
 
   async function userDeviceEdit() {
     const newDeviceData = {
@@ -151,14 +150,14 @@ const UseraccountDevices = () => {
 
     // Add event listener when calendar is shown
     if (devicetobecontrol) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup the event listener
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [devicecontrol]);
 
@@ -250,11 +249,9 @@ const UseraccountDevices = () => {
     setdevicecordinate(coordinates);
   };
 
-  
-
   //Height and Width for Google Map
   const containerStyle = {
-    width: "613px",
+    width: "100%",
     height: "99%",
   };
 
@@ -266,11 +263,11 @@ const UseraccountDevices = () => {
 
   const GoogleMapdata = ({ containerStyle, lat, lng }) => {
     const [map, setMap] = useState(null);
-  
+
     const handleMapLoad = (mapInstance) => {
       setMap(mapInstance);
     };
-  
+
     return (
       <GoogleMap
         onLoad={handleMapLoad}
@@ -293,19 +290,16 @@ const UseraccountDevices = () => {
     <>
       {/* Page Start */}
       <div
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-          marginTop: "7px",
-        }}
+        className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
       >
         {/* Total User Count Start */}
         <div
           className=" shadow"
           style={{
             width: "150px",
-            backgroundColor: "#7DE0AE",
+            backgroundColor: "#E9EEF6",
             borderRadius: "20px",
-            marginTop: "10px",
+            marginTop: "5px",
           }}
         >
           <div>
@@ -315,7 +309,7 @@ const UseraccountDevices = () => {
                 justifyContent: "center",
 
                 padding: "10px",
-                margin: "2px 2px 4px 2px",
+
                 fontSize: "20px",
                 cursor: "pointer",
               }}
@@ -335,7 +329,7 @@ const UseraccountDevices = () => {
           className="cards d-flex flex-wrap"
           style={{
             marginTop: "10px",
-            marginLeft: "40px",
+            gap: "10px",
             height: "690px",
             overflowY: "scroll",
           }}
@@ -348,10 +342,10 @@ const UseraccountDevices = () => {
                 backgroundColor: "white",
                 borderRadius: "20px",
                 marginTop: "10px",
-                marginLeft: "40px",
+
                 padding: "7px",
                 fontSize: 20,
-                width: "700px",
+                width: "48%",
                 height: "410px",
               }}
             >
@@ -384,10 +378,13 @@ const UseraccountDevices = () => {
                     </p>
                   </div>
                 </div>
-                <div className="col2" style={{ margin: "29px 7px 0 0" }}>
+                <div
+                  className="col2 control-btn-container"
+                  style={{ margin: "29px 7px 0 0" }}
+                >
                   <button
                     type="button"
-                    className="btn  btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    className="btn  btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill control-btn"
                     style={{
                       textAlign: "cenetr",
                     }}
@@ -400,7 +397,7 @@ const UseraccountDevices = () => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill control-btn"
                     style={{
                       textAlign: "cenetr",
                       marginLeft: "8px",
@@ -514,8 +511,8 @@ const UseraccountDevices = () => {
       {devicetobeadd ? (
         <div className="check-model ">
           <div
-          ref={devaddref}
-            className="model"
+            ref={devaddref}
+            className="model accedit"
             style={{
               fontSize: "20px",
               marginTop: "1px",
@@ -528,13 +525,14 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={adddevice}
               ></i>
             </div>
             {/* Modal Content */}
 
             <div
+              className="accounteditmodaldv "
               style={{
                 marginLeft: "20px",
                 marginTop: "30px",
@@ -555,7 +553,7 @@ const UseraccountDevices = () => {
                   className="form-control"
                   id="formGroupExampleInput"
                   placeholder="Device Name"
-                  style={{ width: "400px" }}
+                  style={{ width: "90%" }}
                   required
                   onInvalid={(e) =>
                     e.target.setCustomValidity("Please Enter Your Device Name")
@@ -563,38 +561,42 @@ const UseraccountDevices = () => {
                   onChange={(e) => e.target.setCustomValidity("")}
                 ></input>
 
-                <div className="d-flex mt-2">
-                  <label style={{ width: "250px" }}>Device Type</label>
-                  <label>Device Location</label>
-                </div>
+                <div className="d-flex gap-1">
+                  <div>
+                    <label >Device Type</label>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                      style={{ width: "90%" }}
+                      ref={devicetype}
+                    >
+                      {devicetypes.map((device, index) => (
+                        <option key={index} value={device[0]}>
+                          {device[0]}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div className="d-flex">
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    style={{ width: "200px" }}
-                    ref={devicetype}
-                  >
-                    {devicetypes.map((device, index) => (
-                      <option key={index} value={device[0]}>
-                        {device[0]}
-                      </option>
-                    ))}
-                  </select>
+                  <div>
+                    <label>Device Location</label>
 
-                  <input
-                    ref={divlocation}
-                    value={devicecordinate}
-                    type="text"
-                    className="form-control"
-                    placeholder="Device...."
-                    style={{ width: "200px", marginLeft: "50px" }}
-                    required
-                    onInvalid={(e) =>
-                      e.target.setCustomValidity("Please  select Your Device LAT,LNG")
-                    }
-                    onChange={(e) => e.target.setCustomValidity("")}
-                  ></input>
+                    <input
+                      ref={divlocation}
+                      value={devicecordinate}
+                      type="text"
+                      className="form-control"
+                      placeholder="Location...."
+                      style={{ width: "90%" }}
+                      required
+                      onInvalid={(e) =>
+                        e.target.setCustomValidity(
+                          "Please  select Your Device LAT,LNG"
+                        )
+                      }
+                      onChange={(e) => e.target.setCustomValidity("")}
+                    ></input>
+                  </div>
                 </div>
 
                 <button
@@ -623,14 +625,14 @@ const UseraccountDevices = () => {
 
               {showmap ? (
                 <>
-                  <div className="d-flex">
+                  <div className="searchbar d-flex" style={{width:'50%'}}>
                     <input
                       ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
-                      style={{ width: "200px" }}
+                     
                     />
                     <button
                       className="btn btn-outline-success my-2 my-sm-0"
@@ -641,15 +643,19 @@ const UseraccountDevices = () => {
                     </button>
                   </div>
 
-                  <div
+                  <div className="deviceaddmap d-flex justify-content-center"
                     style={{
-                      marginTop: "1px",
+                      marginTop: "2px",
                       height: "400px",
-                      width: "200px",
+                      width: "620px",
+
                     }}
                   >
-                    <GoogleMapdata containerStyle={containerStyle} lat ={latitudesdevice} lng={longitudesdevice}/> 
-                    
+                    <GoogleMapdata
+                      containerStyle={containerStyle}
+                      lat={latitudesdevice}
+                      lng={longitudesdevice}
+                    />
                   </div>
                 </>
               ) : null}
@@ -667,7 +673,7 @@ const UseraccountDevices = () => {
       {completedeviceadd ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{ fontSize: "23px", width: "600px", height: "300px" }}
           >
             <img
@@ -685,7 +691,7 @@ const UseraccountDevices = () => {
       {devicetobeedit ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             ref={editRef}
             style={{ fontSize: "20px", width: "650px", height: "auto" }}
           >
@@ -694,7 +700,7 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Edit Device</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={editdevice}
               ></i>
             </div>
@@ -710,6 +716,7 @@ const UseraccountDevices = () => {
               }}
             >
               <div
+                className="accounteditmodaldv "
                 style={{
                   marginLeft: "20px",
                   marginTop: "30px",
@@ -723,7 +730,7 @@ const UseraccountDevices = () => {
                   className="form-control"
                   id="formGroupExampleInput"
                   placeholder="Device Name"
-                  style={{ width: "400px" }}
+                  style={{ width: "90%" }}
                   required
                   onInvalid={(e) =>
                     e.target.setCustomValidity("Please Enter Your Label Name")
@@ -781,9 +788,9 @@ const UseraccountDevices = () => {
       {deletebutton ? (
         <div className="check-model ">
           <div
-          ref={delref}
-            className="model"
-            style={{ fontSize: "23px", width: "600px", height: "200px" }}
+            ref={delref}
+            className="model accedit"
+            style={{ fontSize: "23px", }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -792,17 +799,17 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={openDeleteModels}
               ></i>
             </div>
             {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div className="accounteditmodaldv" style={{ marginLeft: "20px"}}>
               <div style={{ marginLeft: "25px" }}>
                 <p> Are you sure to Delete Account Permanently ?</p>
               </div>
 
-              <div className="d-flex justify-content-end mt-3">
+              <div className="d-flex justify-content-end mt-3 p-1">
                 <button
                   type="button"
                   className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -843,7 +850,7 @@ const UseraccountDevices = () => {
       {devicetobecontrol ? (
         <div className="check-model ">
           <div
-          ref={ctrlref}
+            ref={ctrlref}
             className="model"
             style={{ fontSize: "23px", width: "300px", height: "250px" }}
           >
@@ -854,7 +861,7 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={devicecontrol}
               ></i>
             </div>

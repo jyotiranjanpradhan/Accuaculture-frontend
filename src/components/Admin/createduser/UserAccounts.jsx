@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import "../Adminpage.css";
 import { AdminContext } from "../../../App";
 import axios from "axios";
-
+import './UserAccounts.css'
 const UserAccounts = () => {
   const [openModel, setOpenModel] = useState(false);
   const [deletebutton, setDeleteButton] = useState(false);
@@ -144,18 +144,13 @@ const UserAccounts = () => {
   return (
     <>
       {/* Page Start */}
-      <div
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-          marginTop: "7px",
-        }}
-      >
+      <div className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}>
         {/* Total User Count Start */}
         <div
           className=" shadow"
           style={{
             width: "200px",
-            backgroundColor: "#7DE0AE",
+            backgroundColor: "#E9EEF6",
             borderRadius: "20px",
             marginTop: "10px",
           }}
@@ -179,7 +174,7 @@ const UserAccounts = () => {
 
         {/* Table start */}
 
-        <div className="parent-div-of-table">
+        <div className="parent-div-of-table overflow-scroll">
           <table className="table table-bordered table-striped table-hover table-design">
             <thead style={{ backgroundColor: "#7DE1AF" }}>
               <tr>
@@ -226,12 +221,13 @@ const UserAccounts = () => {
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">{data[0]}</td>
-                  <td className="text-center">
+                  <td className="text-center d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn  btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                       style={{
                         textAlign: "cenetr",
+                        width: "max-content"
                       }}
                       onClick={() => {
                         openModels();
@@ -357,8 +353,8 @@ const UserAccounts = () => {
           >
             <div
             ref={openmodalRef}
-              className="model"
-              style={{ fontSize: "23px", width: "600px", height: "270px" }}
+              className="model accedit"
+              style={{ fontSize: "23px", width: "600px",paddingBottom:'10px' }}
             >
               {/* Modal Heading */}
               <div className="heading d-flex justify-content-between  ">
@@ -375,7 +371,7 @@ const UserAccounts = () => {
               </div>
               {/* Modal Content */}
               <div style={{ marginLeft: "20px", marginTop: "30px" }}>
-                <div style={{ marginLeft: "25px" }}>
+                <div className="accounteditmodaldv" style={{ marginLeft: "25px" }}>
                   <label htmlFor="formGroupExampleInput">Account Name</label>
                   <input
                     ref={updateaccountname}
@@ -383,7 +379,7 @@ const UserAccounts = () => {
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Account Name"
-                    style={{ width: "400px" }}
+                    style={{ width: "90%" }}
                     required
                     onInvalid={(e) =>
                       e.target.setCustomValidity(
@@ -420,8 +416,8 @@ const UserAccounts = () => {
         <div className="check-model ">
           <div
           ref={delRef}
-            className="model"
-            style={{ fontSize: "23px", width: "600px", height: "200px" }}
+            className="model accedit"
+            style={{ fontSize: "23px", width: "600px" ,paddingBottom:'10px' }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -435,7 +431,7 @@ const UserAccounts = () => {
               ></i>
             </div>
             {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div style={{ marginLeft: "25px" }}>
                 <p> Are you sure to Delete this Account Permanently ?</p>
               </div>

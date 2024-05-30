@@ -8,7 +8,8 @@ const Thermal = () => {
   const{isSidebarOpen}=useContext(AdminContext);
   return (
     <>
-    <div style={{ marginLeft: isSidebarOpen ? "280px":'110px', marginTop:'7px'}}>
+    <div className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
+      >
       
 
       {/* Start option */}
