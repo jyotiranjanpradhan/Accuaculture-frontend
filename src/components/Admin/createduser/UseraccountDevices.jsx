@@ -275,6 +275,7 @@ const UseraccountDevices = () => {
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
         mapTypeId="satellite"
+        onClick={handleMapClick}
       >
         {map && (
           <Marker

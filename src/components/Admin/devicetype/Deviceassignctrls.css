@@ -12,3 +12,12 @@
      }
 }
 
+@media(max-width:768px){  
+    .model.accedit{
+       width: 95% !important;
+       
+   }
+   .accounteditmodaldv{
+       margin-left: 5px !important;
+   }
+}

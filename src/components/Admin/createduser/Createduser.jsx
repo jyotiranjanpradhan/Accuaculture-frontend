@@ -471,7 +471,7 @@ const Createduser = () => {
                       id="formGroupExampleInput"
                       placeholder="Enter Latitude"
                   
-                      onChange={(e) => e.target.setCustomValidity("")}
+                 
                     ></input>
                   </div>
                   <div>
@@ -494,7 +494,7 @@ const Createduser = () => {
                       id="formGroupExampleInput"
                       placeholder="Enter Longitude"
                       style={{ marginLeft: "3%" }}
-                      onChange={(e) => e.target.setCustomValidity("")}
+          
                     ></input>
                   </div>
                   <div>

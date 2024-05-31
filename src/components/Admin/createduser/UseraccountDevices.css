@@ -2,6 +2,10 @@
     .cards{
         padding: 7px;
     }
+    .deviceaddmap{
+        width: 99% !important;
+        height: 300px !important;
+    }
     
 }
 @media(max-width:671px){
@@ -12,10 +16,7 @@
     .cards{
         justify-content: center ;
     }
-    .deviceaddmap{
-        width: 520px !important;
-        height: 300px !important;
-    }
+   
 }
 
 @media(max-width:360px){
@@ -45,29 +46,6 @@
     }
 }
 
-@media(max-width:558px){
-    .deviceaddmap{
-        width: 420px !important;
-        height: 300px !important;
-    }
-   
-}
-@media(max-width:484px){
-    .deviceaddmap{
-        width: 410px !important;
-        height: 300px !important;
-    }
-}
-@media(max-width:448px){
-    .deviceaddmap{
-        width: 380px !important;
-        height: 300px !important;
-    }
-}
-@media(max-width:408px){
-    .deviceaddmap{
-        width: 320px !important;
-        height: 300px !important;
-    }
-}
+
+
 /* End for map responsive */

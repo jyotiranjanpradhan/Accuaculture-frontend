@@ -473,6 +473,7 @@ const Navbars = ({
                       padding: "5px 8px",
                       backgroundColor: "#FF0000",
                       fontSize: "15px",
+                      color:'white'
                     }}
                     onClick={() => {
                       seedevicetype();
@@ -1366,11 +1367,11 @@ const Navbars = ({
       {labeltodelete ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "23px",
               width: "600px",
-              height: "200px",
+             
             }}
           >
             {/* Modal Heading */}
@@ -1397,18 +1398,19 @@ const Navbars = ({
               ></i>
             </div>
             {/* Modal Content */}
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div className="accounteditmodaldv" style={{ marginLeft: "20px"}}>
               <div style={{ marginLeft: "25px" }}>
                 <p> Hey ! Are you sure to Delete This Parameter ?</p>
               </div>
 
-              <div className="d-flex justify-content-end mt-3">
+              <div className="d-flex justify-content-end  ">
                 <button
                   type="button"
                   className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "cenetr",
-                    marginRight: "15px",
+                    
+                    margin:'0 15px 10px 0'
                   }}
                   onClick={() => {
                     Setlabeltodelete(!labeltodelete);
@@ -1425,7 +1427,7 @@ const Navbars = ({
                   className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                   style={{
                     textAlign: "cenetr",
-                    marginRight: "15px",
+                    margin:'0 15px 10px 0'
                   }}
                   onClick={() => {
                     Setlabeltodelete(!labeltodelete);
@@ -1443,7 +1445,7 @@ const Navbars = ({
       {/* START dELETE aNIMATION */}
       {deleteanimation ? (
         <div
-          className="check-model"
+          className="check-model "
           style={{
             display: "flex",
             justifyContent: "center",
@@ -1451,7 +1453,7 @@ const Navbars = ({
             height: "100vh",
           }}
         >
-          <div>
+          <div className="accedit">
             <img
               src={deletesuccess}
               alt="successful"
@@ -1513,7 +1515,7 @@ const Navbars = ({
         <div className="check-model ">
           <div
           ref={dpRef}
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "23px",
               width: "600px",

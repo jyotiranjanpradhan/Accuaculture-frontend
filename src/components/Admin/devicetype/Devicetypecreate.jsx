@@ -90,6 +90,7 @@ const Devicetypecreate = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openModels]);
 
   const deviceadd = () => {
@@ -115,6 +116,7 @@ const Devicetypecreate = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [deviceadd]);
 
   const openDeleteModels = () => {
@@ -141,6 +143,7 @@ const Devicetypecreate = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openDeleteModels]);
   
   const Devicetype = async () => {
@@ -375,7 +378,7 @@ const Devicetypecreate = () => {
           <div
             className="model accedit"
             ref={openmodalRef}
-            style={{ fontSize: "23px", width: "600px", height: "370px" }}
+            style={{ fontSize: "23px", height: "370px" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -486,8 +489,8 @@ const Devicetypecreate = () => {
         <div className="check-model ">
           <div
           ref={divcreateref}
-            className="model"
-            style={{ fontSize: "23px", width: "600px", height: "370px" }}
+            className="model accedit"
+            style={{ fontSize: "23px",}}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -525,7 +528,7 @@ const Devicetypecreate = () => {
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Account Name"
-                    style={{ width: "400px" }}
+                    style={{ width: "80%" }}
                     required
                     onInvalid={(e) =>
                       e.target.setCustomValidity(
@@ -542,7 +545,7 @@ const Devicetypecreate = () => {
                     className="form-control"
                     id="formGroupExampleInput"
                     placeholder="Enter Account Name"
-                    style={{ width: "400px" }}
+                    style={{ width: "80%" }}
                     required
                     onInvalid={(e) =>
                       e.target.setCustomValidity("Please Enter Version")
@@ -576,7 +579,8 @@ const Devicetypecreate = () => {
                     className="btn btn-success px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                     style={{
                       textAlign: "cenetr",
-                      marginRight: "15px",
+                     
+                      margin:'0 15px 10px 0'
                     }}
                   >
                     Create Device

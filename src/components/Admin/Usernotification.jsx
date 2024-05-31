@@ -36,14 +36,13 @@ const Usernotification = () => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
-
   const GoogleMapdata = ({ containerStyle, lat, lng }) => {
     const [map, setMap] = useState(null);
-  
+
     const handleMapLoad = (mapInstance) => {
       setMap(mapInstance);
     };
-  
+
     return (
       <GoogleMap
         onLoad={handleMapLoad}
@@ -51,6 +50,7 @@ const Usernotification = () => {
         center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
         zoom={15}
         mapTypeId="satellite"
+        onClick={handleMapClick}
       >
         {map && (
           <Marker
@@ -183,7 +183,7 @@ const Usernotification = () => {
 
   useEffect(() => {
     userNotificationfetch();
-// eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
   const openModels = () => {
@@ -234,12 +234,12 @@ const Usernotification = () => {
 
   //Height and Width for Google Map
   const containerStyleforaccontadd = {
-    width: "900px",
+    width: "98%",
     height: "100%",
   };
   const containerStylefordeviceadd = {
     width: "610px",
-    height: "100%",
+    height: "98%",
   };
 
   useEffect(() => {
@@ -266,10 +266,7 @@ const Usernotification = () => {
   return (
     <>
       <div
-        style={{
-          marginLeft: isSidebarOpen ? "280px" : "110px",
-          marginTop: "7px",
-        }}
+        className={`createdusercontent  ${isSidebarOpen ? "open" : "closed"}`}
       >
         {/* Total User Count Start */}
         <div className="userCount shadow">
@@ -306,7 +303,7 @@ const Usernotification = () => {
 
         {/* Table start */}
 
-        <div className="parent-div-of-table">
+        <div className="parent-div-of-table overflow-scroll">
           <table className="table table-bordered table-striped table-hover table-design">
             <thead style={{ backgroundColor: "#E9EEF6" }}>
               <tr>
@@ -395,7 +392,7 @@ const Usernotification = () => {
                   alignItems: "center",
                 }}
               >
-               {`Some Error Occured , Please Stay Tuned ! ${usernotificationerror}`} 
+                {`Some Error Occured , Please Stay Tuned ! ${usernotificationerror}`}
               </p>
             </div>
           </>
@@ -459,7 +456,7 @@ const Usernotification = () => {
         >
           <div className="check-model ">
             <div
-              className="model"
+              className="model accedit"
               style={{ fontSize: "23px", marginTop: "10%", width: "600px" }}
             >
               <div className="heading d-flex justify-content-between ">
@@ -474,33 +471,33 @@ const Usernotification = () => {
                 </p>
                 <i
                   className="bi bi-x-octagon cancel-button-modal "
-                  style={{ fontSize: 30 ,color:'#df010d'}}
+                  style={{ fontSize: 30, color: "#df010d" }}
                   onClick={openModels}
                 ></i>
               </div>
               <div style={{ marginLeft: "20px", marginTop: "30px" }}>
                 <div className="name d-flex">
                   <p>Name </p>
-                  <p style={{ marginLeft: "25px" }}>
-                    : {regestereduser[userindex][0]}
+                  <p >
+                    :- {regestereduser[userindex][0]}
                   </p>
                 </div>
                 <div className="mobile d-flex">
                   <p>Mobile No </p>{" "}
-                  <p style={{ marginLeft: "25px" }}>
-                    :{regestereduser[userindex][1]}
+                  <p >
+                    :-{regestereduser[userindex][1]}
                   </p>
                 </div>
                 <div className="adhar d-flex">
                   <p>Aadhaar No</p>
-                  <p style={{ marginLeft: "25px" }}>
-                    :{regestereduser[userindex][4]}
+                  <p >
+                    :-{regestereduser[userindex][4]}
                   </p>
                 </div>
                 <div className="email d-flex">
                   <p>Email Id</p>{" "}
-                  <p style={{ marginLeft: "25px" }}>
-                    : {regestereduser[userindex][2]}
+                  <p >
+                    :- {regestereduser[userindex][2]}
                   </p>
                 </div>
                 <div className="password ">
@@ -513,7 +510,7 @@ const Usernotification = () => {
                         className="form-control"
                         id="exampleInputPassword1"
                         placeholder="Password"
-                        style={{ marginLeft: "25px", width: "400px" }}
+                        style={{ marginLeft: "25px", width: "60%" }}
                         required
                         onInvalid={(e) =>
                           e.target.setCustomValidity(
@@ -561,7 +558,7 @@ const Usernotification = () => {
       {nextmodel ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model newaccount"
             style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
             <div className="heading d-flex justify-content-between ">
@@ -572,11 +569,14 @@ const Usernotification = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d',color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d", color: "#df010d" }}
                 onClick={opennextmodel}
               ></i>
             </div>
-            <div style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div
+              className="addaccmodaldiv"
+              style={{ marginLeft: "20px", marginTop: "30px" }}
+            >
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -586,71 +586,79 @@ const Usernotification = () => {
                   );
                 }}
               >
-                <div className="d-flex" style={{ height: "49px" }}>
-                  <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                    {" "}
-                    <img
-                      src={latitude}
-                      style={{ width: "20px", marginBottom: "5px" }}
-                      alt="Latitude logo"
-                    ></img>{" "}
-                    Latitude
-                  </label>
-                  <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                    <img
-                      src={longitude}
-                      style={{
-                        width: "20px",
-                        marginBottom: "5px",
-                        marginRight: "2px",
-                      }}
-                      alt="Longitude logo"
-                    ></img>
-                    Longitude
-                  </label>
+                <div
+                  className=" d-flex"
+                  style={{ height: "49px", width: "95%" }}
+                >
+                  <div>
+                    <label>
+                      {" "}
+                      <img
+                        src={latitude}
+                        style={{ width: "20px", marginBottom: "5px" }}
+                        alt="Latitude logo"
+                      ></img>{" "}
+                      Latitude
+                    </label>
+                    <input
+                      ref={userLatitude}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter Latitude"
+                    ></input>
+                  </div>
+                  <div>
+                    <label>
+                      <img
+                        src={longitude}
+                        style={{
+                          width: "20px",
+                          marginBottom: "5px",
+                          marginRight: "2px",
+                        }}
+                        alt="Longitude logo"
+                      ></img>
+                      Longitude
+                    </label>
 
-                  <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                    <i
-                      className="bi bi-person-vcard"
-                      style={{ fontSize: "20px", marginRight: "2px" }}
-                    ></i>
-                    Account Name
-                  </label>
+                    <input
+                      ref={userLongitude}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter Longitude"
+                      style={{ marginLeft: "3%" }}
+                    ></input>
+                  </div>
+                  <div>
+                    <label>
+                      <i
+                        className="bi bi-person-vcard"
+                        style={{ fontSize: 17, marginRight: "2px" }}
+                      ></i>
+                      Account
+                    </label>
+
+                    <input
+                      ref={AccName}
+                      type="text"
+                      className="form-control"
+                      id="formGroupExampleInput"
+                      placeholder="Enter AccountName"
+                      style={{ marginLeft: "5%" }}
+                      required
+                      onInvalid={(e) =>
+                        e.target.setCustomValidity("Please Enter Account Name")
+                      }
+                      onChange={(e) => e.target.setCustomValidity("")}
+                    ></input>
+                  </div>
                 </div>
-
-                <div className="d-flex">
-                  <input
-                    ref={userLatitude}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter Latitude"
-                    style={{ width: "200px" }}
-                  ></input>
-
-                  <input
-                    ref={userLongitude}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter Longitude"
-                    style={{ width: "200px", marginLeft: "50px" }}
-                  ></input>
-
-                  <input
-                    ref={AccName}
-                    type="text"
-                    className="form-control"
-                    id="formGroupExampleInput"
-                    placeholder="Enter AccountName"
-                    style={{ width: "200px", marginLeft: "50px" }}
-                    required
-                    onInvalid={(e) =>
-                      e.target.setCustomValidity("Please Enter Account Name")
-                    }
-                    onChange={(e) => e.target.setCustomValidity("")}
-                  ></input>
-
+                <div
+                  className=" searchbutton d-flex justify-content-end "
+                  style={{ marginRight: "5%" }}
+                >
                   <button
                     type="submit"
                     className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -668,11 +676,14 @@ const Usernotification = () => {
                 </div>
               </form>
 
-              <div style={{ marginTop: "20px", height: "400px" }}>
+              <div
+                className="mapaddacc"
+                style={{ marginTop: "20px", height: "400px" }}
+              >
                 <GoogleMapdata
                   containerStyle={containerStyleforaccontadd}
-                  latis={latitudes}
-                  lngis={longitudes}
+                  lat={latitudes}
+                  lng={longitudes}
                 />
               </div>
 
@@ -722,7 +733,7 @@ const Usernotification = () => {
       {devicetype ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "23px",
               marginTop: "1px",
@@ -737,7 +748,7 @@ const Usernotification = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={opendevicetypemodel}
               ></i>
             </div>
@@ -750,22 +761,24 @@ const Usernotification = () => {
               }}
             >
               <table className="table table-hover table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">Device Type</th>
-      <th scope="col">No. of Device</th>
-    </tr>
-  </thead>
-  <tbody>
-    {regestereduser[userindex][3].devicesList &&
-      regestereduser[userindex][3].devicesList.map((data, index) => (
-        <tr key={index}>
-          <td>{data.value}</td>
-          <td>{data.count}</td>
-        </tr>
-      ))}
-  </tbody>
-</table>
+                <thead>
+                  <tr>
+                    <th scope="col">Device Type</th>
+                    <th scope="col">No. of Device</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {regestereduser[userindex][3].devicesList &&
+                    regestereduser[userindex][3].devicesList.map(
+                      (data, index) => (
+                        <tr key={index}>
+                          <td>{data.value}</td>
+                          <td>{data.count}</td>
+                        </tr>
+                      )
+                    )}
+                </tbody>
+              </table>
 
               <button
                 type="button"
@@ -810,7 +823,7 @@ const Usernotification = () => {
       {deviceadd ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{
               fontSize: "20px",
               marginTop: "1px",
@@ -823,58 +836,69 @@ const Usernotification = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={adddevice}
               ></i>
             </div>
             {/* Modal Content */}
             <div
+              className="accounteditmodaldv "
               style={{
                 marginLeft: "20px",
                 marginTop: "30px",
                 marginRight: "10px",
               }}
             >
-              <label for="formGroupExampleInput">Device Name</label>
+              <label>Device Name</label>
               <input
                 ref={devicename}
                 type="text"
                 className="form-control"
                 id="formGroupExampleInput"
                 placeholder="Device Name"
-                style={{ width: "400px" }}
+                style={{ width: "90%" }}
+                required
+                onInvalid={(e) =>
+                  e.target.setCustomValidity("Please Enter Your Device Name")
+                }
+                onChange={(e) => e.target.setCustomValidity("")}
               ></input>
 
-              <div className="d-flex mt-2">
-                <label for="formGroupExampleInput" style={{ width: "250px" }}>
-                  Device Type
-                </label>
-                <label for="formGroupExampleInput">Device Location</label>
-              </div>
-
-              <div className="d-flex">
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  style={{ width: "200px" }}
-                  ref={device}
-                >
-                  <option selected>select Device Type</option>
-                  {devicetypes.map((device, index) => (
-                    <option key={index} value={device[0]}>
-                      {device[0]}
-                    </option>
-                  ))}
-                </select>
-
-                <input
-                  value={devicecordinate}
-                  type="text"
-                  className="form-control"
-                  placeholder="Device Location...."
-                  style={{ width: "200px", marginLeft: "50px" }}
-                  ref={devicelocation}
-                ></input>
+              <div className="d-flex gap-1">
+                <div>
+                  <label> Device Type </label>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    style={{ width: "90%" }}
+                    ref={device}
+                  >
+                    <option selected>select Device Type</option>
+                    {devicetypes.map((device, index) => (
+                      <option key={index} value={device[0]}>
+                        {device[0]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label>Device Location</label>
+                  <input
+                    ref={devicelocation}
+                    value={devicecordinate}
+                    type="text"
+                    className="form-control"
+                    placeholder="Device Location...."
+                    style={{ width: "90%" }}
+                    required
+                    onInvalid={(e) =>
+                      e.target.setCustomValidity(
+                        "Please  select Your Device LAT,LNG"
+                      )
+                    }
+                    onChange={(e) => e.target.setCustomValidity("")}
+                  ></input>
+                </div>
               </div>
 
               <button
@@ -906,14 +930,13 @@ const Usernotification = () => {
 
               {showmap ? (
                 <>
-                  <div className="d-flex">
+                  <div className="d-flex" style={{ width: "50%" }}>
                     <input
                       ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
-                      style={{ width: "200px" }}
                     />
                     <button
                       className="btn btn-outline-success my-2 my-sm-0"
@@ -928,14 +951,18 @@ const Usernotification = () => {
                   </div>
 
                   <div
+                    className="deviceaddmap d-flex justify-content-center"
                     style={{
-                      marginTop: "1px",
+                      marginTop: "2px",
                       height: "400px",
-                      width: "200px",
+                      width: "620px",
                     }}
                   >
-                    <GoogleMapdata containerStyle={containerStylefordeviceadd}  lat={latitudesdevice} lng={longitudesdevice}/>
-                    
+                    <GoogleMapdata
+                      containerStyle={containerStylefordeviceadd}
+                      lat={latitudesdevice}
+                      lng={longitudesdevice}
+                    />
                   </div>
                 </>
               ) : null}
@@ -952,7 +979,7 @@ const Usernotification = () => {
       {completedeviceadd ? (
         <div className="check-model ">
           <div
-            className="model"
+            className="model accedit"
             style={{ fontSize: "23px", width: "600px", height: "300px" }}
           >
             <img
@@ -970,5 +997,3 @@ const Usernotification = () => {
 };
 
 export default Usernotification;
-
-
