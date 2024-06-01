@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState,useRef,useEffect} from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { NavLink} from "react-router-dom";
@@ -23,7 +23,30 @@ const Sidebar = () => {
   const islogout = () => {
     setLogout(!logout);
   };
+  const logoutRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        logoutRef.current &&
+        !logoutRef.current.contains(event.target)
+      ) {
+        islogout();
+      }
+    };
+    // Add event listener when calendar is shown
+    if (logout) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
 
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [islogout]);
   const handleLogout = () => {
     localStorage.removeItem("admin_id");
   };
@@ -345,6 +368,7 @@ const Sidebar = () => {
       {logout ? (
         <div className="check-model ">
           <div
+          ref={logoutRef}
             className="model accedit"
             style={{
               fontSize: "23px",

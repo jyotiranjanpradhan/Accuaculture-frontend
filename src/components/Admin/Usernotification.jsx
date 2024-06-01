@@ -14,6 +14,7 @@ const Usernotification = () => {
   const admin_id = localStorage.getItem("admin_id");
 
   const [openModel, setOpenModel] = useState(false);
+
   const [nextmodel, setNextModel] = useState(false);
   const [devicetype, setDeviceType] = useState(false);
   const [deviceadd, setDeviceAdd] = useState(false);
@@ -36,6 +37,19 @@ const Usernotification = () => {
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
+
+//Google Map 
   const GoogleMapdata = ({ containerStyle, lat, lng }) => {
     const [map, setMap] = useState(null);
 
@@ -61,18 +75,6 @@ const Usernotification = () => {
       </GoogleMap>
     );
   };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = regestereduser.slice(indexOfFirstItem, indexOfLastItem);
 
   const [data, setData] = useState({
     userpic: null,
@@ -189,17 +191,118 @@ const Usernotification = () => {
   const openModels = () => {
     setOpenModel(!openModel);
   };
+  const openmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        openmodalRef.current &&
+        !openmodalRef.current.contains(event.target)
+      ) {
+        openModels();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (openModel) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [openModels]);
 
   const opennextmodel = () => {
     setNextModel(!nextmodel);
   };
+  const opennextmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        opennextmodalRef.current &&
+        !opennextmodalRef.current.contains(event.target)
+      ) {
+        opennextmodel();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (nextmodel) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [opennextmodel]);
 
   const opendevicetypemodel = () => {
     setDeviceType(!devicetype);
   };
+  const opendevicetypemodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        opendevicetypemodalRef.current &&
+        !opendevicetypemodalRef.current.contains(event.target)
+      ) {
+        opendevicetypemodel();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (devicetype) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [opendevicetypemodel]);
+
   const adddevice = () => {
     setDeviceAdd(!deviceadd);
   };
+  const opendeviceaddmodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        opendeviceaddmodalRef.current &&
+        !opendeviceaddmodalRef.current.contains(event.target)
+      ) {
+        adddevice();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (deviceadd) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [adddevice]);
   const mapshow = () => {
     setShowmap(!showmap);
   };
@@ -456,6 +559,7 @@ const Usernotification = () => {
         >
           <div className="check-model ">
             <div
+            ref={openmodalRef}
               className="model accedit"
               style={{ fontSize: "23px", marginTop: "10%", width: "600px" }}
             >
@@ -558,6 +662,7 @@ const Usernotification = () => {
       {nextmodel ? (
         <div className="check-model ">
           <div
+          ref={opennextmodalRef}
             className="model newaccount"
             style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
           >
@@ -569,7 +674,7 @@ const Usernotification = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d", color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" }}
                 onClick={opennextmodel}
               ></i>
             </div>
@@ -733,6 +838,7 @@ const Usernotification = () => {
       {devicetype ? (
         <div className="check-model ">
           <div
+          ref={opendevicetypemodalRef}
             className="model accedit"
             style={{
               fontSize: "23px",
@@ -823,6 +929,7 @@ const Usernotification = () => {
       {deviceadd ? (
         <div className="check-model ">
           <div
+          ref={opendeviceaddmodalRef}
             className="model accedit"
             style={{
               fontSize: "20px",

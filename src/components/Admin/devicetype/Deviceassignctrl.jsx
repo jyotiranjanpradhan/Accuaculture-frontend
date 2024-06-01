@@ -14,9 +14,7 @@ const Deviceassignctrl = () => {
   const [fields, setFields] = useState([]);
 
   const handleAddField = () => {
-    console.log("Enter into add field");
     setFields([...fields, { graph_color: "", graph_label: "" }]);
-    console.log("Enter into End add");
   };
 
   const handleDeleteField = (index) => {
@@ -297,6 +295,7 @@ const Deviceassignctrl = () => {
   const editmodal = () => {
     setTobeEdit(!tobeedit);
   };
+  
   const editmodalRef = useRef(null);
   useEffect(() => {
     // Handler to call onClick outside of calendar component
@@ -317,16 +316,67 @@ const Deviceassignctrl = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [editmodal]);
 
 
   const sliderinputaddmodal = () => {
     setsliderinputmodal(!sliderinputmodal);
   };
+  const slidermodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        slidermodalRef.current &&
+        !slidermodalRef.current.contains(event.target)
+      ) {
+        sliderinputaddmodal();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (sliderinputmodal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [sliderinputaddmodal]);
 
   const linegraphaddmodal = () => {
     setLinegraphmodal(!linegraphmodal);
   };
+  const linermodalRef = useRef(null);
+  useEffect(() => {
+    // Handler to call onClick outside of calendar component
+    const handleClickOutside = (event) => {
+      if (
+        linermodalRef.current &&
+        !linermodalRef.current.contains(event.target)
+      ) {
+        linegraphaddmodal();
+      }
+    };
+
+    // Add event listener when calendar is shown
+    if (linegraphmodal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+    // eslint-disable-next-line
+  }, [linegraphaddmodal]);
 
   /////////////////// END Avilable controls logic  for EDIT Modal of BUtton,Slider & Graph////////////////////////////////
 
@@ -689,6 +739,7 @@ const Deviceassignctrl = () => {
       {tobeedit ? (
         <div className="check-model ">
           <div
+          ref={editmodalRef}
             className="model accedit"
             style={{ fontSize: "20px", width: "650px",  }}
           >
@@ -697,7 +748,7 @@ const Deviceassignctrl = () => {
               <p style={{ marginLeft: "30px", fontSize: 25 }}>On Off Button</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' ,color:'#df010d'}}
+                style={{ fontSize: 30,color:'#df010d' }}
                 onClick={editmodal}
               ></i>
             </div>
@@ -796,6 +847,7 @@ const Deviceassignctrl = () => {
       {sliderinputmodal ? (
         <div className="check-model ">
           <div
+          ref={slidermodalRef}
             className="model accedit"
             style={{
               fontSize: "20px",
@@ -965,6 +1017,7 @@ const Deviceassignctrl = () => {
       {linegraphmodal ? (
         <div className="check-model ">
           <div
+          ref={linermodalRef}
             className="model accedit"
             style={{
               fontSize: "20px",
