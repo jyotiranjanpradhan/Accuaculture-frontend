@@ -98,7 +98,7 @@ const Sidebar = () => {
                   onClick={islogout}
                 >
                   <i
-                    class="bi bi-box-arrow-right"
+                    className="bi bi-box-arrow-right"
                     style={{
                       alignItems: "center",
                       marginRight: "5px",
@@ -148,7 +148,7 @@ const Sidebar = () => {
               }}
             >
               <i
-                class="bi bi-arrow-left-short"
+                className="bi bi-arrow-left-short"
                 style={{ fontSize: 30, top: "-7px", position: "relative" }}
                 onClick={sidebar}
               ></i>
@@ -392,7 +392,7 @@ const Sidebar = () => {
                 Logout
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30 ,color:'#df010d'}}
                 onClick={islogout}
               ></i>
@@ -404,7 +404,7 @@ const Sidebar = () => {
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-              <NavLink to="http://aqua.bariflorobotics.com/login">
+              <NavLink to="http://login.bariflorobotics.com/login">
       <button
         type="button"
         className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"

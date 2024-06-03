@@ -92,6 +92,7 @@ const Navbars = ({
     initializeDeviceStates();
     //eslint-disable-next-line
   }, []);
+  // eslint-disable-next-line
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
       ...deviceStates,
@@ -171,6 +172,7 @@ const Navbars = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [showcalender]);
 
 
@@ -215,6 +217,7 @@ const Navbars = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [dpUpload]);
   const [profilepicaddanimation, setProfilepicaddanimation] = useState(false);
 
@@ -317,6 +320,7 @@ const Navbars = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [islogout]);
 
   //  delete  labels
@@ -530,7 +534,7 @@ const Navbars = ({
                         setShowInput(false);
                         setTimeout(() => {
                           devicelabelFetch(accid);
-                        }, 1000);
+                        }, 400);
                       }}
                     >
                       <div className="p-2 d-flex justify-content-between">
@@ -662,7 +666,7 @@ const Navbars = ({
                         <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
                         {devicedata[0]}
                       </p>
-                      <p style={{margin:0}}>Pulse <i class="bi bi-heart " style={{fontSize:12}}></i></p>
+                      <p style={{margin:0}}>Pulse <i className="bi bi-heart " style={{fontSize:12}}></i></p>
                     </div>
 
                     <div
@@ -723,7 +727,7 @@ const Navbars = ({
         </div>
       </div>
       <div className="d-flex d-md-none flex-column position-absolute top-0 end-0 justify-content-end p-4 ">
-      <span className="text-light p-2 px-4 fs-2 rounded cursor-pointer" style={{backgroundColor:"#00216E"}} onClick={()=>setShowDropdown(!showDropdown)}><i class="fa-solid fa-bars"></i></span>
+      <span className="text-light p-2 px-4 fs-2 rounded cursor-pointer" style={{backgroundColor:"#00216E"}} onClick={()=>setShowDropdown(!showDropdown)}><i className="fa-solid fa-bars"></i></span>
       {
         showDropdown && (<div className=" d-flex flex-column align-items-center bg-white shadow pt-2" style={{zIndex:2}}>
         <Dropdown>
@@ -823,7 +827,7 @@ const Navbars = ({
                       setShowInput(false);
                       setTimeout(() => {
                         devicelabelFetch(accid);
-                      }, 1000);
+                      }, 400);
                     }}
                   >
                     <div className="p-2 d-flex justify-content-between">
@@ -1315,7 +1319,7 @@ const Navbars = ({
                   <p>Are you sure you want to logout?</p>
 
                   <div className="d-flex justify-content-end mt-3">
-                      <NavLink to="/login">
+                      <NavLink to="http://login.bariflorobotics.com/login">
                           <button
                               type="button"
                               className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -1390,7 +1394,7 @@ const Navbars = ({
                 DELETE Parameter
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30, color: "red" }}
                 onClick={() => {
                   Setlabeltodelete(false);
@@ -1417,7 +1421,7 @@ const Navbars = ({
                     labeldelete();
                     setTimeout(() => {
                       devicelabelFetch(accid);
-                    }, 1000);
+                    }, 400);
                   }}
                 >
                   Yes
@@ -1494,7 +1498,7 @@ const Navbars = ({
                 Calender
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30, color: "red" }}
                 onClick={() => {
                   showcalender();
@@ -1537,7 +1541,7 @@ const Navbars = ({
                 Upload Your Best One
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30, color: "red" }}
                 onClick={() => {
                   dpUpload();
@@ -1548,7 +1552,7 @@ const Navbars = ({
             <div style={{ marginLeft: "20px", marginTop: "30px" }}>
               <div>
                 <i
-                  class="bi bi-person-bounding-box d-flex"
+                  className="bi bi-person-bounding-box d-flex"
                   style={{ justifyContent: "center", fontSize: 90 }}
                 ></i>
                 <br />

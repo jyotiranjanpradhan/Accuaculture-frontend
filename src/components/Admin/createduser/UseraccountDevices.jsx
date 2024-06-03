@@ -51,6 +51,7 @@ const UseraccountDevices = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [adddevice]);
   const completlyadddevice = () => {
     setCompliteDeviceAdd(!completedeviceadd);
@@ -85,6 +86,7 @@ const UseraccountDevices = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openDeleteModels]);
 
   async function userDeviceDelete() {
@@ -116,6 +118,7 @@ const UseraccountDevices = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [editdevice]);
 
   async function userDeviceEdit() {
@@ -159,6 +162,7 @@ const UseraccountDevices = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [devicecontrol]);
 
   async function usersDeviceFetch() {
@@ -331,7 +335,7 @@ const UseraccountDevices = () => {
           style={{
             marginTop: "10px",
             gap: "10px",
-            height: "690px",
+            
             overflowY: "scroll",
           }}
         >
@@ -348,6 +352,7 @@ const UseraccountDevices = () => {
                 fontSize: 20,
                 width: "48%",
                 height: "410px",
+                marginBottom:'2%'
               }}
             >
               <div
@@ -713,7 +718,7 @@ const UseraccountDevices = () => {
                 editdevice();
                 setTimeout(() => {
                   usersDeviceFetch();
-                }, 1000);
+                }, 400);
               }}
             >
               <div
@@ -823,7 +828,7 @@ const UseraccountDevices = () => {
                     userDeviceDelete();
                     setTimeout(() => {
                       usersDeviceFetch();
-                    }, 1000);
+                    }, 400);
                   }}
                 >
                   Yes

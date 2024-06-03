@@ -109,7 +109,7 @@ const CalendarComponent = () => {
           <Modal.Header closeButton>
             <Modal.Title>
               {" "}
-              ADD Events <i class="bi bi-calendar-plus"></i>{" "}
+              ADD Events <i className="bi bi-calendar-plus"></i>{" "}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -127,10 +127,10 @@ const CalendarComponent = () => {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Cancel<i class="bi bi-x"></i>
+              Cancel<i className="bi bi-x"></i>
             </Button>
             <Button variant="success" onClick={handleAddEvent}>
-              Add <i class="bi bi-floppy-fill"></i>
+              Add <i className="bi bi-floppy-fill"></i>
             </Button>
           </Modal.Footer>
         </Modal>
@@ -164,7 +164,7 @@ const CalendarComponent = () => {
                 DELETE Parameter
               </p>
               <i
-                class="bi bi-x-octagon cancel-button-modal "
+                className="bi bi-x-octagon cancel-button-modal "
                 style={{ fontSize: 30, color: "red" }}
                 onClick={() => {
                   Seteventtodelete(false);

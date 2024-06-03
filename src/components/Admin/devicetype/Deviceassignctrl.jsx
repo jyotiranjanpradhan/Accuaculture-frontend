@@ -627,7 +627,7 @@ const Deviceassignctrl = () => {
                         openDeleteModels();
                         setTimeout(() => {
                           fetchdata();
-                        }, 1000);
+                        }, 400);
                       }}
                     >
                       Yes
@@ -769,7 +769,7 @@ const Deviceassignctrl = () => {
                 editmodal();
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               <table className="table">
@@ -885,7 +885,7 @@ const Deviceassignctrl = () => {
                 addslider(sliderdata);
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               <table className="table table-hover">
@@ -1194,7 +1194,7 @@ const Deviceassignctrl = () => {
                 console.log(graphdataavlctrl);
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               Submit
@@ -1295,7 +1295,7 @@ const Deviceassignctrl = () => {
                 setAsignctrlEditmodalforButton(!asignctrlEditmodalforButton);
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               Submit
@@ -1443,7 +1443,7 @@ const Deviceassignctrl = () => {
                 setAsignctrlEditmodalforSlider(!asignctrlEditmodalforSlider);
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               Add
@@ -1634,7 +1634,7 @@ const Deviceassignctrl = () => {
                 );
                 setTimeout(() => {
                   fetchdata();
-                }, 1000);
+                }, 400);
               }}
             >
               Submit

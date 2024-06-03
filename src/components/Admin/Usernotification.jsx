@@ -156,7 +156,7 @@ const Usernotification = () => {
         setCompliteDeviceAdd(!completedeviceadd);
         setTimeout(() => {
           setCompliteDeviceAdd(false);
-        }, 1000);
+        }, 400);
         const res = await axios.get(
           `http://${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
         );
@@ -249,32 +249,7 @@ const Usernotification = () => {
   const opendevicetypemodel = () => {
     setDeviceType(!devicetype);
   };
-  const opendevicetypemodalRef = useRef(null);
-  useEffect(() => {
-    // Handler to call onClick outside of calendar component
-    const handleClickOutside = (event) => {
-      if (
-        opendevicetypemodalRef.current &&
-        !opendevicetypemodalRef.current.contains(event.target)
-      ) {
-        opendevicetypemodel();
-      }
-    };
-
-    // Add event listener when calendar is shown
-    if (devicetype) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    // Cleanup the event listener
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-    // eslint-disable-next-line
-  }, [opendevicetypemodel]);
-
+  
   const adddevice = () => {
     setDeviceAdd(!deviceadd);
   };
@@ -607,7 +582,7 @@ const Usernotification = () => {
                 <div className="password ">
                   <p>
                     <div className="form-group d-flex">
-                      <label for="exampleInputPassword1">Password</label>
+                      <label >Password</label>
                       <input
                         ref={Password}
                         type="password"
@@ -838,7 +813,7 @@ const Usernotification = () => {
       {devicetype ? (
         <div className="check-model ">
           <div
-          ref={opendevicetypemodalRef}
+          
             className="model accedit"
             style={{
               fontSize: "23px",

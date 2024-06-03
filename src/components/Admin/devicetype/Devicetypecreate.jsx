@@ -407,7 +407,7 @@ const Devicetypecreate = () => {
                 openModels();
                 setTimeout(() => {
                   Devicetype();
-                }, 500);
+                }, 400);
               }}
             >
               <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "30px" }}>
@@ -517,7 +517,7 @@ const Devicetypecreate = () => {
                   deviceadd();
                   setTimeout(() => {
                     Devicetype();
-                  }, 1000);
+                  }, 400);
                 }}
               >
                 <div style={{ marginLeft: "25px" }}>
@@ -637,7 +637,7 @@ const Devicetypecreate = () => {
                     openDeleteModels();
                     setTimeout(() => {
                       Devicetype();
-                    }, 500);
+                    }, 400);
                   }}
                 >
                   Yes

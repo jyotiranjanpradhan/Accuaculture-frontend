@@ -45,6 +45,7 @@ const UserAccounts = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openModels]);
 
   const openDeleteModels = () => {
@@ -70,6 +71,7 @@ const UserAccounts = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openDeleteModels]);
 
   const userAccountFetch = async () => {
@@ -134,7 +136,7 @@ const UserAccounts = () => {
       if (response) {
         setTimeout(() => {
           userAccountFetch();
-        }, 500);
+        }, 400);
       }
     } catch (error) {
       console.log(error);
@@ -348,7 +350,7 @@ const UserAccounts = () => {
               openModels();
               setTimeout(() => {
                 userAccountFetch();
-              }, 1000);
+              }, 400);
             }}
           >
             <div

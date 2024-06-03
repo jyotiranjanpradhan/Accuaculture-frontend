@@ -8,6 +8,7 @@ const Users = () => {
       
     useEffect(()=>{
       navigate('/users/userpage');
+      // eslint-disable-next-line
    },[])
     
   return (

@@ -28,6 +28,7 @@ const ExportDropdown = ({ onExport }) => {
 
 const Chartbox = ({ metric, data }) => {
   const [seriesData, setSeriesData] = useState({});
+  // eslint-disable-next-line
   const [options, setOptions] = useState({
     chart: {
       id: 'realtime',

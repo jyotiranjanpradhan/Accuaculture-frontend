@@ -74,6 +74,7 @@ const Createduser = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openModels]);
 
   const openDeleteModels = () => {
@@ -100,6 +101,7 @@ const Createduser = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // eslint-disable-next-line
   }, [openDeleteModels]);
 
   // variable for next and previous button
