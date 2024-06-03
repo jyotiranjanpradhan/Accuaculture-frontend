@@ -15,7 +15,7 @@ import CalendarComponent from "../CalendarComponent ";
 import loadingprofile from "../usersimage/loading.gif";
 import mqtt from "mqtt";
 import { NavLink } from "react-router-dom";
-
+import warning from '../usersimage/warning.gif';
 const Navbars = ({
   handleToggle,
   useraccount,
@@ -45,6 +45,7 @@ const Navbars = ({
   // DELETE OPTION FOR LABELS
   const [deleteoption, setDeleteoption] = useState(false);
   const [deleteanimation, setDeleteAnimation] = useState(false);
+  const[warnanimation,setwarnanimation]=useState(false);
   // Variable for temporary divice id  on each device click
   const [accid, setaccid] = useState();
   //TOTAL LABELS PRESENT TO A ACCOUNT
@@ -151,29 +152,6 @@ const Navbars = ({
   const showcalender = () => {
     setCalendershow(!calendershow);
   };
-
-  const calendarRef = useRef(null);
-  useEffect(() => {
-    // Handler to call onClick outside of calendar component
-    const handleClickOutside = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        showcalender();
-      }
-    };
-
-    // Add event listener when calendar is shown
-    if (calendershow) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    // Cleanup the event listener
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-    // eslint-disable-next-line
-  }, [showcalender]);
 
 
   //variable for profile picture upload
@@ -345,8 +323,13 @@ const Navbars = ({
           setDeleteAnimation(false);
         }, 2500);
       }
+     
     } catch (error) {
       console.log("Error:", error);
+      setwarnanimation(!warnanimation);
+        setTimeout(() => {
+          setwarnanimation(false);
+        }, 2500);
     }
   };
   //delete modal for delete
@@ -376,6 +359,10 @@ const Navbars = ({
       }
     } catch (error) {
       console.log("Error:", error);
+      setwarnanimation(!warnanimation);
+      setTimeout(() => {
+        setwarnanimation(false);
+      }, 2500);
     }
   };
 
@@ -439,8 +426,8 @@ const Navbars = ({
           <Dropdown>
             <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
               <i
-                className=" img1 fa-solid fa-chart-line fs-3"
-                style={{ fontSize: 30 }}
+                className=" img1 fa-solid fa-chart-line "
+                style={{ fontSize: 20 }}
               ></i>
             </Dropdown.Toggle>
             <Dropdown.Menu
@@ -639,7 +626,7 @@ const Navbars = ({
             <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
               <i
                 className="img1 bi bi-diagram-3-fill "
-                style={{ fontSize: 30 }}
+                style={{ fontSize: 20 }}
               ></i>
             </Dropdown.Toggle>
 
@@ -701,27 +688,27 @@ const Navbars = ({
 
           <i
             className="img1 bi bi-brightness-high-fill m-3"
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 20 }}
           ></i>
 
           <i
             className="img2 bi bi-calendar-week m-3"
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 20 }}
             onClick={() => {
               showcalender();
             }}
           ></i>
 
-          <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
+          <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 20 }}></i>
 
           <i
             className="img4 bi bi-question-circle m-3 "
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 20 }}
           ></i>
 
           <i
             className="img5 bi bi-box-arrow-right m-3 "
-            style={{ fontSize: 30 }}
+            style={{ fontSize: 20 }}
             onClick={islogout}
           ></i>
         </div>
@@ -734,7 +721,7 @@ const Navbars = ({
           <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
             <i
               className=" img1 fa-solid fa-chart-line fs-3"
-              style={{ fontSize: 30 }}
+              style={{ fontSize: 20 }}
             ></i>
           </Dropdown.Toggle>
           <Dropdown.Menu
@@ -932,7 +919,7 @@ const Navbars = ({
           <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
             <i
               className="img1 bi bi-diagram-3-fill "
-              style={{ fontSize: 30 }}
+              style={{ fontSize: 20 }}
             ></i>
           </Dropdown.Toggle>
 
@@ -993,27 +980,27 @@ const Navbars = ({
 
         <i
           className="img1 bi bi-brightness-high-fill m-3"
-          style={{ fontSize: 30 }}
+          style={{ fontSize: 20 }}
         ></i>
 
         <i
           className="img2 bi bi-calendar-week m-3"
-          style={{ fontSize: 30 }}
+          style={{ fontSize: 20 }}
           onClick={() => {
             showcalender();
           }}
         ></i>
 
-        <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 30 }}></i>
+        <i className="img3 bi bi-bell-fill m-3" style={{ fontSize: 20 }}></i>
 
         <i
           className="img4 bi bi-question-circle m-3 "
-          style={{ fontSize: 30 }}
+          style={{ fontSize: 20 }}
         ></i>
 
         <i
           className="img5 bi bi-box-arrow-right m-3 "
-          style={{ fontSize: 30 }}
+          style={{ fontSize: 20 }}
           onClick={islogout}
         ></i>
       </div>)
@@ -1360,12 +1347,34 @@ const Navbars = ({
             <img
               src={addgif}
               alt="successful"
-              style={{ width: "200px", transform: "scale(2)" }}
+              style={{ width: "120px", transform: "scale(2)" }}
             />
           </div>
         </div>
       ) : null}
       {/* END ADD aNIMATION */}
+
+       {/* START wrong aNIMATION */}
+       {warnanimation ? (
+        <div
+          className="check-model "
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div className="accedit">
+            <img
+              src={warning}
+              alt="successful"
+              style={{ width: "50px", transform: "scale(3)" }}
+            />
+          </div>
+        </div>
+      ) : null}
+      {/* END wrong aNIMATION */}
 
       {/* START Delete Label Modal  */}
       {labeltodelete ? (
@@ -1461,7 +1470,7 @@ const Navbars = ({
             <img
               src={deletesuccess}
               alt="successful"
-              style={{ width: "200px", transform: "scale(3)" }}
+              style={{ width: "100px", transform: "scale(3)" }}
             />
           </div>
         </div>
@@ -1472,8 +1481,8 @@ const Navbars = ({
       {calendershow ? (
         <div className="check-model " >
           <div
-            className="model"
-            ref={calendarRef}
+            className="model calendermodel"
+          
             style={{
               width: "850px",
               top: "10px",

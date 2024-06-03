@@ -64,6 +64,16 @@ i {
   background-color: #ff0000; 
 }
 
+@media(max-width:768px){
+  .side {
 
+    z-index: 0;
+  }
+}
+@media(max-width:980px){
+ .model.calendermodel{
+  width: 95% !important;              
+  }
+}
 
 
