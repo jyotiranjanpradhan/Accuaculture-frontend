@@ -59,11 +59,28 @@ const Navbars = ({
     return storedDeviceStates ? JSON.parse(storedDeviceStates) : {};
   });
  const [showDropdown,setShowDropdown] = useState(false);
+//  check pulses
+const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDataPoint")));
   //logout
   const handleLogout = () => {
     localStorage.removeItem("usermob");
   };
 
+  useEffect(() => {
+    // Function to handle changes in local storage
+    const handleStorageChange = () => {
+      // Update the userData state with the new data from local storage
+      setUserData(JSON.parse(localStorage.getItem("lastDataPoint")));
+    };
+
+    // Subscribe to changes in local storage
+    window.addEventListener("storage", handleStorageChange);
+
+    // Clean up function to unsubscribe from changes in local storage
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
   // Function to initialize device states
   const initializeDeviceStates = () => {
     // Check if deviceStates is already initialized
@@ -653,7 +670,7 @@ const Navbars = ({
                         <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
                         {devicedata[0]}
                       </p>
-                      <p style={{margin:0}}>Pulse <i className="bi bi-heart " style={{fontSize:12}}></i></p>
+                      <p style={{margin:0}}>Pulse {devicedata[1] === Number(userData.deviceId) && userData.paramType === "cpu_temp" && userData.status === true? <i className="fa-solid fa-heart" style={{fontSize:12,color:"green"}}></i>: <i className="fa-solid fa-heart" style={{fontSize:12,color:"red"}}></i>}</p>
                     </div>
 
                     <div

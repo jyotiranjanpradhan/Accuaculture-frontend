@@ -43,6 +43,15 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
     mqttClient.on("message", (topic, payload) => {
       const data = JSON.parse(payload.toString());
       // console.log(data);
+      const formattedData = {
+        dataPoint: data.dataPoint,
+        paramType: data.paramType,
+        paramValue: data.paramValue,
+        deviceId: data.deviceId,
+        status: true 
+      };
+      // Save the last data point to local storage
+      localStorage.setItem('lastDataPoint', JSON.stringify(formattedData));
       setChartData(data);
       // console.log(chartData);
     });
