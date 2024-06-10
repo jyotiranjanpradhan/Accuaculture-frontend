@@ -449,7 +449,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-warning"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                               }}
                               onClick={() => {
@@ -463,7 +463,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-danger"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                                 marginLeft: "8px",
                               }}
@@ -497,7 +497,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-warning"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                               }}
                               onClick={() => asignctrlEditmodalbutton(index)}
@@ -509,7 +509,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-danger"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                                 marginLeft: "8px",
                               }}
@@ -542,7 +542,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-warning"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                               }}
                               onClick={() => asignctrlEditmodalbutton(index)}
@@ -554,7 +554,7 @@ const Deviceassignctrl = () => {
                               className="btn btn-danger"
                               style={{
                                 borderRadius: "16px",
-                                fontSize: "20px",
+                                
                                 verticalAlign: "center",
                                 marginLeft: "8px",
                               }}
@@ -588,7 +588,7 @@ const Deviceassignctrl = () => {
             <div className="check-model ">
               <div
                 className="model accedit"
-                style={{ fontSize: "23px", width: "600px", height: "200px" }}
+                style={{ fontSize: "16px", width: "600px", height: "200px" }}
               >
                 {/* Modal Heading */}
                 <div className="heading d-flex justify-content-between  ">
@@ -596,14 +596,14 @@ const Deviceassignctrl = () => {
                     style={{
                       marginTop: "8px",
                       marginLeft: "30px",
-                      fontSize: 25,
+                      fontSize: 20,
                     }}
                   >
                     Delete Account
                   </p>
                   <i
                     className="bi bi-x-octagon cancel-button-modal "
-                    style={{ fontSize: 30 ,color:'#df010d'}}
+                    style={{ fontSize: 30 ,color:'#df010d',alignItems:'center',display:'flex'}}
                     onClick={openDeleteModels}
                   ></i>
                 </div>
@@ -683,7 +683,7 @@ const Deviceassignctrl = () => {
                       className="btn btn-success "
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                       }}
                       onClick={editmodal}
@@ -700,7 +700,7 @@ const Deviceassignctrl = () => {
                       className="btn btn-success"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                       }}
                       onClick={sliderinputaddmodal}
@@ -718,7 +718,7 @@ const Deviceassignctrl = () => {
                       className="btn btn-success"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                       }}
                       onClick={linegraphaddmodal}
@@ -741,14 +741,14 @@ const Deviceassignctrl = () => {
           <div
           ref={editmodalRef}
             className="model accedit"
-            style={{ fontSize: "20px", width: "650px",  }}
+            style={{  width: "650px",  }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>On Off Button</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>On Off Button</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={editmodal}
               ></i>
             </div>
@@ -829,7 +829,7 @@ const Deviceassignctrl = () => {
                 className="btn btn-success"
                 style={{
                   borderRadius: "16px",
-                  fontSize: "20px",
+                  
                   verticalAlign: "cenetr",
                   margin: "0 0 5% 20px",
                 }}
@@ -850,7 +850,7 @@ const Deviceassignctrl = () => {
           ref={slidermodalRef}
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               width: "650px",
             
               marginTop: "70px",
@@ -858,10 +858,10 @@ const Deviceassignctrl = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Slider Input</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Slider Input</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex' }}
                 onClick={sliderinputaddmodal}
               ></i>
             </div>
@@ -999,7 +999,7 @@ const Deviceassignctrl = () => {
                 className="btn btn-success"
                 style={{
                   borderRadius: "16px",
-                  fontSize: "20px",
+                  
                   verticalAlign: "cenetr",
                   margin: "0 0 5% 20px",
                 }}
@@ -1020,7 +1020,7 @@ const Deviceassignctrl = () => {
           ref={linermodalRef}
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               width: "650px",
 
               marginTop: "70px",
@@ -1028,10 +1028,10 @@ const Deviceassignctrl = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Line Graph</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Line Graph</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={linegraphaddmodal}
               ></i>
             </div>
@@ -1154,7 +1154,7 @@ const Deviceassignctrl = () => {
                       className="btn btn-success"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                         marginLeft: "20px",
                       }}
@@ -1172,7 +1172,7 @@ const Deviceassignctrl = () => {
               className="btn btn-success"
               style={{
                 borderRadius: "16px",
-                fontSize: "20px",
+                
                 verticalAlign: "cenetr",
                 marginLeft: "20px",
                 marginBottom:'5px'
@@ -1211,14 +1211,14 @@ const Deviceassignctrl = () => {
         <div className="check-model ">
           <div
             className="model accedit"
-            style={{ fontSize: "20px", width: "650px"}}
+            style={{  width: "650px"}}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>On Off Button</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>On Off Button</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d',alignItems:'center',display:'flex' }}
                 onClick={() =>
                   setAsignctrlEditmodalforButton(!asignctrlEditmodalforButton)
                 }
@@ -1275,7 +1275,7 @@ const Deviceassignctrl = () => {
               className="btn btn-success"
               style={{
                 borderRadius: "16px",
-                fontSize: "20px",
+                
                 verticalAlign: "center", 
                 margin: "0 0 5px 20px",
               }}
@@ -1313,7 +1313,7 @@ const Deviceassignctrl = () => {
           <div
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               width: "650px",
               height: "460px",
               marginTop: "70px",
@@ -1321,10 +1321,10 @@ const Deviceassignctrl = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Slider Input</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Slider Input</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={() =>
                   setAsignctrlEditmodalforSlider(!asignctrlEditmodalforSlider)
                 }
@@ -1420,7 +1420,7 @@ const Deviceassignctrl = () => {
               className="btn btn-success"
               style={{
                 borderRadius: "16px",
-                fontSize: "20px",
+                
                 verticalAlign: "cenetr",
                 marginLeft: "20px",
               }}
@@ -1460,7 +1460,7 @@ const Deviceassignctrl = () => {
           <div
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               width: "650px",
 
               marginTop: "70px",
@@ -1468,10 +1468,10 @@ const Deviceassignctrl = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Line Graph</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Line Graph</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={() =>
                   setAsignctrlEditmodalforLinegrapg(
                     !asignctrlEditmodalforLinegrapg
@@ -1592,7 +1592,7 @@ const Deviceassignctrl = () => {
                       className="btn btn-success"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                         marginLeft: "20px",
                       }}
@@ -1610,7 +1610,7 @@ const Deviceassignctrl = () => {
               className="btn btn-success"
               style={{
                 borderRadius: "16px",
-                fontSize: "20px",
+                
                 verticalAlign: "cenetr",
                 marginLeft: "20px",
               }}

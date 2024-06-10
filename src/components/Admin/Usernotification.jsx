@@ -23,6 +23,7 @@ const Usernotification = () => {
 
   //context
   const { isSidebarOpen } = useContext(AdminContext);
+  const { settotalRegestereduser } = useContext(AdminContext);
   const [totaluser, setTotalUser] = useState(0);
   const [regestereduser, setRegestereduser] = useState([]);
   const [usernotificationerror, setUserNotificationerror] = useState("");
@@ -176,6 +177,7 @@ const Usernotification = () => {
       );
       setTotalUser(responce.data.items.length);
       setRegestereduser(responce.data.items);
+      
       console.log(responce.data.items);
     } catch (error) {
       console.log(error);
@@ -186,7 +188,8 @@ const Usernotification = () => {
   useEffect(() => {
     userNotificationfetch();
     // eslint-disable-next-line
-  }, []);
+    settotalRegestereduser(totaluser);
+  }, [totaluser]);
 
   const openModels = () => {
     setOpenModel(!openModel);
@@ -353,7 +356,6 @@ const Usernotification = () => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                fontSize: "25px",
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
                 backgroundColor: "#E9EEF6",
@@ -367,7 +369,7 @@ const Usernotification = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              fontSize: "30px",
+              fontSize: "16px",
               padding: "10px",
               fontWeight: "bold",
               margin: "2px 2px 4px 2px",
@@ -464,7 +466,7 @@ const Usernotification = () => {
             <div>
               <p
                 style={{
-                  fontSize: "25px",
+               
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -486,7 +488,7 @@ const Usernotification = () => {
             className="btn "
             style={{
               borderRadius: "16px",
-              fontSize: "17px",
+            
               verticalAlign: "cenetr",
               marginRight: "10px",
               height: "43px",
@@ -507,7 +509,7 @@ const Usernotification = () => {
             className="btn btn-success"
             style={{
               borderRadius: "19px",
-              fontSize: "17px",
+        
               verticalAlign: "cenetr",
               height: "43px",
               marginLeft: "4px",
@@ -536,21 +538,21 @@ const Usernotification = () => {
             <div
             ref={openmodalRef}
               className="model accedit"
-              style={{ fontSize: "23px", marginTop: "10%", width: "600px" }}
+              style={{ marginTop: "10%", width: "600px" }}
             >
               <div className="heading d-flex justify-content-between ">
                 <p
                   style={{
                     marginTop: "10px",
                     marginLeft: "30px",
-                    fontSize: 25,
+                    fontSize:20
                   }}
                 >
                   New User Details
                 </p>
                 <i
                   className="bi bi-x-octagon cancel-button-modal "
-                  style={{ fontSize: 30, color: "#df010d" }}
+                  style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                   onClick={openModels}
                 ></i>
               </div>
@@ -639,17 +641,17 @@ const Usernotification = () => {
           <div
           ref={opennextmodalRef}
             className="model newaccount"
-            style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
+            style={{  marginTop: "1px", height: "auto" }}
           >
             <div className="heading d-flex justify-content-between ">
               <p
-                style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
+                style={{ marginTop: "10px", marginLeft: "30px", fontSize:20 }}
               >
                 New User Details
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d",alignItems:'center',display:'flex' }}
                 onClick={opennextmodel}
               ></i>
             </div>
@@ -816,7 +818,7 @@ const Usernotification = () => {
           
             className="model accedit"
             style={{
-              fontSize: "23px",
+           
               marginTop: "1px",
               width: "650px",
               height: "auto",
@@ -824,12 +826,12 @@ const Usernotification = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 New User Device
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={opendevicetypemodel}
               ></i>
             </div>
@@ -907,7 +909,7 @@ const Usernotification = () => {
           ref={opendeviceaddmodalRef}
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               marginTop: "1px",
               width: "650px",
               height: "auto",
@@ -915,10 +917,10 @@ const Usernotification = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
+              <p style={{ marginLeft: "30px",fontSize:20 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={adddevice}
               ></i>
             </div>
@@ -1062,7 +1064,7 @@ const Usernotification = () => {
         <div className="check-model ">
           <div
             className="model accedit"
-            style={{ fontSize: "23px", width: "600px", height: "300px" }}
+            style={{  width: "600px", height: "300px" }}
           >
             <img
               src={success}

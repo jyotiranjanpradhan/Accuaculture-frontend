@@ -1,42 +1,22 @@
-/* this styling apply for all modal -responsive of admin page  */
-
-@media(max-width:768px){  
-     .model.accedit{
-        width: 90% !important;
-        
+const userNotificationfetch = async () => {
+    try {
+      const responce = await axios.get(
+        `http://${process.env.REACT_APP_App_Ip}/register_view/${admin_id}/`
+      );
+      setTotalUser(responce.data.items.length);
+      setRegestereduser(responce.data.items);
+      console.log(responce.data.items);
+    } catch (error) {
+      console.log(error);
+      setUserNotificationerror(error);
     }
-    .accounteditmodaldv{
-        margin-left: 0 !important;
-    }
-}
-
-//onclick of outside of modal  modal will close 
-
- const adddevice = () => {
-    setDeviceAdd(!deviceadd);
   };
-  
-  const opendeviceaddmodalRef = useRef(null);
+
   useEffect(() => {
-    // Handler to call onClick outside of calendar component
-    const handleClickOutside = (event) => {
-      if (
-        opendeviceaddmodalRef.current &&
-        !opendeviceaddmodalRef.current.contains(event.target)
-      ) {
-        adddevice();
-      }
-    };
+    userNotificationfetch();
+    // eslint-disable-next-line
+  }, []);
 
-    // Add event listener when calendar is shown
-    if (deviceadd) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
 
-    // Cleanup the event listener
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [adddevice]);
+  const registereduser,setregistereduser=usestate(0);
+  

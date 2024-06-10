@@ -556,7 +556,7 @@ const Navbars = ({
                           <i
                             className="bi bi-plus fw-bold"
                             style={{
-                              fontSize: "25px",
+                              
                               cursor: "pointer",
                               display: "contents",
                             }}
@@ -584,14 +584,14 @@ const Navbars = ({
                         style={{ height: "39px" }}
                       >
                         {/* Wrap the elements in data div */}
-                        <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                        <p style={{ fontSize: "16px", fontWeight: "500" }}>
                           {metric}
                         </p>
                         {deleteoption ? (
                           <i
                             className="bi bi-trash"
                             style={{
-                              fontSize: "20px",
+                            
                               color: "red",
                               cursor: "pointer",
                             }}
@@ -849,7 +849,7 @@ const Navbars = ({
                         <i
                           className="bi bi-plus fw-bold"
                           style={{
-                            fontSize: "25px",
+                            
                             cursor: "pointer",
                             display: "contents",
                           }}
@@ -877,14 +877,14 @@ const Navbars = ({
                       style={{ height: "39px" }}
                     >
                       {/* Wrap the elements in data div */}
-                      <p style={{ fontSize: "18px", fontWeight: "500" }}>
+                      <p style={{ fontSize: "16px", fontWeight: "500" }}>
                         {metric}
                       </p>
                       {deleteoption ? (
                         <i
                           className="bi bi-trash"
                           style={{
-                            fontSize: "20px",
+                          
                             color: "red",
                             cursor: "pointer",
                           }}
@@ -899,7 +899,7 @@ const Navbars = ({
                             className="form-check-input"
                             type="checkbox"
                             role="switch"
-                            style={{ fontSize: "20px" }}
+                          
                             checked={isChecked}
                             onChange={(e) =>
                               handleToggle(metric, e.target.checked)
@@ -1382,7 +1382,7 @@ const Navbars = ({
           <div
             className="model accedit"
             style={{
-              fontSize: "23px",
+              fontSize: "16px",
               width: "600px",
              
             }}
@@ -1396,15 +1396,15 @@ const Navbars = ({
                 style={{
                   marginTop: "8px",
                   marginLeft: "30px",
-                  fontSize: 25,
+                  fontSize: 20,
                   color: "white",
                 }}
               >
-                DELETE Parameter
+                Delete Parameter
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "red" }}
+                style={{ fontSize: 30, color: "red" ,alignItems:'center',display:'flex'}}
                 onClick={() => {
                   Setlabeltodelete(false);
                 }}
@@ -1508,7 +1508,7 @@ const Navbars = ({
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "red" }}
+                style={{ fontSize: 30, color: "red" ,alignItems:'center',display:'flex'}}
                 onClick={() => {
                   showcalender();
                 }}
@@ -1530,7 +1530,7 @@ const Navbars = ({
           ref={dpRef}
             className="model accedit"
             style={{
-              fontSize: "23px",
+              fontSize: "16px",
               width: "600px",
             }}
           >
@@ -1551,7 +1551,7 @@ const Navbars = ({
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "red" }}
+                style={{ fontSize: 30, color: "red" ,alignItems:'center',display:'flex'}}
                 onClick={() => {
                   dpUpload();
                 }}

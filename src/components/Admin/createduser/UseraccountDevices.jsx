@@ -315,7 +315,7 @@ const UseraccountDevices = () => {
 
                 padding: "10px",
 
-                fontSize: "20px",
+                
                 cursor: "pointer",
               }}
               onClick={() => {
@@ -520,7 +520,7 @@ const UseraccountDevices = () => {
             ref={devaddref}
             className="model accedit"
             style={{
-              fontSize: "20px",
+              
               marginTop: "1px",
               width: "650px",
               height: "auto",
@@ -528,10 +528,10 @@ const UseraccountDevices = () => {
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Device Add</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d",alignItems:'center',display:'flex' }}
                 onClick={adddevice}
               ></i>
             </div>
@@ -680,7 +680,7 @@ const UseraccountDevices = () => {
         <div className="check-model ">
           <div
             className="model accedit"
-            style={{ fontSize: "23px", width: "600px", height: "300px" }}
+            style={{ fontSize: "16px", width: "600px", height: "300px" }}
           >
             <img
               src={success}
@@ -699,14 +699,14 @@ const UseraccountDevices = () => {
           <div
             className="model accedit"
             ref={editRef}
-            style={{ fontSize: "20px", width: "650px", height: "auto" }}
+            style={{ width: "650px", height: "auto" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginLeft: "30px", fontSize: 25 }}>Edit Device</p>
+              <p style={{ marginLeft: "30px", fontSize: 20 }}>Edit Device</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={editdevice}
               ></i>
             </div>
@@ -796,16 +796,16 @@ const UseraccountDevices = () => {
           <div
             ref={delref}
             className="model accedit"
-            style={{ fontSize: "23px", }}
+            style={{ fontSize: "16px", }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Delete Account
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={openDeleteModels}
               ></i>
             </div>
@@ -858,16 +858,16 @@ const UseraccountDevices = () => {
           <div
             ref={ctrlref}
             className="model"
-            style={{ fontSize: "23px", width: "300px", height: "250px" }}
+            style={{ fontSize: "16px", width: "300px", height: "250px" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Device Controls
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={devicecontrol}
               ></i>
             </div>

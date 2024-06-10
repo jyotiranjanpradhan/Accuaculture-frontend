@@ -143,7 +143,7 @@ const CalendarComponent = () => {
           <div
             className="model"
             style={{
-              fontSize: "23px",
+              fontSize: "16px",
               width: "600px",
               height: "200px",
             }}
@@ -157,15 +157,15 @@ const CalendarComponent = () => {
                 style={{
                   marginTop: "8px",
                   marginLeft: "30px",
-                  fontSize: 25,
+                  fontSize: 20,
                   color: "white",
                 }}
               >
-                DELETE Parameter
+                Delete Parameter
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "red" }}
+                style={{ fontSize: 30, color: "red" ,alignItems:'center',display:'flex'}}
                 onClick={() => {
                   Seteventtodelete(false);
                 }}

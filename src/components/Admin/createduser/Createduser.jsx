@@ -230,7 +230,6 @@ const Createduser = () => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                fontSize: "25px",
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
                 backgroundColor: "#E9EEF6",
@@ -244,7 +243,7 @@ const Createduser = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              fontSize: "30px",
+            
               padding: "10px",
               fontWeight: "bold",
               margin: "2px 2px 4px 2px",
@@ -369,7 +368,7 @@ const Createduser = () => {
             <div>
               <p
                 style={{
-                  fontSize: "25px",
+                  
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -391,7 +390,7 @@ const Createduser = () => {
             className="btn "
             style={{
               borderRadius: "16px",
-              fontSize: "17px",
+              fontSize: "16px",
               verticalAlign: "cenetr",
               marginRight: "10px",
               height: "43px",
@@ -412,7 +411,7 @@ const Createduser = () => {
             className="btn btn-success"
             style={{
               borderRadius: "19px",
-              fontSize: "17px",
+              fontSize: "16px",
               verticalAlign: "cenetr",
               height: "43px",
               marginLeft: "4px",
@@ -433,17 +432,17 @@ const Createduser = () => {
           <div
             ref={openmodalRef}
             className="model newaccount"
-            style={{ fontSize: "23px", marginTop: "1px", height: "auto" }}
+            style={{ fontSize: "16px", marginTop: "1px", height: "auto" }}
           >
             <div className="heading d-flex justify-content-between ">
               <p
-                style={{ marginTop: "10px", marginLeft: "30px", fontSize: 25 }}
+                style={{ marginTop: "10px", marginLeft: "30px", fontSize: 20 }}
               >
                 New Account Details
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d",alignItems:'center',display:'flex'}}
                 onClick={openModels}
               ></i>
             </div>
@@ -583,7 +582,7 @@ const Createduser = () => {
             ref={accdelRef}
             className="model"
             style={{
-              fontSize: "23px",
+              fontSize: "16px",
               width: "600px",
               height: "200px",
             }}
@@ -594,14 +593,14 @@ const Createduser = () => {
                 style={{
                   marginTop: "8px",
                   marginLeft: "30px",
-                  fontSize: 25,
+                  fontSize: '20px',
                 }}
               >
                 Delete Account
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" }}
+                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
                 onClick={openDeleteModels}
               ></i>
             </div>
@@ -652,7 +651,7 @@ const Createduser = () => {
         <div className="check-model ">
           <div
             className="model"
-            style={{ fontSize: "23px", width: "600px", height: "300px" }}
+            style={{ fontSize: "16px", width: "600px", height: "300px" }}
           >
             <img
               src={success}

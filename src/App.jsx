@@ -10,10 +10,11 @@ export const AdminContext = createContext();
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [totalregisterduser,settotalRegestereduser]=useState(0);
 
   return (
     <Router>
-      <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen }}>
+      <AdminContext.Provider value={{ isSidebarOpen, setIsSidebarOpen ,totalregisterduser,settotalRegestereduser}}>
         <LoadScript googleMapsApiKey={process.env.REACT_APP_Google_map_Api}>
           <Routes>
             <Route path="/adminside/*" element={<AdminMainPage />} />

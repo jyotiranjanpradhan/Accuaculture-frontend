@@ -162,7 +162,7 @@ const UserAccounts = () => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                fontSize: "25px",
+        
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
               }}
@@ -282,7 +282,7 @@ const UserAccounts = () => {
             <div>
               <p
                 style={{
-                  fontSize: "25px",
+               
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -356,18 +356,18 @@ const UserAccounts = () => {
             <div
             ref={openmodalRef}
               className="model accedit"
-              style={{ fontSize: "23px", width: "600px",paddingBottom:'10px' }}
+              style={{ fontSize: "16px", width: "600px",paddingBottom:'10px' }}
             >
               {/* Modal Heading */}
               <div className="heading d-flex justify-content-between  ">
                 <p
-                  style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}
+                  style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}
                 >
                   Edit Account Name
                 </p>
                 <i
                   className="bi bi-x-octagon cancel-button-modal "
-                  style={{ fontSize: 30,color:'#df010d' }}
+                  style={{ fontSize: 30,color:'#df010d',alignItems:'center',display:'flex' }}
                   onClick={openModels}
                 ></i>
               </div>
@@ -419,16 +419,16 @@ const UserAccounts = () => {
           <div
           ref={delRef}
             className="model accedit"
-            style={{ fontSize: "23px", width: "600px" ,paddingBottom:'10px' }}
+            style={{ fontSize: "16px", width: "600px" ,paddingBottom:'10px' }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Delete Account
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={openDeleteModels}
               ></i>
             </div>

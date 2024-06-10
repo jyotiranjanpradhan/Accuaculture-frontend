@@ -1,11 +1,11 @@
-import React, { useContext, useState,useRef,useEffect} from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import companylogo from "./companylogo.png";
 import "./SideBar.css";
 import { AdminContext } from "../../../App";
-
+import axios from "axios";
 const Sidebar = () => {
   //for showing logout popup on click of user logo on top navbar
   const [logouttext, setLogouttext] = useState(false);
@@ -15,7 +15,10 @@ const Sidebar = () => {
   const [sidebartoggle, setSidebarToggle] = useState(false);
 
   // from context api for expand and collapse of content according to sidebar
-  const { isSidebarOpen, setIsSidebarOpen } = useContext(AdminContext);
+  const { isSidebarOpen, setIsSidebarOpen ,totalregisterduser } = useContext(AdminContext);
+
+
+
 
   const tologout = () => {
     setLogouttext(!logouttext);
@@ -27,10 +30,7 @@ const Sidebar = () => {
   useEffect(() => {
     // Handler to call onClick outside of calendar component
     const handleClickOutside = (event) => {
-      if (
-        logoutRef.current &&
-        !logoutRef.current.contains(event.target)
-      ) {
+      if (logoutRef.current && !logoutRef.current.contains(event.target)) {
         islogout();
       }
     };
@@ -56,6 +56,8 @@ const Sidebar = () => {
     setSidebarToggle(!sidebartoggle);
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+
   return (
     <>
       {/* TopNavBar start */}
@@ -75,7 +77,8 @@ const Sidebar = () => {
         <div className="d-flex justify-content-end ">
           {logouttext && (
             <>
-              <div className="logoutpop"
+              <div
+                className="logoutpop"
                 style={{
                   marginTop: "07px",
                   marginRight: "45px",
@@ -91,7 +94,7 @@ const Sidebar = () => {
                     alignItems: "center",
                     marginTop: "10px",
                     justifyContent: "center",
-                    fontSize: 20,
+
                     fontWeight: "bold",
                     cursor: "pointer",
                   }}
@@ -102,7 +105,7 @@ const Sidebar = () => {
                     style={{
                       alignItems: "center",
                       marginRight: "5px",
-                      fontSize: 30,
+                      fontSize: 20,
                     }}
                   ></i>
                   Logout
@@ -116,15 +119,18 @@ const Sidebar = () => {
 
       {/* Top heading start  */}
 
-      <div className="baronoff"
+      <div
+        className="baronoff"
         style={{
           marginLeft: isSidebarOpen ? "280px" : "110px",
           marginTop: "7px",
-          
         }}
       >
         <div className="heading">
-          <p className=" headingText d-flex justify-content-center">
+          <p
+            className=" headingText d-flex justify-content-center"
+            style={{ fontSize: 20 }}
+          >
             Aqua Admin
           </p>
         </div>
@@ -149,7 +155,7 @@ const Sidebar = () => {
             >
               <i
                 className="bi bi-arrow-left-short"
-                style={{ fontSize: 30, top: "-7px", position: "relative" }}
+                style={{ top: "-7px", position: "relative" }}
                 onClick={sidebar}
               ></i>
             </div>
@@ -176,19 +182,31 @@ const Sidebar = () => {
               >
                 <i
                   className="bi bi-people"
-                  style={{ color: "white", fontSize: 24 }}
+                  style={{ color: "black", fontSize: 20 }}
                 ></i>{" "}
                 <p
                   style={{
                     margin: "1px 0 0 15px",
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
-                    fontSize: 20,
                   }}
                 >
                   Notification
                 </p>
               </NavLink>
+              {totalregisterduser > 0 ? (
+                  <div
+                    style={{
+                      position: "relative",
+                      top: "-21px",
+                      left:'5px',
+                      width: "10px",
+                      height: "10px",
+                      backgroundColor: "rgb(197,34,31)",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
+                ) : null}
             </div>
 
             {/* 2 */}
@@ -200,7 +218,7 @@ const Sidebar = () => {
               >
                 <i
                   className="bi bi-person-check"
-                  style={{ color: "white", fontSize: 24 }}
+                  style={{ color: "black", fontSize: 20 }}
                 >
                   {" "}
                 </i>
@@ -208,9 +226,8 @@ const Sidebar = () => {
                 <p
                   style={{
                     margin: "1px 0 0 15px",
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
-                    fontSize: 20,
                   }}
                 >
                   User
@@ -226,15 +243,14 @@ const Sidebar = () => {
               >
                 <i
                   className=" bi bi-diagram-3-fill"
-                  style={{ color: "white", fontSize: 24 }}
+                  style={{ color: "black", fontSize: 20 }}
                 ></i>
 
                 <p
                   style={{
                     margin: "1px 0 0 15px",
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
-                    fontSize: 20,
                   }}
                 >
                   Device Type
@@ -249,14 +265,13 @@ const Sidebar = () => {
               >
                 <i
                   className="bi bi-search"
-                  style={{ color: "white", fontSize: 24 }}
+                  style={{ color: "black", fontSize: 20 }}
                 ></i>{" "}
                 <p
                   style={{
                     margin: "1px 0 0 15px",
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
-                    fontSize: 20,
                   }}
                 >
                   OCR
@@ -271,14 +286,13 @@ const Sidebar = () => {
               >
                 <i
                   className="bi bi-inbox"
-                  style={{ color: "white", fontSize: 24 }}
+                  style={{ color: "black", fontSize: 20 }}
                 ></i>{" "}
                 <p
                   style={{
                     margin: "1px 0 0 15px",
-                    color: "white",
+                    color: "black",
                     textAlign: "center",
-                    fontSize: 20,
                   }}
                 >
                   Thermal
@@ -317,8 +331,24 @@ const Sidebar = () => {
 
               <div style={{ marginTop: "8px" }}>
                 <NavLink to="/adminside/usernotification" className="sidemenu">
-                  <i className="bi bi-people" style={{ color: "white" }}></i>
+                  <i
+                    className="bi bi-people"
+                    style={{ color: "black", fontSize: 20 }}
+                  ></i>
                 </NavLink>
+                {totalregisterduser > 0 ? (
+                  <div
+                    style={{
+                      position: "relative",
+                      top: "-41px",
+                      right: "-9px",
+                      width: "10px",
+                      height: "10px",
+                      backgroundColor: "rgb(197,34,31)",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
+                ) : null}
               </div>
 
               {/* 2 */}
@@ -327,7 +357,7 @@ const Sidebar = () => {
                 <NavLink to="/adminside/createduser" className="sidemenu">
                   <i
                     className="bi bi-person-check"
-                    style={{ color: "white" }}
+                    style={{ color: "black", fontSize: 20 }}
                   ></i>
                 </NavLink>
               </div>
@@ -338,7 +368,7 @@ const Sidebar = () => {
                 <NavLink to="/adminside/devicetypecreate" className="sidemenu">
                   <i
                     className=" bi bi-diagram-3-fill"
-                    style={{ color: "white" }}
+                    style={{ color: "black", fontSize: 20 }}
                   ></i>
                 </NavLink>
               </div>
@@ -347,7 +377,10 @@ const Sidebar = () => {
 
               <div style={{ marginTop: "8px" }}>
                 <NavLink to="/adminside/ocr" className="sidemenu">
-                  <i className="bi bi-search" style={{ color: "white" }}></i>
+                  <i
+                    className="bi bi-search"
+                    style={{ color: "black", fontSize: 20 }}
+                  ></i>
                 </NavLink>
               </div>
 
@@ -355,7 +388,10 @@ const Sidebar = () => {
 
               <div style={{ marginTop: "8px" }}>
                 <NavLink to="/adminside/thermal" className="sidemenu">
-                  <i className="bi bi-inbox" style={{ color: "white" }}></i>
+                  <i
+                    className="bi bi-inbox"
+                    style={{ color: "black", fontSize: 20 }}
+                  ></i>
                 </NavLink>
               </div>
             </div>
@@ -368,10 +404,10 @@ const Sidebar = () => {
       {logout ? (
         <div className="check-model ">
           <div
-          ref={logoutRef}
+            ref={logoutRef}
             className="model accedit"
             style={{
-              fontSize: "23px",
+              fontSize: "16px",
               width: "754px",
               height: "192px",
             }}
@@ -385,40 +421,47 @@ const Sidebar = () => {
                 style={{
                   marginTop: "8px",
                   marginLeft: "30px",
-                  fontSize: 25,
-                  
+                  fontSize: 20,
                 }}
               >
                 Logout
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 ,color:'#df010d'}}
+                style={{
+                  fontSize: 30,
+                  color: "#df010d",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 onClick={islogout}
               ></i>
             </div>
             {/* Modal Content */}
-            <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "30px" }}>
+            <div
+              className="accounteditmodaldv"
+              style={{ marginLeft: "20px", marginTop: "30px" }}
+            >
               <div style={{ marginLeft: "25px" }}>
                 <p> Are you sure !</p>
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-              <NavLink to="http://login.bariflorobotics.com/login">
-      <button
-        type="button"
-        className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
-        style={{
-          textAlign: "center",
-          marginRight: "15px",
-        }}
-        onClick={() => {
-          handleLogout();
-        }}
-      >
-        Yes
-      </button>
-    </NavLink>
+                <NavLink to="http://login.bariflorobotics.com/login">
+                  <button
+                    type="button"
+                    className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "center",
+                      marginRight: "15px",
+                    }}
+                    onClick={() => {
+                      handleLogout();
+                    }}
+                  >
+                    Yes
+                  </button>
+                </NavLink>
                 <button
                   type="button"
                   className="btn btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
@@ -430,7 +473,6 @@ const Sidebar = () => {
                 >
                   No
                 </button>
-               
               </div>
             </div>
           </div>

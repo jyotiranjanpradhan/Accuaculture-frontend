@@ -14,7 +14,7 @@
 /* Heading Bar start */
 .heading {
     margin-top: 30px;
-    height: 47px;
+   width:100% !important;
     margin-right: 4px;
     background-color: #e6e8e9;
     border-radius: 50px ;
@@ -24,7 +24,7 @@
   
   .headingText {
     font-weight: 500;
-    font-size: 34px;
+
     color: #060b26;
   
    
@@ -35,7 +35,7 @@
     height: 100%;
     position: fixed;
     top: 0;
-    background-color: #060b26;
+    background-color: #F6F8FC;
      justify-items: center;  
      z-index: 15;
 }
@@ -44,13 +44,13 @@
     padding-left: 20px;
 }
 .userNotification:hover{
-background-color: rgb(0, 132, 255);
+background-color: rgb(211,227,253);
 cursor: pointer;
 border-radius: 5px;
 
 }
 .active{
-    background-color: rgb(0, 132, 255);
+    background-color: rgb(211,227,253);
     border-radius: 5px;
     
 }

@@ -172,7 +172,7 @@ const Devicetypecreate = () => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                fontSize: "25px",
+            
                 padding: "10px",
                 margin: "2px 2px 4px 2px",
                 backgroundColor: "#E9EEF6",
@@ -186,7 +186,7 @@ const Devicetypecreate = () => {
             style={{
               display: "flex",
               justifyContent: "center",
-              fontSize: "25px",
+      
               padding: "10px",
               margin: "2px 2px 4px 2px",
             }}
@@ -203,7 +203,7 @@ const Devicetypecreate = () => {
           className="btn btn-primary"
           style={{
             borderRadius: "16px",
-            fontSize: "20px",
+            
             verticalAlign: "cenetr",
             marginTop: "20px",
           }}
@@ -274,7 +274,7 @@ const Devicetypecreate = () => {
                       className="btn btn-warning"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                       }}
                       onClick={() => {
@@ -298,7 +298,7 @@ const Devicetypecreate = () => {
                         className="btn btn-primary"
                         style={{
                           borderRadius: "16px",
-                          fontSize: "20px",
+                          
                           verticalAlign: "cenetr",
                           marginLeft: "8px",
                         }}
@@ -311,7 +311,7 @@ const Devicetypecreate = () => {
                       className="btn btn-danger"
                       style={{
                         borderRadius: "16px",
-                        fontSize: "20px",
+                        
                         verticalAlign: "cenetr",
                         marginLeft: "8px",
                       }}
@@ -378,16 +378,16 @@ const Devicetypecreate = () => {
           <div
             className="model accedit"
             ref={openmodalRef}
-            style={{ fontSize: "23px", height: "370px" }}
+            style={{ fontSize: "16px", height: "370px" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Device Type
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30,color:'#df010d' }}
+                style={{ fontSize: 30,color:'#df010d' ,alignItems:'center',display:'flex'}}
                 onClick={openModels}
               ></i>
             </div>
@@ -449,13 +449,13 @@ const Devicetypecreate = () => {
                     type="checkbox"
                     value=""
                     id="defaultCheck1"
-                    style={{ fontSize: "20px", marginTop: "20px" }}
+                    style={{  marginTop: "20px" }}
                   />
                   <label
                     className="form-check-label"
                     htmlFor="defaultCheck1"
                     style={{
-                      fontSize: "20px",
+                      
                       marginLeft: "10px",
                       marginTop: "14px",
                     }}
@@ -490,16 +490,16 @@ const Devicetypecreate = () => {
           <div
           ref={divcreateref}
             className="model accedit"
-            style={{ fontSize: "23px",}}
+            style={{ fontSize: "16px",}}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Device Type
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 ,color:'#df010d'}}
+                style={{ fontSize: 30 ,color:'#df010d',alignItems:'center',display:'flex'}}
                 onClick={deviceadd}
               ></i>
             </div>
@@ -558,13 +558,13 @@ const Devicetypecreate = () => {
                     type="checkbox"
                     value=""
                     id="defaultCheck1"
-                    style={{ fontSize: "20px", marginTop: "20px" }}
+                    style={{  marginTop: "20px" }}
                   />
                   <label
                     className="form-check-label"
                     htmlFor="defaultCheck1"
                     style={{
-                      fontSize: "20px",
+                      
                       marginLeft: "10px",
                       marginTop: "14px",
                     }}
@@ -601,16 +601,16 @@ const Devicetypecreate = () => {
           <div
           ref={delref}
             className="model"
-            style={{ fontSize: "23px", width: "600px", height: "200px" }}
+            style={{ fontSize: "16px", width: "600px", height: "200px" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
-              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 25 }}>
+              <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
                 Delete Account
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30 ,color:'#df010d'}}
+                style={{ fontSize: 30 ,color:'#df010d',alignItems:'center',display:'flex'}}
                 onClick={openDeleteModels}
               ></i>
             </div>

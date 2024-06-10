@@ -56,7 +56,7 @@ const Ocr = () => {
           className="btn "
           style={{
             borderRadius: "16px",
-            fontSize: "17px",
+            fontSize: "16px",
             verticalAlign: "cenetr",
             marginRight: "10px",
             height: "43px",
@@ -72,7 +72,7 @@ const Ocr = () => {
           className="btn btn-success"
           style={{
             borderRadius: "19px",
-            fontSize: "17px",
+            fontSize: "16px",
             verticalAlign: "cenetr",
             height: "43px",
             marginLeft: "4px",
