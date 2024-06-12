@@ -670,7 +670,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
                         <span style={{ fontWeight: 500 }}>Dev_Name:</span>{" "}
                         {devicedata[0]}
                       </p>
-                      <p style={{margin:0}}>Pulse {devicedata[1] === Number(userData.deviceId) && userData.paramType === "cpu_temp" && userData.status === true? <i className="fa-solid fa-heart" style={{fontSize:12,color:"green"}}></i>: <i className="fa-solid fa-heart" style={{fontSize:12,color:"red"}}></i>}</p>
+                      <p style={{margin:0}}>Pulse {devicedata[1] === Number(userData?.deviceId) && userData.paramType === "cpu_temp" && userData.status === true? <i className="fa-solid fa-heart" style={{fontSize:12,color:"green"}}></i>: <i className="fa-solid fa-heart" style={{fontSize:12,color:"red"}}></i>}</p>
                     </div>
 
                     <div
@@ -737,8 +737,8 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
         <Dropdown>
           <Dropdown.Toggle variant="transparent" style={{ border: "none" }}>
             <i
-              className=" img1 fa-solid fa-chart-line fs-3"
-              style={{ fontSize: 20 }}
+              className=" img1 fa-solid fa-chart-line "
+              style={{ fontSize: 20}}
             ></i>
           </Dropdown.Toggle>
           <Dropdown.Menu
@@ -1093,7 +1093,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
             className="sideimg"
             src={group}
             alt="group"
-            style={{ padding: "7px", borderRadius: "4px" }}
+            style={{ padding: "7px", borderRadius: "4px" ,height:'38px'}}
           />
 
           <i
@@ -1103,7 +1103,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
             }}
             style={{
               color: "white",
-              fontSize: 30,
+              fontSize: 20,
               padding: "5px",
               borderRadius: "4px",
               height: "45px",
@@ -1118,17 +1118,17 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
                     <Dropdown drop="end" key={data[1]}>
                       <Dropdown.Toggle
                         variant="transparent"
-                        style={{ border: "none", height: "40px" }}
+                        style={{ border: "none", height: "50px" }}
                       >
                         <i
                           className="sideimg bi bi-person-gear"
                           style={{
                             color: "white",
-                            fontSize: 30,
+                            fontSize: 20,
                             padding: "5px",
                             borderRadius: "4px",
                             display: "flex",
-                            height: "auto",
+                            height: "45px",
                           }}
                         ></i>
                       </Dropdown.Toggle>
@@ -1186,7 +1186,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
             className=" sideimg bi bi-wallet "
             style={{
               color: "white",
-              fontSize: 30,
+              fontSize: 20,
               padding: "5px",
               borderRadius: "4px",
               height: "45px",
@@ -1196,7 +1196,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
             className=" sideimg bi bi-cart4 "
             style={{
               color: "white",
-              fontSize: 30,
+              fontSize: 20,
               padding: "5px",
               borderRadius: "4px",
               height: "45px",
@@ -1206,7 +1206,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
             className="sideimg"
             src={clipboard}
             alt="clipboard"
-            style={{ padding: "7px", borderRadius: "4px", height: "45px" }}
+            style={{ padding: "7px", borderRadius: "4px", height: "37px" }}
             onClick={() => {
               setAnalyticVisible(!analyticvisible);
             }}
