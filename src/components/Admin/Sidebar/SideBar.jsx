@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import companylogo from "./companylogo.png";
 import "./SideBar.css";
 import { AdminContext } from "../../../App";
-import axios from "axios";
+
 const Sidebar = () => {
   //for showing logout popup on click of user logo on top navbar
   const [logouttext, setLogouttext] = useState(false);

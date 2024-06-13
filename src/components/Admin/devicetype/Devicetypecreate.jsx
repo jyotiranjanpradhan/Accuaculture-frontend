@@ -383,7 +383,7 @@ const Devicetypecreate = () => {
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
               <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
-                Device Type
+                 Edit Device Type
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
@@ -495,7 +495,7 @@ const Devicetypecreate = () => {
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
               <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
-                Device Type
+                Create Device Type
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
@@ -606,7 +606,7 @@ const Devicetypecreate = () => {
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
               <p style={{ marginTop: "8px", marginLeft: "30px", fontSize: 20 }}>
-                Delete Account
+                Delete Device Type
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "

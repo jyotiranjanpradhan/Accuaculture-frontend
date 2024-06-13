@@ -189,6 +189,7 @@ const Usernotification = () => {
     userNotificationfetch();
     // eslint-disable-next-line
     settotalRegestereduser(totaluser);
+    // eslint-disable-next-line                                 
   }, [totaluser]);
 
   const openModels = () => {

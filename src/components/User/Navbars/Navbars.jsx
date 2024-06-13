@@ -1294,14 +1294,14 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           zIndex: 1050,
       }}>
-          <div className="model logout-modal bg-white p-4 rounded" ref={logoutRef} style={{
+          <div className="model accedit" ref={logoutRef} style={{
               width: '400px',
               boxShadow: '0 5px 15px rgba(0, 0, 0, 0.5)',
           }}>
               {/* Modal Heading */}
               <div
-                  className="heading d-flex justify-content-between align-items-center"
-                  style={{ backgroundColor: "#00216e", padding: '10px 20px', borderTopLeftRadius: '5px', borderTopRightRadius: '5px',margin:'-24px',width: '114%',}}
+                  className="heading d-flex justify-content-between "
+                  style={{ backgroundColor: "#00216e",marginTop:'0px'}}
               >
                   <p
                       style={{
@@ -1319,10 +1319,10 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
                   ></i>
               </div>
               {/* Modal Content */}
-              <div style={{ marginTop:'50px' }}>
+              <div style={{ marginTop:'20px' }}>
                   <p>Are you sure you want to logout?</p>
 
-                  <div className="d-flex justify-content-end mt-3">
+                  <div className="d-flex justify-content-end mt-3 p-2">
                       <NavLink to="http://login.bariflorobotics.com/login">
                           <button
                               type="button"

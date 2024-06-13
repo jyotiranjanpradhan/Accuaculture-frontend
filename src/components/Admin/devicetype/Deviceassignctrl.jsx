@@ -610,7 +610,7 @@ const Deviceassignctrl = () => {
                 {/* Modal Content */}
                 <div className="accounteditmodaldv" style={{ marginLeft: "20px", marginTop: "5%" }}>
                   <div style={{ marginLeft: "25px" }}>
-                    <p>Are you sure to Delete this deivce-type Permanently ?</p>
+                    <p>Are you sure to Delete control Permanently ?</p>
                   </div>
 
                   <div className="d-flex justify-content-end">
