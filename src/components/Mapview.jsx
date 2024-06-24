@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,localupdate}) => {
+const GoogleMapComponent = ({
+  devicesNamesList,
+  latitude,
+  longitude,
+  address,
+  localupdate,
+}) => {
   const [map, setMap] = useState(null);
 
   useEffect(() => {
@@ -8,21 +14,21 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,loca
       const mapInstance = new window.google.maps.Map(
         document.getElementById("map"),
         {
-          center: { lat:parseFloat(latitude) , lng:parseFloat(longitude)},
+          center: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
           zoom: 17,
           mapTypeId: "satellite",
         }
       );
       // Add pin marker at the center
-   
+
       new window.google.maps.Marker({
-        position: { lat:parseFloat(latitude), lng: parseFloat(longitude) },
+        position: { lat: parseFloat(latitude), lng: parseFloat(longitude) },
         map: mapInstance,
         title: address,
       });
 
       // Add info window for center marker
-     new window.google.maps.InfoWindow({
+      new window.google.maps.InfoWindow({
         content: `<div>
                     <p>Location: ${address}</p>
                   </div>`,
@@ -37,22 +43,22 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,loca
     } else {
       initMap();
     }
-  }, [latitude,longitude,address]);
+  }, [latitude, longitude, address]);
 
   useEffect(() => {
     if (map) {
       const deviceStates = JSON.parse(localStorage.getItem("deviceStates"));
-      
+
       devicesNamesList.forEach((item) => {
         const deviceId = item[1]; // Assuming item[1] contains the device ID
         const deviceData = deviceStates[deviceId];
 
-        let markerColor = "red"; 
-  
+        let markerColor = "red";
+
         if (deviceData && deviceData.checked) {
-          markerColor = "green"; 
+          markerColor = "green";
         }
-  
+
         const markerPosition = new window.google.maps.LatLng(
           item[2][0],
           item[2][1]
@@ -62,13 +68,13 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,loca
           icon: {
             path: window.google.maps.SymbolPath.CIRCLE,
             fillColor: markerColor, // Set marker color
-            fillOpacity: 1,
+            fillOpacity: 1, 
             strokeWeight: 0,
             scale: 8, // Adjust the size as needed
           },
           map,
         });
-  
+
         // Add info window with custom content
         const infoWindow = new window.google.maps.InfoWindow({
           content: `<div>
@@ -77,30 +83,26 @@ const GoogleMapComponent = ({ devicesNamesList, latitude,longitude ,address,loca
                     <p>Longitude: ${item[2][0]}</p>
                  </div>`,
         });
-  
+
         // Show infoWindow on marker click
         mapMarker.addListener("click", () => {
           infoWindow.open(map, mapMarker);
         });
-  
+
         // Show infoWindow on marker hover
         mapMarker.addListener("mouseover", () => {
           infoWindow.open(map, mapMarker);
         });
-  
+
         // Close infoWindow on mouseout
         mapMarker.addListener("mouseout", () => {
           infoWindow.close();
         });
       });
     }
-  }, [map, devicesNamesList,localupdate]);
-  
+  }, [map, devicesNamesList, localupdate]);
 
   return <div id="map" style={{ width: "100%", height: "400px" }} />;
 };
 
 export default GoogleMapComponent;
-
-
-
