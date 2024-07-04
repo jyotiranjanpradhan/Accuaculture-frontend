@@ -19,7 +19,7 @@ const Devicetypecreate = () => {
   async function newdeviceadd(dataofnewdevice) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/devicetype_create/`,
+        `${process.env.REACT_APP_App_Ip}/devicetype_create/`,
         dataofnewdevice
       );
       console.log(response);
@@ -37,7 +37,7 @@ const Devicetypecreate = () => {
   async function editdevice(deviceinfo) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/devicetype_edit/`,
+        `${process.env.REACT_APP_App_Ip}/devicetype_edit/`,
         deviceinfo
       );
       console.log(response);
@@ -53,7 +53,7 @@ const Devicetypecreate = () => {
   async function deletedevicetype(devicedata) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/devicetype_delete/`,
+        `${process.env.REACT_APP_App_Ip}/devicetype_delete/`,
         devicedata
       );
       console.log(response);
@@ -148,7 +148,7 @@ const Devicetypecreate = () => {
   
   const Devicetype = async () => {
     try {
-      const response = await axios.get(`http://${process.env.REACT_APP_App_Ip}/devicetype_view/`);
+      const response = await axios.get(`${process.env.REACT_APP_App_Ip}/devicetype_view/`);
       setTotaldevicetype(response.data.results.length);
       setAlldevice(response.data.results);
     } catch (error) {

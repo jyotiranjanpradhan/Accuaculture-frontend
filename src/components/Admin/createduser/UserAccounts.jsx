@@ -77,7 +77,7 @@ const UserAccounts = () => {
   const userAccountFetch = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/account_view/${mob}/`
+        `${process.env.REACT_APP_App_Ip}/account_view/${mob}/`
       );
       setUseraccount(response.data.items);
     } catch (error) {
@@ -113,7 +113,7 @@ const UserAccounts = () => {
     };
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/account_edit/`,
+        `${process.env.REACT_APP_App_Ip}/account_edit/`,
         accountbody
       );
       console.log(response);
@@ -129,7 +129,7 @@ const UserAccounts = () => {
     };
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/account_delete/`,
+        `${process.env.REACT_APP_App_Ip}/account_delete/`,
         accountdata
       );
       console.log(response);

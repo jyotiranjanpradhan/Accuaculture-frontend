@@ -90,7 +90,7 @@ const UseraccountDevices = () => {
   }, [openDeleteModels]);
 
   async function userDeviceDelete() {
-    await axios.post(`http://${process.env.REACT_APP_App_Ip}/device_delete/`, {
+    await axios.post(`${process.env.REACT_APP_App_Ip}/device_delete/`, {
       deviceid: deviceid,
     });
   }
@@ -130,7 +130,7 @@ const UseraccountDevices = () => {
 
     try {
       await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/device_edit/`,
+        `${process.env.REACT_APP_App_Ip}/device_edit/`,
         newDeviceData
       );
     } catch (error) {
@@ -168,7 +168,7 @@ const UseraccountDevices = () => {
   async function usersDeviceFetch() {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/device_view/${accountid}/`
+        `${process.env.REACT_APP_App_Ip}/device_view/${accountid}/`
       );
       setUserDeviceList(response.data.result);
       console.log(response.data.result);
@@ -189,7 +189,7 @@ const UseraccountDevices = () => {
   async function seedevicetype() {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/devicetype_view/`
+        `${process.env.REACT_APP_App_Ip}/devicetype_view/`
       );
       setDevicetypes(response.data.results);
     } catch (error) {
@@ -212,7 +212,7 @@ const UseraccountDevices = () => {
     };
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/device_create/`,
+        `${process.env.REACT_APP_App_Ip}/device_create/`,
         devicedata
       );
       console.log(res);

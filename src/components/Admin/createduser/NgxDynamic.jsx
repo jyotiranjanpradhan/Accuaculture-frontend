@@ -16,7 +16,7 @@ const NgxDynamic = () => {
     const adminSideDeviceType = localStorage.getItem("adminSideDeviceType");
     if (adminSideDeviceType) {
       const [deviceType, version] = adminSideDeviceType.split(",");
-      const apiUrl = `http://${process.env.REACT_APP_App_Ip}/controls_view/${deviceType}/${version}/`;
+      const apiUrl = `${process.env.REACT_APP_App_Ip}/controls_view/${deviceType}/${version}/`;
       const fetchData = async () => {
         try {
           const response = await axios.get(apiUrl);

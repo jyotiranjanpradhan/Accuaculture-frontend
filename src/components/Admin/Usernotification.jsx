@@ -149,7 +149,7 @@ const Usernotification = () => {
     try {
       console.log(data);
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/user_create/`,
+        `${process.env.REACT_APP_App_Ip}/user_create/`,
         data
       );
       console.log(response);
@@ -159,7 +159,7 @@ const Usernotification = () => {
           setCompliteDeviceAdd(false);
         }, 400);
         const res = await axios.get(
-          `http://${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
+          `${process.env.REACT_APP_App_Ip}/email_send/${data.mobno}/`
         );
         console.log(res);
         userNotificationfetch();
@@ -173,7 +173,7 @@ const Usernotification = () => {
   const userNotificationfetch = async () => {
     try {
       const responce = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/register_view/${admin_id}/`
+        `${process.env.REACT_APP_App_Ip}/register_view/${admin_id}/`
       );
       setTotalUser(responce.data.items.length);
       setRegestereduser(responce.data.items);
@@ -291,7 +291,7 @@ const Usernotification = () => {
   async function seedevicetype() {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/devicetype_view/`
+        `${process.env.REACT_APP_App_Ip}/devicetype_view/`
       );
       setDevicetypes(response.data.results);
     } catch (error) {

@@ -154,7 +154,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
   const userdatas = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`
+        `${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`
       );
       console.log(response);
       setUserdetails(response.data.message);
@@ -231,7 +231,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
 
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/user_pic_docs/`,
+        `${process.env.REACT_APP_App_Ip}/user_pic_docs/`,
         formData,
         {
           headers: {
@@ -258,12 +258,12 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
     try {
       //add api here by  mobileno
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/imageview/${mobileno}/`
+        `${process.env.REACT_APP_App_Ip}/imageview/${mobileno}/`
       );
       console.log(response);
       if (response.data.image)
         setProfileImage(
-          `http://${process.env.REACT_APP_App_Ip}${response.data.image}/`
+          `${process.env.REACT_APP_App_Ip}${response.data.image}/`
         );
     } catch (error) {
       console.error("Error fetching profile image:", error);
@@ -275,7 +275,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
     try {
       if (accid) {
         const response = await axios.get(
-          `http://${process.env.REACT_APP_App_Ip}/userside_devicetype/${accid}/`
+          `${process.env.REACT_APP_App_Ip}/userside_devicetype/${accid}/`
         );
 
         setDevicetypes(response.data.message);
@@ -330,7 +330,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
 
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/param_delete/`,
+        `${process.env.REACT_APP_App_Ip}/param_delete/`,
         deletedata
       );
       console.log(response);
@@ -364,7 +364,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
 
     try {
       const response = await axios.patch(
-        `http://${process.env.REACT_APP_App_Ip}/param_update/`,
+        `${process.env.REACT_APP_App_Ip}/param_update/`,
         newData
       );
       console.log("Response:", response);
@@ -387,7 +387,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
   async function devicefetch(Accid) {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/userside_device_view/${Accid}/`
+        `${process.env.REACT_APP_App_Ip}/userside_device_view/${Accid}/`
       );
 
       setdevice(response.data);
@@ -407,7 +407,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
   async function devicelabelFetch(Accid) {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/userside_graph_view/${Accid}/`
+        `${process.env.REACT_APP_App_Ip}/userside_graph_view/${Accid}/`
       );
       for (const key in response.data) {
         response.data[key].forEach((value) => uniqueValues.add(value));
@@ -653,13 +653,16 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 width: "max-width",
                 marginTop: "10px",
+                maxHeight:'450px',
+                overflowY:'auto'
               }}
             >
               {devicedetails.map((devicedata) => (
                 <>
                   <div
                     className="d-flex justify-content-between p-2 "
-                    style={{ gap: "60px" }}
+                    style={{ gap: "60px" ,maxHeight: '450px',
+                      overflowY: 'auto' }}
                   >
                     <div style={{ width: "max-content" }}>
                       <p className="mb-0">
@@ -946,13 +949,17 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
               boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
               width: "max-width",
               marginTop: "10px",
+              marginRight:'-25px',
+               maxHeight:'450px',
+                overflowY:'auto'
+
             }}
           >
             {devicedetails.map((devicedata) => (
               <>
                 <div
                   className="d-flex justify-content-between p-2 "
-                  style={{ gap: "60px" }}
+                  style={{ gap: "40px" }}
                 >
                   <div style={{ width: "max-content" }}>
                     <p className="mb-0">

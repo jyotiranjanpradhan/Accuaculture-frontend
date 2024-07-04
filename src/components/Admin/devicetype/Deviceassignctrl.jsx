@@ -81,7 +81,7 @@ const Deviceassignctrl = () => {
   async function buttonEdit(editvalue) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/on_off_control_edit/`,
+        `${process.env.REACT_APP_App_Ip}/on_off_control_edit/`,
         editvalue
       );
       console.log(response);
@@ -110,7 +110,7 @@ const Deviceassignctrl = () => {
     try {
       console.log(editvalue);
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/slider_control_edit/`,
+        `${process.env.REACT_APP_App_Ip}/slider_control_edit/`,
         editvalue
       );
       console.log(response);
@@ -134,7 +134,7 @@ const Deviceassignctrl = () => {
   async function graphedit(editvalue) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/graph_control_edit/`,
+        `${process.env.REACT_APP_App_Ip}/graph_control_edit/`,
         editvalue
       );
       console.log(response);
@@ -177,7 +177,7 @@ const Deviceassignctrl = () => {
   async function deletectrl(todelete) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/control_delete/`,
+        `${process.env.REACT_APP_App_Ip}/control_delete/`,
         todelete
       );
      console.log(response);
@@ -237,7 +237,7 @@ const Deviceassignctrl = () => {
   async function addbutton(datatoadd) {
     try {
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/on_off_control/`,
+        `${process.env.REACT_APP_App_Ip}/on_off_control/`,
         datatoadd
       );
       console.log(response);
@@ -260,7 +260,7 @@ const Deviceassignctrl = () => {
   async function addslider(datatoadd) {
     try {
       const response = axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/slider_control/`,
+        `${process.env.REACT_APP_App_Ip}/slider_control/`,
         datatoadd
       );
       console.log(response);
@@ -281,7 +281,7 @@ const Deviceassignctrl = () => {
   async function addgraph(datatoadd) {
     try {
       const response = axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/graph_control/`,
+        `${process.env.REACT_APP_App_Ip}/graph_control/`,
         datatoadd
       );
       console.log(response);
@@ -387,7 +387,7 @@ const Deviceassignctrl = () => {
   //Main Api for this page START
   async function fetchdata() {
     const response = await axios.get(
-      `http://${process.env.REACT_APP_App_Ip}/controls_view/${devicename}/${version}/`
+      `${process.env.REACT_APP_App_Ip}/controls_view/${devicename}/${version}/`
     );
     setAssignedctrldata(response.data);
     console.log(response.data);

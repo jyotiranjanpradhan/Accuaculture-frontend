@@ -126,7 +126,7 @@ const Createduser = () => {
   const createduserfetch = async () => {
     try {
       const response = await axios.get(
-        `http://${process.env.REACT_APP_App_Ip}/user_view/${admin_id}/`
+        `${process.env.REACT_APP_App_Ip}/user_view/${admin_id}/`
       );
       setTotaluserrequested(response.data.items.length);
       setRequesteduser(response.data.items);
@@ -139,7 +139,7 @@ const Createduser = () => {
     try {
       console.log(mob);
       const response = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/user_delete/`,
+        `${process.env.REACT_APP_App_Ip}/user_delete/`,
         {
           mobileno: mob,
         }
@@ -203,7 +203,7 @@ const Createduser = () => {
 
     try {
       const res = await axios.post(
-        `http://${process.env.REACT_APP_App_Ip}/account_create/`,
+        `${process.env.REACT_APP_App_Ip}/account_create/`,
         userdata
       );
       if (res) {
