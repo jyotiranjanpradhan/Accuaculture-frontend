@@ -28,7 +28,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start --host 192.168.0.193",
+    "start": "react-scripts start ",
     "build": "react-scripts build",
     "lint": "eslint ."
   },
