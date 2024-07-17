@@ -447,7 +447,7 @@ const Sidebar = () => {
               </div>
 
               <div className="d-flex justify-content-end mt-3">
-                <NavLink to="http://login.bariflorobotics.com/login">
+                <NavLink to="https://login.bc-pl.com/login">
                   <button
                     type="button"
                     className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"

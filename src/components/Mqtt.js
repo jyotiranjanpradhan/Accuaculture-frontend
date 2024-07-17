@@ -12,7 +12,7 @@ const Mqtt = () => {
     const mqttClient = mqtt.connect({
       hostname: '4.240.114.7',
       port: 9001,
-      protocol: 'ws',
+      protocol: 'wss',
       // path: '/mqtt',
       username: 'BarifloLabs',
       password: 'Bfl@123'

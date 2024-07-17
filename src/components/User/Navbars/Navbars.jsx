@@ -109,7 +109,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
   useEffect(() => {
     initializeDeviceStates();
     //eslint-disable-next-line
-  }, []);
+  }, []); 
   // eslint-disable-next-line
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
@@ -1330,7 +1330,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
                   <p>Are you sure you want to logout?</p>
 
                   <div className="d-flex justify-content-end mt-3 p-2">
-                      <NavLink to="http://login.bariflorobotics.com/login">
+                      <NavLink to="https://login.bc-pl.com/login">
                           <button
                               type="button"
                               className="btn btn-danger px-3 py-2 text-center fs-sm fw-bold rounded-pill"
