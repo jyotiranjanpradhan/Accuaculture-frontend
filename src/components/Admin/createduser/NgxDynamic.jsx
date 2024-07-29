@@ -44,11 +44,13 @@ const NgxDynamic = () => {
 
   useEffect(() => {
     const mqttClient = mqtt.connect({
-      hostname: "4.240.114.7",
-      port: 9001,
-      protocol: "ws",
-      username: "BarifloLabs",
-      password: "Bfl@123",
+      hostname: "mqtt.bc-pl.com",
+      port: 443,
+      protocol: "wss",
+      path: '/mqtt',
+      username: "Bariflolabs",
+      password: "Bariflo@2024",
+      
     });
 
    
@@ -59,7 +61,8 @@ const NgxDynamic = () => {
     });
 
     mqttClient.on("message", (topic, payload) => {
-      const data = JSON.parse(payload.toString());
+      const sanitizedPayload = payload.toString().replace(/[\u0000-\u001F\u007F]/g, ''); // Remove control characters
+      const data = JSON.parse(sanitizedPayload);
       console.log(data);
       updateChartData(data);
     });

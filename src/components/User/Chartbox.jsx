@@ -91,24 +91,33 @@ const Chartbox = ({ metric, data }) => {
   });
 
   useEffect(() => {
-    console.log(data);
-    if (data.paramType === metric) {
-      setSeriesData(prevSeriesData => {
-        const newData = {
-          x: data.dataPoint.split(' ')[1], // Extract time portion
-          y: parseFloat(data.paramValue).toFixed(2), // Format paramValue to two decimal places
-        };
-
-        const deviceId = data.deviceId;
-        const existingSeries = prevSeriesData[deviceId] || [];
-
-        // Maintain only the last 20 data points for each deviceId
-        const newSeries = [...existingSeries.slice(-19), newData];
-
-        return { ...prevSeriesData, [deviceId]: newSeries };
-      });
+    try {
+      //console.log('Raw data:', data); // Log raw data
+  
+      if (data.paramType === metric) {
+        setSeriesData(prevSeriesData => {
+          // Check if data.paramValue is a number and set it to NaN if it's not
+          const paramValue = parseFloat(data.paramValue);
+          const newData = {
+            x: data.dataPoint.split(' ')[1], // Extract time portion
+            y: isNaN(paramValue) ? NaN: paramValue.toFixed(2), // Check if paramValue is a number, otherwise set to NaN
+          };
+  
+          const deviceId = data.deviceId;
+          const existingSeries = prevSeriesData[deviceId] || [];
+  
+          // Maintain only the last 20 data points for each deviceId
+          const newSeries = [...existingSeries.slice(-19), newData];
+  
+          return { ...prevSeriesData, [deviceId]: newSeries };
+        });
+      }
+    } catch (error) {
+      console.error('Error processing data:', error);
     }
   }, [data, metric]);
+  
+  
 
   const chartSeries = Object.keys(seriesData).map(deviceId => ({
     name: `Device ${deviceId}`,

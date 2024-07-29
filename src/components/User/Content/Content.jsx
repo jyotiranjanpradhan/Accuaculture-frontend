@@ -10,29 +10,41 @@ import Chartbox from "../Chartbox";
 import mqtt from "mqtt";
 import GoogleMapComponent from "../../Mapview";
 
-const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) => {
+const Content = ({
+  toggleStates,
+  oneaccountdata,
+  devicesofaUser,
+  localupdate,
+}) => {
   const mobileno = localStorage.getItem("usermob");
   const [wdata, setWdata] = useState(null);
   const [chartData, setChartData] = useState([]);
-  const userMetricsData = localStorage.getItem('userMetrics');
+  const userMetricsData = localStorage.getItem("userMetrics");
   const userMetrics = JSON.parse(userMetricsData);
   const deviceMetrics = userMetrics && userMetrics[mobileno];
   useEffect(() => {
     const mqttClient = mqtt.connect({
-      hostname: "4.240.114.7",
-      port: 9001,
-      protocol: "ws",
-      username: "BarifloLabs",
-      password: "Bfl@123",
+      hostname: "mqtt.bc-pl.com",
+      port: 443,
+      protocol: "wss",
+      path: "/mqtt",
+      username: "Bariflolabs",
+      password: "Bariflo@2024",
+      // hostname: "https-test.bc-pl.com",
+      // port: 9443,
+      // protocol: "wss",
+      // path: "/mqtt",
+      // username: "himadri",
+      // password: "12345",
     });
 
     // setClient(mqttClient);
-
+    //console.log(mqttClient);
     mqttClient.on("connect", () => {
       console.log("Connected to MQTT broker");
       // mqttClient.subscribe(`${542484815423712}/data`);
       // mqttClient.subscribe(`${578689832956829}/data`);
-      // mqttClient.subscribe(`${372582595849208}/data`);
+      //mqttClient.subscribe(`${372582595849208}/data`);
       devicesofaUser.forEach((device) => {
         const deviceId = device[1];
         console.log(deviceId);
@@ -41,22 +53,30 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
     });
 
     mqttClient.on("message", (topic, payload) => {
-      const data = JSON.parse(payload.toString());
-      // console.log(data);
-      const formattedData = {
-        dataPoint: data.dataPoint,
-        paramType: data.paramType,
-        paramValue: data.paramValue,
-        deviceId: data.deviceId,
-        status: true 
-      };
-      // Save the last data point to local storage
-      localStorage.setItem('lastDataPoint', JSON.stringify(formattedData));
-      setChartData(data);
-      // console.log(chartData);
-    });
+      try {
+        // console.log(payload.toString());
+        // Sanitize and parse payload
+        const sanitizedPayload = payload
+          .toString()
+          .replace(/[\u0000-\u001F\u007F]/g, ""); // Remove control characters
+        const data = JSON.parse(sanitizedPayload);
+        console.log(data);
+        const formattedData = {
+          dataPoint: data.dataPoint,
+          paramType: data.paramType,
+          paramValue: data.paramValue,
+          deviceId: data.deviceId,
+          status: true,
+        };
 
-    
+        // Save the last data point to local storage
+        localStorage.setItem("lastDataPoint", JSON.stringify(formattedData));
+        setChartData(formattedData);
+      } catch (error) {
+        console.error("Error processing message:", error);
+        console.error("Sanitized payload causing error:", payload.toString());
+      }
+    });
 
     return () => {
       if (mqttClient) {
@@ -65,7 +85,6 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
       }
     };
   }, [devicesofaUser]);
-
 
   let centerr = {
     lat: oneaccountdata.latitude,
@@ -89,21 +108,24 @@ const Content = ({ toggleStates, oneaccountdata, devicesofaUser ,localupdate}) =
         console.error("Error fetching weather data:", error);
       }
     };
-// eslint-disable-next-line
-    weatherData({lat: centerr ?.lat, lng: centerr?.lng });
+    // eslint-disable-next-line
+    weatherData({ lat: centerr?.lat, lng: centerr?.lng });
   }, [centerr.lat, centerr.lng]);
-useEffect(()=>{
-  console.log("hi");
-},[oneaccountdata]);
+  useEffect(() => {
+    console.log("hi");
+  }, [oneaccountdata]);
   return (
     <>
       <div className="contain ">
         <div className="mapbox shadow d-flex w-100">
           {/* <GoogleMapdata containerStyle={containerStyle} lat={center.lat} lng={center.lng} address={center.address} devices={devicesofaUser} /> */}
           {/* // eslint-disable-next-line */}
-          <GoogleMapComponent devicesNamesList={devicesofaUser}
-          // eslint-disable-next-line
-            latitude={centerr.lat} longitude={centerr.lng} address={centerr ?.address}
+          <GoogleMapComponent
+            devicesNamesList={devicesofaUser}
+            // eslint-disable-next-line
+            latitude={centerr.lat}
+            longitude={centerr.lng}
+            address={centerr?.address}
             localupdate={localupdate}
           />
         </div>
@@ -178,17 +200,26 @@ useEffect(()=>{
         </div>
       </div>
       <div className="chartcontainer">
-      <div style={{ padding: '8px', width: '100%', display: 'flex', flexWrap: 'wrap' }}>
-  {deviceMetrics && Object.keys(deviceMetrics).map(metric => {
-    // Check if the metric is true in deviceMetrics and if the toggle state is true
-    if (deviceMetrics[metric]) {
-      return <Chartbox key={metric} metric={metric} data={chartData} />;
-    } else {
-      return null; // Don't render anything if the metric is false or toggle state is false
-    }
-  })}
-</div>
-
+        <div
+          style={{
+            padding: "8px",
+            width: "100%",
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
+          {deviceMetrics &&
+            Object.keys(deviceMetrics).map((metric) => {
+              // Check if the metric is true in deviceMetrics and if the toggle state is true
+              if (deviceMetrics[metric]) {
+                return (
+                  <Chartbox key={metric} metric={metric} data={chartData} />
+                );
+              } else {
+                return null; // Don't render anything if the metric is false or toggle state is false
+              }
+            })}
+        </div>
       </div>
     </>
   );

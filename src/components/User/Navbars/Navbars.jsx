@@ -118,37 +118,55 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
     };
     setDeviceStates(updatedDeviceStates);
     localStorage.setItem("deviceStates", JSON.stringify(updatedDeviceStates));
+  
     const mqttClient = mqtt.connect({
-      hostname: "4.240.114.7",
-      port: 9001,
-      protocol: "ws",
-      username: "BarifloLabs",
-      password: "Bfl@123",
+      hostname: "mqtt.bc-pl.com",
+      port: 443,
+      protocol: "wss",
+      path: '/mqtt',
+      username: "Bariflolabs",
+      password: "Bariflo@2024",
+      // hostname: "https-test.bc-pl.com",
+      // port: 9443,
+      // protocol: "wss",
+      // path: "/mqtt",
+      // username: "himadri",
+      // password: "12345",
+
     });
-    const storedDeviceStates = localStorage.getItem("deviceStates");
-    if (storedDeviceStates) {
-      const statusSend = {
-        display_id: parseInt(deviceId),
-        virtual_pin: virtualPin,
-        status: isChecked, // Assuming 'on' when checked, 'off' when unchecked
-      };
-
-      // Log or use statusSend object as needed
-      // console.log(statusSend);
-      const topic = deviceId.toString();
-      const message = JSON.stringify(statusSend);
-      console.log(message, topic);
-
-      console.log(topic, message);
-
-      mqttClient.publish(topic, message);
-      console.log("message sendf ");
-
-      // });
-    }
+  
+    mqttClient.on("connect", () => {
+      console.log("Connected to MQTT broker");
+  
+      const storedDeviceStates = localStorage.getItem("deviceStates");
+      if (storedDeviceStates) {
+        const statusSend = {
+          display_id: parseInt(deviceId),
+          virtual_pin: virtualPin,
+          status: isChecked, // Assuming 'on' when checked, 'off' when unchecked
+        };
+  
+        const topic = deviceId.toString();
+        const message = JSON.stringify(statusSend);
+        console.log(topic, message);
+  
+        mqttClient.publish(topic, message, (err) => {
+          if (err) {
+            console.error("Failed to publish message", err);
+          } else {
+            console.log("Message sent successfully");
+          }
+        });
+      }
+    });
+  
+    mqttClient.on("error", (err) => {
+      console.error("Failed to connect to MQTT broker", err);
+    });
   };
-
+  
   useEffect(() => {}, [handleCheckboxChange]);
+  
   
   //user detaikls calkl
   const userdatas = async () => {
@@ -156,7 +174,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
       const response = await axios.get(
         `${process.env.REACT_APP_App_Ip}/userside_user_view/${mobileno}/`
       );
-      console.log(response);
+     // console.log(response);
       setUserdetails(response.data.message);
     } catch (error) {
       console.log(error);

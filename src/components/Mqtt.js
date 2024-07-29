@@ -10,12 +10,13 @@ const Mqtt = () => {
   useEffect(() => {
     // Connect to the MQTT broker
     const mqttClient = mqtt.connect({
-      hostname: '4.240.114.7',
-      port: 9001,
-      protocol: 'wss',
-      // path: '/mqtt',
-      username: 'BarifloLabs',
-      password: 'Bfl@123'
+      hostname: "mqtt.bc-pl.com",
+      port: 443,
+      protocol: "wss",
+      path: '/mqtt',
+      username: "Bariflolabs",
+      password: "Bariflo@2024",
+      
     });
 
     setClient(mqttClient);

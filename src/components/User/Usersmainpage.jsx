@@ -96,7 +96,7 @@ const Usersmainpage = () => {
 
   useEffect(() => {
     if (devicesofaUser && devicesofaUser.length > 0) {
-      console.log(devicesofaUser);
+   //   console.log(devicesofaUser);
     }
   }, [devicesofaUser]);
 
