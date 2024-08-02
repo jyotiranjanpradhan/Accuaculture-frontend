@@ -1,47 +1,47 @@
 .topnavbarr{
-    height: 55px;
+  height: 55px;
 }
 .logoss{
-    margin-top: 30px;
-  gap: 25px;
+  margin-top: 30px;
+gap: 25px;
 
 }
 .userlogo:hover{
-    cursor: pointer;
+  cursor: pointer;
 
 }
 
 /* Heading Bar start */
 .heading {
-    margin-top: 30px;
-   width:100% !important;
-    margin-right: 4px;
-    background-color: #e6e8e9;
-    border-radius: 50px ;
-    padding-right: 30px;
-  }
-  
-  
-  .headingText {
-    font-weight: 500;
+  margin-top: 30px;
+ width:100% !important;
+  margin-right: 4px;
+  background-color: #e6e8e9;
+  border-radius: 50px ;
+  padding-right: 30px;
+}
 
-    color: #060b26;
-  
-   
-  }
-  
-  /* Heading Bar End */
+
+.headingText {
+  font-weight: 500;
+
+  color: #060b26;
+
+ 
+}
+
+/* Heading Bar End */
 .sideBar{
-    height: 100%;
-    position: fixed;
-    top: 0;
-    background-color: #F6F8FC;
-     justify-items: center;  
-     z-index: 15;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: #F6F8FC;
+   justify-items: center;  
+   z-index: 15;
 }
 
 .userNotification{
-    padding-left: 20px;
+  padding-left: 20px;
 }
 .userNotification:hover{
 background-color: rgb(211,227,253);
@@ -50,38 +50,34 @@ border-radius: 5px;
 
 }
 .active{
-    background-color: rgb(211,227,253);
-    border-radius: 5px;
-    
+  background-color: rgb(211,227,253);
+  border-radius: 5px;
+  
 }
 .outer{
-    width: 250px;
-    padding-left: 4px;
-    margin-top: 18px;
+  width: 250px;
+  padding-left: 4px;
+  margin-top: 18px;
 }
 
 .sidemenu{
-    text-decoration: none;
-    display: flex;
-    height: 35px;
-    width: 41px;
-    justify-content: center;
-    
+  text-decoration: none;
+  
 }
 .nav-link {
-    color: inherit; /* Keeps the default text color */
-    text-decoration: none; /* Removes underline */
+  color: inherit; /* Keeps the default text color */
+  text-decoration: none; /* Removes underline */
+}
+
+@media (max-width: 768px) {
+  .baronoff {
+    margin-left: 66px !important;
+  }
+  .userlogo{
+   margin: 06px 26px 0 0 !important ;
+  }
+  .logoutpop{
+    margin: 7px 10px 0 0 !important;
   }
   
-  @media (max-width: 768px) {
-    .baronoff {
-      margin-left: 66px !important;
-    }
-    .userlogo{
-     margin: 06px 26px 0 0 !important ;
-    }
-    .logoutpop{
-      margin: 7px 10px 0 0 !important;
-    }
-    
-  }
+}
