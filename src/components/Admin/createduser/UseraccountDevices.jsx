@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import "../Adminpage.css";
 import "bootstrap-icons/font/bootstrap-icons";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./UseraccountDevices.css";
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import success from "./success.gif";
@@ -19,6 +19,8 @@ const UseraccountDevices = () => {
   const [showmap, setShowmap] = useState(false);
   const { accountid } = useParams();
   const [usersdevicelist, setUserDeviceList] = useState([]);
+
+  console.log(usersdevicelist)
 
   const editdevicename = useRef(null);
   const editdevicetype = useRef(null);
@@ -170,6 +172,7 @@ const UseraccountDevices = () => {
       const response = await axios.get(
         `${process.env.REACT_APP_App_Ip}/device_view/${accountid}/`
       );
+      console.log(response);
       setUserDeviceList(response.data.result);
       console.log(response.data.result);
     } catch (error) {
@@ -291,6 +294,10 @@ const UseraccountDevices = () => {
     );
   };
 
+    const handleClose = () => {
+        navigate(-1); // This takes the user to the previous page
+    }
+
   return (
     <>
       {/* Page Start */}
@@ -315,7 +322,7 @@ const UseraccountDevices = () => {
 
                 padding: "10px",
 
-                
+
                 cursor: "pointer",
               }}
               onClick={() => {
@@ -325,6 +332,27 @@ const UseraccountDevices = () => {
               New Device
             </p>
           </div>
+
+          <div>
+          <button 
+                className=" shadow"
+                 onClick={handleClose}
+                    style={{
+                        position: "absolute",
+                        right: "10px",
+                        top:"135px",
+                        backgroundColor: "#E9EEF6",
+                        
+                        padding: "8px 25px",
+                        borderRadius: "15px",
+                        cursor: "pointer",
+                        fontSize: "16px"
+                    }}
+                >
+                  Back
+                </button>
+            </div>
+
         </div>
 
         {/* Total User Count End */}
@@ -335,7 +363,7 @@ const UseraccountDevices = () => {
           style={{
             marginTop: "10px",
             gap: "10px",
-            
+
             overflowY: "scroll",
           }}
         >
@@ -351,10 +379,11 @@ const UseraccountDevices = () => {
                 padding: "7px",
                 fontSize: 20,
                 width: "48%",
-                height: "410px",
-                marginBottom:'2%'
+                // height:"",
+                marginBottom: '2%'
               }}
             >
+
               <div
                 className="row1 d-flex justify-content-between"
                 style={{ fontWeight: 500 }}
@@ -439,12 +468,39 @@ const UseraccountDevices = () => {
                 style={{ fontWeight: 500, margin: "5px 7px 0 10px" }}
               >
                 <div className="col1 d-flex flex-column">
+                  <p>Created</p>
+                </div>
+                <div className="col2">
+
+                  <p>{new Date(data[2]).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    hour12: true
+                  })}</p>
+                </div>
+              </div>
+
+              <hr
+                style={{ marginTop: "-7px", width: "97%", marginLeft: "10px" }}
+              />
+
+
+              <div
+                className="row1 d-flex justify-content-between"
+                style={{ fontWeight: 500, margin: "5px 7px 0 10px" }}
+              >
+                <div className="col1 d-flex flex-column">
                   <p>Device Name</p>
                 </div>
                 <div className="col2">
                   <p>{data[1]}</p>
                 </div>
               </div>
+
               <hr
                 style={{ marginTop: "-7px", width: "97%", marginLeft: "10px" }}
               />
@@ -457,7 +513,7 @@ const UseraccountDevices = () => {
                   <p>Device Type</p>
                 </div>
                 <div className="col2">
-                  <p> {data[2]}</p>
+                  <p> {data[4]}</p>
                 </div>
               </div>
               <hr
@@ -472,15 +528,38 @@ const UseraccountDevices = () => {
                   <p>Device Version</p>
                 </div>
                 <div className="col2">
-                  <p>{data[3]}</p>
+                  <p>{data[5]}</p>
                 </div>
               </div>
               <hr style={{ marginTop: "-10px" }} />
 
               <div className="row5 d-flex">
+
+                <Link
+                  to={`/devicelocation/id=${data[3]}`}
+                  style={{
+                    textDecoration: "none", // Removes the underline from the link
+                  }}
+                >
+                  <button
+                    type="button"
+                    className="btn btn-info px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                    style={{
+                      textAlign: "center",
+                      marginLeft: "8px",
+                      color: "white",
+                    }}
+                  >
+                    Location
+                  </button>
+                </Link>
+
+
+
+
                 <button
                   type="button"
-                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+                  className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill "
                   style={{
                     textAlign: "cenetr",
                     marginLeft: "8px",
@@ -520,7 +599,7 @@ const UseraccountDevices = () => {
             ref={devaddref}
             className="model accedit"
             style={{
-              
+
               marginTop: "1px",
               width: "650px",
               height: "auto",
@@ -531,7 +610,7 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 20 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d",alignItems:'center',display:'flex' }}
+                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
                 onClick={adddevice}
               ></i>
             </div>
@@ -631,14 +710,14 @@ const UseraccountDevices = () => {
 
               {showmap ? (
                 <>
-                  <div className="searchbar d-flex" style={{width:'50%'}}>
+                  <div className="searchbar d-flex" style={{ width: '50%' }}>
                     <input
                       ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
-                     
+
                     />
                     <button
                       className="btn btn-outline-success my-2 my-sm-0"
@@ -706,7 +785,7 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 20 }}>Edit Device</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
+                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
                 onClick={editdevice}
               ></i>
             </div>
@@ -805,12 +884,12 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
+                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
                 onClick={openDeleteModels}
               ></i>
             </div>
             {/* Modal Content */}
-            <div className="accounteditmodaldv" style={{ marginLeft: "20px"}}>
+            <div className="accounteditmodaldv" style={{ marginLeft: "20px" }}>
               <div style={{ marginLeft: "25px" }}>
                 <p> Are you sure to Delete Account Permanently ?</p>
               </div>
@@ -867,7 +946,7 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d" ,alignItems:'center',display:'flex'}}
+                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
                 onClick={devicecontrol}
               ></i>
             </div>

@@ -119,6 +119,7 @@ const Createduser = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = requesteduser.slice(indexOfFirstItem, indexOfLastItem);
+  console.log(currentItems)
 
   //context
   const { isSidebarOpen } = useContext(AdminContext);
@@ -295,6 +296,13 @@ const Createduser = () => {
                 <th
                   className="text-center"
                   scope="col"
+                  style={{ backgroundColor: "#E9EEF6" }}
+                >
+                  Password
+                </th>
+                <th
+                  className="text-center"
+                  scope="col"
                   style={{
                     backgroundColor: "#E9EEF6",
                     borderTopRightRadius: "7px",
@@ -306,11 +314,14 @@ const Createduser = () => {
             </thead>
             <tbody>
               {currentItems.map((data, index) => (
+                
                 <tr key={index + 1}>
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[0]}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">{data[2]}</td>
+                  <td className="text-center">{data[3]}</td>
+
                   <td className="text-center d-flex justify-content-center">
                     <button
                       type="button"

@@ -5,6 +5,7 @@ import User from "./components/User/Users";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { createContext, useState } from "react";
 import {  LoadScript} from "@react-google-maps/api";
+import DeviceLocation from './components/DeviceLocation';
 
 export const AdminContext = createContext();
 
@@ -21,6 +22,7 @@ function App() {
 
             <Route path="/users/*" element={<User />} />
             <Route path="/users/userpage" element={<Usersmainpage />} />
+            <Route path='/devicelocation/:id/' element={<DeviceLocation/>}/>
           </Routes>
    
         </LoadScript>

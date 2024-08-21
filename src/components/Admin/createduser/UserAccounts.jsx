@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import "../Adminpage.css";
 import { AdminContext } from "../../../App";
 import axios from "axios";
 import './UserAccounts.css'
+import Form from "../../Form";
+
 const UserAccounts = () => {
   const [openModel, setOpenModel] = useState(false);
   const [deletebutton, setDeleteButton] = useState(false);
@@ -13,8 +15,11 @@ const UserAccounts = () => {
   const [useraccounterror, setUseraccounterror] = useState("");
   const [tempaccountid, SetTempAccountId] = useState("");
 
+
   //This  'indivisualuserid' variable  save AccountId   of each Accounts of a user on click of edit button
   const [indivisualaccountsid, SetIndivisualaccountsid] = useState("");
+
+  const [showForm, setShowForm] = useState(false);
 
   //context
 
@@ -143,6 +148,16 @@ const UserAccounts = () => {
     }
   };
 
+  const navigate = useNavigate();
+  const handleClose = () => {
+    navigate(-1); // This takes the user to the previous page
+}
+
+const toggleForm = () => {
+  setShowForm(!showForm);
+
+}
+
   return (
     <>
       {/* Page Start */}
@@ -170,6 +185,27 @@ const UserAccounts = () => {
               Accounts
             </p>
           </div>
+
+          <div>
+            <button 
+                className=" shadow"
+                 onClick={handleClose}
+                    style={{
+                        position: "absolute",
+                        right: "10px",
+                        top:"135px",
+                        backgroundColor: "#E9EEF6",
+                        
+                        padding: "8px 25px",
+                        borderRadius: "15px",
+                        cursor: "pointer",
+                        fontSize: "16px"
+                    }}
+                >
+                  Back
+                </button>
+            </div>
+
         </div>
 
         {/* Total User Count End */}
@@ -219,17 +255,40 @@ const UserAccounts = () => {
             </thead>
             <tbody>
               {currentItems.map((data, index) => (
+
                 <tr key={index + 1}>
                   <td className="text-center">{index + 1}</td>
                   <td className="text-center">{data[1]}</td>
                   <td className="text-center">{data[0]}</td>
+
+
                   <td className="text-center d-flex justify-content-center">
+
+                  <div>
+      <button
+        type="button"
+        className="btn btn-info px-3 py-2 text-center fs-sm fw-bold rounded-pill"
+        style={{
+          textAlign: "center",
+          width: "max-content",
+        }}
+        onClick={toggleForm}
+      >
+        Maintenance
+      </button>
+
+      {showForm && (
+        <Form toggleForm={toggleForm}/>
+      )}
+    </div>
+
                     <button
                       type="button"
                       className="btn  btn-warning px-3 py-2 text-center fs-sm fw-bold rounded-pill"
                       style={{
                         textAlign: "cenetr",
-                        width: "max-content"
+                        width: "max-content",
+                        marginLeft: "8px",
                       }}
                       onClick={() => {
                         openModels();
