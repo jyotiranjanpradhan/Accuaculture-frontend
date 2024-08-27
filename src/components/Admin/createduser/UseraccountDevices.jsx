@@ -9,6 +9,7 @@ import success from "./success.gif";
 import { AdminContext } from "../../../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import mqtt from "mqtt";
 
 const UseraccountDevices = () => {
   const [devicetobeadd, setDevicetobeadd] = useState(false);
@@ -19,9 +20,7 @@ const UseraccountDevices = () => {
   const [showmap, setShowmap] = useState(false);
   const { accountid } = useParams();
   const [usersdevicelist, setUserDeviceList] = useState([]);
-
-  console.log(usersdevicelist)
-
+  const [deviceStatus, setDeviceStatus] = useState({});
   const editdevicename = useRef(null);
   const editdevicetype = useRef(null);
   const [deviceid, setDeviceid] = useState("");
@@ -30,6 +29,26 @@ const UseraccountDevices = () => {
   const navigate = useNavigate();
   const [latitudesdevice, setlatitudesdevice] = useState(20.2961); // Initial latitude FOR ADD USER
   const [longitudesdevice, setlongitudesdevice] = useState(85.8245); // Initial longitude FOR ADD USER
+  const[virtualPin,setVertualPin]=useState(null);
+  const timeoutsRef = useRef({}); // To store timeouts for each device
+  const lastMessageRef = useRef({}); // To store last message time for each device
+  const mqttClientRef = useRef(null);
+  const[onOffdevice,setOnOffDevice]=useState(false);
+  
+
+
+useEffect(()=>{
+  mqttClientRef.current= mqtt.connect({
+    hostname: "mqtt.bc-pl.com",
+    port: 443,
+    protocol: "wss",
+    path: "/mqtt",
+    username: "Bariflolabs",
+    password: "Bariflo@2024",
+   
+  });
+},[])
+
 
   const adddevice = () => {
     setDevicetobeadd(!devicetobeadd);
@@ -97,6 +116,26 @@ const UseraccountDevices = () => {
     });
   }
 
+  async function deviceControlByAdmin(deviceid,status){
+    console.log("hi");
+    
+    const data={
+      deviceid:deviceid,
+      status:status
+    }
+
+    const response=await axios.post(`${process.env.REACT_APP_App_Ip}/device_shutdown/`,data);
+  console.log(response);
+  if(response.status==200){
+    setOnOffDevice(!onOffdevice);
+    setdevicetobecontrol(false)
+    setTimeout(() => {
+      setOnOffDevice(false);
+    }, 4000);
+  }
+  
+  }
+
   const editdevice = () => {
     setDeviceToBeedit(!devicetobeedit);
   };
@@ -146,14 +185,14 @@ const UseraccountDevices = () => {
 
   const ctrlref = useRef(null);
   useEffect(() => {
-    // Handler to call onClick outside of calendar component
+    // Handler to call onClick outside of Device control component
     const handleClickOutside = (event) => {
       if (ctrlref.current && !ctrlref.current.contains(event.target)) {
         devicecontrol();
       }
     };
 
-    // Add event listener when calendar is shown
+    // Add event listener when device control is shown
     if (devicetobecontrol) {
       document.addEventListener("mousedown", handleClickOutside);
     } else {
@@ -167,23 +206,164 @@ const UseraccountDevices = () => {
     // eslint-disable-next-line
   }, [devicecontrol]);
 
+  
+//   const mqttClient = mqtt.connect({
+//     hostname: "4.240.114.7",
+//     port: 9001, // Port for secure WebSocket (WS) connections
+//     protocol: "ws", // Ensure the protocol is "wss" for secure WebSocket connections
+   
+//     username: "BarifloLabs",
+//     password: "Bfl@123",
+// });
+
+
+
+  // mqttClient.on("error", (err) => {
+  //   if (err.message.includes("Insufficient resources")) {
+  //     console.log("WebSocket connection failed: Insufficient resources (error suppressed)");
+  //   } else {
+  //     console.error("MQTT Client Error:", err);
+  //   }
+  // });
+  
+
   async function usersDeviceFetch() {
     try {
       const response = await axios.get(
         `${process.env.REACT_APP_App_Ip}/device_view/${accountid}/`
       );
       console.log(response);
+      console.log(accountid);
+      
       setUserDeviceList(response.data.result);
       console.log(response.data.result);
     } catch (error) {
       console.log(error);
     }
   }
+
   useEffect(() => {
-    usersDeviceFetch();
-    seedevicetype();
-    // eslint-disable-next-line
-  }, []);
+    const handleConnect = () => {
+      console.log("Connected to MQTT broker");
+
+      usersdevicelist?.forEach((data) => {
+        const topic = `${data[0]}/data`;
+        mqttClientRef.current.subscribe(topic, (err) => {
+          if (!err) {
+            console.log(`Subscribed to topic: ${topic}`);
+          } else {
+            console.error(`Failed to subscribe to topic: ${topic}`, err);
+          }
+        });
+      });
+    };
+
+    if (mqttClientRef.current.connected) {
+      handleConnect();
+    } else {
+      mqttClientRef.current.on("connect", handleConnect);
+    }
+
+    mqttClientRef.current.on("message", (topic, payload) => {
+      const sanitizedPayload = payload
+        .toString()
+        .replace(/[\u0000-\u001F\u007F]/g, "");
+      try {
+        const parsedData = JSON.parse(sanitizedPayload);
+        const deviceId = parsedData?.deviceId;
+
+        if (usersdevicelist?.some((data) => data[0] == deviceId)) {
+          // Set device to ON when message is received
+          setDeviceStatus((prevStatus) => ({
+            ...prevStatus,
+            [deviceId]: "ON",
+          }));
+
+          // Record the last message time
+          lastMessageRef.current[deviceId] = Date.now();
+
+          // Clear existing timeout for the device
+          if (timeoutsRef.current[deviceId]) {
+            clearTimeout(timeoutsRef.current[deviceId]);
+          }
+
+          // Set a new timeout to turn off the device after 30 sec
+          timeoutsRef.current[deviceId] = setTimeout(() => {
+            setDeviceStatus((prevStatus) => ({
+              ...prevStatus,
+              [deviceId]: "OFF",
+            }));
+          }, 120000);
+        }
+       // console.log(`Received data on topic ${topic}:`, parsedData);
+      } catch (err) {
+        console.error("Failed to parse MQTT message payload:", err);
+      }
+    });
+
+    // Set up an interval to automatically update device status every 10 seconds
+    const intervalId = setInterval(() => {
+      const now = Date.now();
+      setDeviceStatus((prevStatus) => {
+        const updatedStatus = { ...prevStatus };
+
+        usersdevicelist?.forEach((data) => {
+          const deviceId = data[0];
+          if (
+            lastMessageRef.current[deviceId] &&
+            now - lastMessageRef.current[deviceId] > 60000
+          ) {
+            updatedStatus[deviceId] = "OFF";
+          }
+        });
+
+        return updatedStatus;
+      });
+    }, 10000); // 10000 milliseconds = 10 seconds
+
+    return () => {
+      usersdevicelist.forEach((data) => {
+        const topic = `${data[0]}/data`;
+        mqttClientRef.current.unsubscribe(topic);
+      });
+
+      // Clear all timeouts and the interval when component unmounts
+      Object.values(timeoutsRef.current).forEach((timeout) =>
+        clearTimeout(timeout)
+      );
+      clearInterval(intervalId);
+    };
+  }, [usersdevicelist]);
+
+  // Monitoring changes to deviceStatus
+  // useEffect(() => {
+  //   console.log("Device Status Updated:", deviceStatus);
+  // }, [deviceStatus]);
+
+  //function for publish mqtt data
+  const datapublish = async (deviceid, status,pin) => {
+    console.log(deviceid, status,pin);
+   
+    const statusSend = {
+      display_id: parseInt(deviceid),
+      virtual_pin: pin,
+      status: status, // Assuming 'on' when checked, 'off' when unchecked
+    };
+
+    const topic = deviceid.toString();
+    const message = JSON.stringify(statusSend);
+    console.log(topic, message);
+
+    mqttClientRef.current.publish  (topic, message, (err) => {
+      if (err) {
+        console.error("Failed to publish message", err);
+      } else {
+        console.log("Message sent successfully");
+        deviceControlByAdmin(deviceid,status)
+      }
+    });
+
+  };
 
   //variabvle for add device
 
@@ -199,6 +379,12 @@ const UseraccountDevices = () => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    usersDeviceFetch();
+    seedevicetype();
+    // eslint-disable-next-line
+  }, [accountid]);
 
   const devicetype = useRef(null);
   const devicenamee = useRef(null);
@@ -294,9 +480,9 @@ const UseraccountDevices = () => {
     );
   };
 
-    const handleClose = () => {
-        navigate(-1); // This takes the user to the previous page
-    }
+  const handleClose = () => {
+    navigate(-1); // This takes the user to the previous page
+  };
 
   return (
     <>
@@ -322,7 +508,6 @@ const UseraccountDevices = () => {
 
                 padding: "10px",
 
-
                 cursor: "pointer",
               }}
               onClick={() => {
@@ -334,25 +519,24 @@ const UseraccountDevices = () => {
           </div>
 
           <div>
-          <button 
-                className=" shadow"
-                 onClick={handleClose}
-                    style={{
-                        position: "absolute",
-                        right: "10px",
-                        top:"135px",
-                        backgroundColor: "#E9EEF6",
-                        
-                        padding: "8px 25px",
-                        borderRadius: "15px",
-                        cursor: "pointer",
-                        fontSize: "16px"
-                    }}
-                >
-                  Back
-                </button>
-            </div>
+            <button
+              className=" shadow"
+              onClick={handleClose}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "135px",
+                backgroundColor: "#E9EEF6",
 
+                padding: "8px 25px",
+                borderRadius: "15px",
+                cursor: "pointer",
+                fontSize: "16px",
+              }}
+            >
+              Back
+            </button>
+          </div>
         </div>
 
         {/* Total User Count End */}
@@ -367,7 +551,7 @@ const UseraccountDevices = () => {
             overflowY: "scroll",
           }}
         >
-          {usersdevicelist.map((data, index) => (
+          {usersdevicelist?.map((data, index) => (
             <div
               className="card"
               key={index + 1}
@@ -380,10 +564,9 @@ const UseraccountDevices = () => {
                 fontSize: 20,
                 width: "48%",
                 // height:"",
-                marginBottom: '2%'
+                marginBottom: "2%",
               }}
             >
-
               <div
                 className="row1 d-flex justify-content-between"
                 style={{ fontWeight: 500 }}
@@ -394,23 +577,26 @@ const UseraccountDevices = () => {
                 >
                   <p>Device</p>
                   <div className="d-flex">
-                    <p className="d-flex" style={{ alignItems: "center" }}>
-                      <i
-                        className="bi bi-square-fill square"
-                        style={{ color: "red", fontSize: 10 }}
-                      ></i>
-                      <span>OFF</span>
-                    </p>
-                    <p
-                      className="d-flex"
-                      style={{ alignItems: "center", marginLeft: "5px" }}
-                    >
-                      <i
-                        className="bi bi-square-fill square"
-                        style={{ color: "green", fontSize: 10 }}
-                      ></i>
-                      <span>ON</span>
-                    </p>
+                    {deviceStatus[data[0]] == "ON" ? (
+                      <p
+                        className="d-flex"
+                        style={{ alignItems: "center", marginLeft: "5px" }}
+                      >
+                        <i
+                          className="bi bi-square-fill square"
+                          style={{ color: "green", fontSize: 10 }}
+                        ></i>
+                        <span>ON</span>
+                      </p>
+                    ) : (
+                      <p className="d-flex" style={{ alignItems: "center" }}>
+                        <i
+                          className="bi bi-square-fill square"
+                          style={{ color: "red", fontSize: 10 }}
+                        ></i>
+                        <span>OFF</span>
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div
@@ -471,23 +657,23 @@ const UseraccountDevices = () => {
                   <p>Created</p>
                 </div>
                 <div className="col2">
-
-                  <p>{new Date(data[2]).toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric',
-                    hour12: true
-                  })}</p>
+                  <p>
+                    {new Date(data[4]).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                      second: "numeric",
+                      hour12: true,
+                    })}
+                  </p>
                 </div>
               </div>
 
               <hr
                 style={{ marginTop: "-7px", width: "97%", marginLeft: "10px" }}
               />
-
 
               <div
                 className="row1 d-flex justify-content-between"
@@ -513,7 +699,7 @@ const UseraccountDevices = () => {
                   <p>Device Type</p>
                 </div>
                 <div className="col2">
-                  <p> {data[4]}</p>
+                  <p> {data[2]}</p>
                 </div>
               </div>
               <hr
@@ -528,15 +714,14 @@ const UseraccountDevices = () => {
                   <p>Device Version</p>
                 </div>
                 <div className="col2">
-                  <p>{data[5]}</p>
+                  <p>{data[3]}</p>
                 </div>
               </div>
               <hr style={{ marginTop: "-10px" }} />
 
               <div className="row5 d-flex">
-
                 <Link
-                  to={`/devicelocation/id=${data[3]}`}
+                  to={`/devicelocation/id=${data[5]}`}
                   style={{
                     textDecoration: "none", // Removes the underline from the link
                   }}
@@ -554,17 +739,18 @@ const UseraccountDevices = () => {
                   </button>
                 </Link>
 
-
-
-
                 <button
                   type="button"
                   className="btn btn-primary px-3 py-2 text-center fs-sm fw-bold rounded-pill "
                   style={{
-                    textAlign: "cenetr",
                     marginLeft: "8px",
                   }}
-                  onClick={devicecontrol}
+                  onClick={() => {
+                    //buttonControls(data[4], data[5]);
+                    setDeviceid(data[0]);
+                    devicecontrol();
+                    setVertualPin(data[6])
+                  }}
                 >
                   Controls
                 </button>
@@ -599,7 +785,6 @@ const UseraccountDevices = () => {
             ref={devaddref}
             className="model accedit"
             style={{
-
               marginTop: "1px",
               width: "650px",
               height: "auto",
@@ -610,7 +795,12 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 20 }}>Device Add</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
+                style={{
+                  fontSize: 30,
+                  color: "#df010d",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 onClick={adddevice}
               ></i>
             </div>
@@ -648,7 +838,7 @@ const UseraccountDevices = () => {
 
                 <div className="d-flex gap-1">
                   <div>
-                    <label >Device Type</label>
+                    <label>Device Type</label>
                     <select
                       className="form-select"
                       aria-label="Default select example"
@@ -710,14 +900,13 @@ const UseraccountDevices = () => {
 
               {showmap ? (
                 <>
-                  <div className="searchbar d-flex" style={{ width: '50%' }}>
+                  <div className="searchbar d-flex" style={{ width: "50%" }}>
                     <input
                       ref={cityname}
                       className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
-
                     />
                     <button
                       className="btn btn-outline-success my-2 my-sm-0"
@@ -728,12 +917,12 @@ const UseraccountDevices = () => {
                     </button>
                   </div>
 
-                  <div className="deviceaddmap d-flex justify-content-center"
+                  <div
+                    className="deviceaddmap d-flex justify-content-center"
                     style={{
                       marginTop: "2px",
                       height: "400px",
                       width: "620px",
-
                     }}
                   >
                     <GoogleMapdata
@@ -772,6 +961,26 @@ const UseraccountDevices = () => {
       ) : null}
       {/*device complete add Modal End */}
 
+      {/*  ON / OFF Device modal start */}
+
+      {onOffdevice ? (
+        <div className="check-model ">
+          <div
+            className="model accedit"
+            style={{ fontSize: "16px", width: "600px", height: "300px" }}
+          >
+            <img
+              src={success}
+              alt="successful"
+              style={{ width: "200px", marginLeft: "33%" }}
+            />
+            <p style={{ marginLeft: "33%" }}>Device Controlled successfully</p>
+          </div>
+        </div>
+      ) : null}
+
+      {/*  ON / OFF Device modal END */}
+
       {/*  Edit Device modal start */}
       {devicetobeedit ? (
         <div className="check-model ">
@@ -785,7 +994,12 @@ const UseraccountDevices = () => {
               <p style={{ marginLeft: "30px", fontSize: 20 }}>Edit Device</p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
+                style={{
+                  fontSize: 30,
+                  color: "#df010d",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 onClick={editdevice}
               ></i>
             </div>
@@ -875,7 +1089,7 @@ const UseraccountDevices = () => {
           <div
             ref={delref}
             className="model accedit"
-            style={{ fontSize: "16px", }}
+            style={{ fontSize: "16px" }}
           >
             {/* Modal Heading */}
             <div className="heading d-flex justify-content-between  ">
@@ -884,7 +1098,12 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
+                style={{
+                  fontSize: 30,
+                  color: "#df010d",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 onClick={openDeleteModels}
               ></i>
             </div>
@@ -946,25 +1165,59 @@ const UseraccountDevices = () => {
               </p>
               <i
                 className="bi bi-x-octagon cancel-button-modal "
-                style={{ fontSize: 30, color: "#df010d", alignItems: 'center', display: 'flex' }}
+                style={{
+                  fontSize: 30,
+                  color: "#df010d",
+                  alignItems: "center",
+                  display: "flex",
+                }}
                 onClick={devicecontrol}
               ></i>
             </div>
             {/* Modal Content */}
 
             <div
-              className="d-flex justify-content-between"
+              className="d-flex justify-content-between "
               style={{ margin: "10px 10px 0 20px" }}
             >
-              <p>Aeration</p>
-
+              {/* {buttonsofdevice.map((item, index) =>
+                item.button ? (
+                  <div className="d-flex justify-content-between">
+                   
+                    <p key={index}>{item.button.display_name}</p>
+                    <div className="form-check form-switch">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                      />
+                    </div>
+                  </div>
+                ) : null
+              )} */}
+              <p>Aeration On/Off</p>
               <div className="form-check form-switch">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckDefault"
-                />
+                <div class="container mt-1">
+                  <div class="d-flex gap-2">
+                    <button
+                      class="btn btn-success btn-3d"
+                      onClick={() => {
+                        datapublish(deviceid, true,virtualPin);
+                      }}
+                    >
+                      On
+                    </button>
+                    <button
+                      class="btn btn-danger btn-3d"
+                      onClick={() => {
+                        datapublish(deviceid, false,virtualPin);
+                      }}
+                    >
+                      Off
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 

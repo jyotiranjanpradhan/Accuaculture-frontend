@@ -37,7 +37,7 @@ const Usersmainpage = () => {
   const[localupdate,setLocalupdate]=useState(false);
   const update=()=>{
     setLocalupdate(!localupdate);
-    console.log("hiitsclick");
+    // console.log("hiitsclick");
   }
 
   //update lat lng  and for user accounts
@@ -49,7 +49,7 @@ const Usersmainpage = () => {
 
   const updateCoordinates = (lat, lng, address) => {
     
-    setOneAccountDetails({
+    setOneAccountDetails({ 
       latitude: lat,
       longitude: lng,
       Address: address,
@@ -58,6 +58,7 @@ const Usersmainpage = () => {
   //  API call For Accounts Of User
 
   const [useraccount, SetUseraccount] = useState({ items: [] });
+
 
   const accountFetch = async () => {
     try {

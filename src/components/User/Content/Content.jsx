@@ -112,7 +112,7 @@ const Content = ({
     weatherData({ lat: centerr?.lat, lng: centerr?.lng });
   }, [centerr.lat, centerr.lng]);
   useEffect(() => {
-    console.log("hi");
+
   }, [oneaccountdata]);
   return (
     <>
