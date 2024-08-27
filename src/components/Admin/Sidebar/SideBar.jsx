@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import companylogo from "./companylogo.png";
 import "./SideBar.css";
 import { AdminContext } from "../../../App";
+import { GrDocumentTest } from "react-icons/gr";
+
 
 const Sidebar = () => {
   //for showing logout popup on click of user logo on top navbar
@@ -108,6 +110,7 @@ const Sidebar = () => {
                       fontSize: 20,
                     }}
                   ></i>
+                  
                   Logout
                 </p>
               </div>
@@ -299,6 +302,7 @@ const Sidebar = () => {
                 </p>
               </NavLink>
             </div>
+
           </div>
         </div>
       ) : (
@@ -394,6 +398,22 @@ const Sidebar = () => {
                   ></i>
                 </NavLink>
               </div>
+                {/* 6 */}
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/adminside/researchAndDev" className="sidemenu">
+                <GrDocumentTest style={{ color: "black", fontSize: 20 }}/>
+                </NavLink>
+              </div>
+                {/* 7 */}
+              <div style={{ marginTop: "8px" }}>
+                <NavLink to="/adminside/maintenance" className="sidemenu">
+                <i class="bi bi-tools"
+                style={{ color: "black", fontSize: 20 }}
+                ></i>
+                </NavLink>
+              </div>
+
+
             </div>
           </div>
         </>

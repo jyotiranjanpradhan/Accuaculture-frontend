@@ -278,7 +278,7 @@ const toggleForm = () => {
       </button>
 
       {showForm && (
-        <Form toggleForm={toggleForm}/>
+        <Form toggleForm={toggleForm} accountid = {data[1]} />
       )}
     </div>
 
