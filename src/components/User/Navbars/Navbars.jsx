@@ -24,8 +24,9 @@ const Navbars = ({
   update,
   toggleStates,
 }) => {
+  
   const mobileno = localStorage.getItem("usermob");
-  console.log(mobileno);
+
   //for showing logout popup on click of user logo on top navbar
   const [logout, setLogout] = useState(false);
   //Variable visible and hide of account button of sidenavbar
@@ -65,6 +66,7 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
   const handleLogout = () => {
     localStorage.removeItem("usermob");
   };
+  const mqttClientRef = useRef(null);
 
   useEffect(() => {
     // Function to handle changes in local storage
@@ -110,60 +112,69 @@ const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("lastDa
     initializeDeviceStates();
     //eslint-disable-next-line
   }, []); 
-  // eslint-disable-next-line
+ 
+
   const handleCheckboxChange = (deviceId, isChecked, virtualPin) => {
     const updatedDeviceStates = {
-      ...deviceStates,
-      [deviceId]: { checked: isChecked, virtualPin },
+        ...deviceStates,
+        [deviceId]: { checked: isChecked, virtualPin },
     };
+    console.log(deviceId, isChecked);
+    
+    mqttClientRef.current = mqtt.connect({
+        hostname: "mqtt.bc-pl.com",
+        port: 443,
+        protocol: "wss",
+        path: "/mqtt",
+        username: "Bariflolabs",
+        password: "Bariflo@2024",
+    });
+
     setDeviceStates(updatedDeviceStates);
     localStorage.setItem("deviceStates", JSON.stringify(updatedDeviceStates));
-  
-    const mqttClient = mqtt.connect({
-      hostname: "mqtt.bc-pl.com",
-      port: 443,
-      protocol: "wss",
-      path: '/mqtt',
-      username: "Bariflolabs",
-      password: "Bariflo@2024",
-      // hostname: "https-test.bc-pl.com",
-      // port: 9443,
-      // protocol: "wss",
-      // path: "/mqtt",
-      // username: "himadri",
-      // password: "12345",
 
-    });
-  
-    mqttClient.on("connect", () => {
-      console.log("Connected to MQTT broker");
-  
-      const storedDeviceStates = localStorage.getItem("deviceStates");
-      if (storedDeviceStates) {
+    mqttClientRef.current.on("connect", () => {
+       // console.log("Connected to MQTT broker");
+
         const statusSend = {
-          display_id: parseInt(deviceId),
-          virtual_pin: virtualPin,
-          status: isChecked, // Assuming 'on' when checked, 'off' when unchecked
+            display_id: parseInt(deviceId),
+            virtual_pin: virtualPin,
+            status: isChecked, // Assuming 'on' when checked, 'off' when unchecked
         };
-  
+
         const topic = deviceId.toString();
         const message = JSON.stringify(statusSend);
-        console.log(topic, message);
-  
-        mqttClient.publish(topic, message, (err) => {
-          if (err) {
-            console.error("Failed to publish message", err);
-          } else {
-            console.log("Message sent successfully");
-          }
+        // console.log(topic, message);
+
+        mqttClientRef.current.publish(topic, message, (err) => {
+            if (err) {
+               // console.error("Failed to publish message", err);
+            } else {
+                console.log("Message sent successfully");
+
+                // Unsubscribe from the topic
+                mqttClientRef.current.unsubscribe(topic, (err) => {
+                    if (err) {
+                        console.error("Failed to unsubscribe", err);
+                    } else {
+                      //  console.log(`Unsubscribed from topic ${topic}`);
+
+                        // Disconnect the MQTT client after successful message send and unsubscribe
+                        mqttClientRef.current.end(false, () => {
+                          // console.log("MQTT client disconnected");
+                        });
+                    }
+                });
+            }
         });
-      }
     });
+
+    mqttClientRef.current.on("error", (err) => {
+        console.error("Failed to connect to MQTT broker", err);
+    });
+};
+
   
-    mqttClient.on("error", (err) => {
-      console.error("Failed to connect to MQTT broker", err);
-    });
-  };
   
   useEffect(() => {}, [handleCheckboxChange]);
   
